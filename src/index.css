@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  /* font-weight: 300; */
+  color-scheme: light;
+  color: #333333;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+li,
+span,
+label,
+a,
+div,
+p {
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+}
+h6 {
+  font-size: 14px;
+  font-weight: 500;
+}
+h5 {
+  font-size: 18px;
+  font-weight: 500;
+}
+h4 {
+  font-size: 20px;
+  font-weight: 600;
+}
+h3 {
+  font-size: 22px;
+  font-weight: 700;
+}
+h2 {
+  font-size: 26px;
+  font-weight: 800;
+}
+
+html {
+  background-color: white;
+  color: #333333;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  width: 100%;
+  /* border: 1px solid red; */
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  /* border-color: #646cff; */
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+@media (prefers-color-scheme: dark) {
+  html {
+    background-color: white;
+    color: #333333;
+  }
+}
+
+.h-navbar {
+  height: 6rem;
+}
+
+.container {
+  margin: 0px auto;
+  border: 0px solid;
+}
+
+section {
+  width: 93%;
+}
+
+@media (min-width: 640px) {
+  section {
+    width: 95%;
+    margin: 0px auto;
+  }
+  .h-navbar {
+    height: 6rem;
+  }
+}
+@media (min-width: 768px) {
+  section {
+    width: 90%;
+    margin: 0px auto;
+  }
+  .h-navbar {
+    height: 6.6rem;
+  }
+}
+@media (min-width: 1024px) {
+  section {
+    width: 90%;
+    margin: 0px auto;
+  }
+  .h-navbar {
+    height: 7.1rem;
+  }
+}
+@media (min-width: 1280px) {
+  section {
+    width: 90%;
+    margin: 0px auto;
+  }
+  .h-navbar {
+    height: 8.1rem;
+  }
+}
+@media (min-width: 1536px) {
+  section {
+    width: 80%;
+    margin: 0px auto;
+  }
+  .h-navbar {
+    height: 8.1rem;
+  }
+}
