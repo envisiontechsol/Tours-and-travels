@@ -1,58 +1,41 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect } from "react";
+import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
 
 import TextInput from "../../components/forms/elements/textInput";
-import { packageTypeSchema } from "../../schema/packageTypeSchema";
-import { updatePackageTypesReq } from "../../services/api/packages/packageTypeApi";
-import {
-  closeAllEditAction,
-  useEditMgmtStore,
-} from "../../store/editMgmtStore";
 
-type PackageTypeValues = z.infer<typeof packageTypeSchema>;
+import { topLevelMenuSchema } from "../../schema/topLevelMenuSchema";
+import { addTopLevelMenuReq } from "../../services/api/topLevelMenu/topLevelMenuApi";
 
-const EditPackageTypeForm: React.FC = () => {
-  const editData = useEditMgmtStore((s) => s.editiPackageTypeData);
+type TopLevelMenuValues = z.infer<typeof topLevelMenuSchema>;
 
+const AddTLMenuForm: React.FC = () => {
   const {
     control,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<PackageTypeValues>({
-    resolver: zodResolver(packageTypeSchema),
+  } = useForm<TopLevelMenuValues>({
+    resolver: zodResolver(topLevelMenuSchema),
     defaultValues: { name: "" },
   });
 
-  useEffect(() => {
-    if (editData?.id) {
-      reset({
-        name: editData?.name,
-      });
-    }
-  }, [editData]);
-
-  const onCancelOrClose = () => {
-    closeAllEditAction();
-  };
-
-  const onSubmit = async (data: PackageTypeValues) => {
+  const onSubmit = async (data: TopLevelMenuValues) => {
     try {
-      await updatePackageTypesReq(editData?.id || "", data);
-      toast.success("Package type updated successfully!");
-      onCancelOrClose();
+      await addTopLevelMenuReq(data);
+      toast.success("Menu added successfully!");
+      reset();
     } catch (error: any) {
-      toast.error(error?.errorMsg || "Failed to update package type");
+      toast.error(error?.errorMsg || "Failed to add menu");
     }
   };
 
   return (
     <div className="mt-2 border rounded-lg p-5 shadow-sm bg-white relative">
       <div className="inline-block bg-gray-200 px-4 py-1 text-[15px] font-semibold rounded-md -mt-8 mb-4 shadow-sm absolute">
-        Edit Package Type
+        Menu
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
@@ -62,8 +45,8 @@ const EditPackageTypeForm: React.FC = () => {
             control={control}
             render={({ field }) => (
               <TextInput
-                label="Package Type"
-                placeholder="Enter package type"
+                label="Menu"
+                placeholder="Enter Menu Name"
                 value={field.value}
                 onChange={field.onChange}
                 error={errors.name?.message || undefined}
@@ -80,16 +63,16 @@ const EditPackageTypeForm: React.FC = () => {
             disabled={isSubmitting}
             className="px-4 py-2 rounded-md bg-primary text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
           >
-            {isSubmitting ? "Updating..." : "Update Package Type"}
+            {isSubmitting ? "Adding..." : "Add Menu"}
           </button>
 
           <button
             type="button"
-            onClick={() => onCancelOrClose()}
+            onClick={() => reset()}
             disabled={isSubmitting}
             className="px-4 py-2 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Cancel
+            Reset
           </button>
         </div>
       </form>
@@ -97,4 +80,4 @@ const EditPackageTypeForm: React.FC = () => {
   );
 };
 
-export default EditPackageTypeForm;
+export default AddTLMenuForm;

@@ -8,6 +8,8 @@ const RoutesPath = {
   packageType: "package-type",
   tags: "tags",
   tourPackage: "tour-package",
+  category: "category",
+  topLevelMenu: "menu",
 };
 
 export default RoutesPath;

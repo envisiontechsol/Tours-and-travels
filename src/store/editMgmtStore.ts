@@ -7,6 +7,8 @@ import {
   TagResType,
 } from "../types/packageType";
 import { TourPackageResType } from "../types/tourTypes";
+import { SlotsCategoryResType } from "../types/slotsTypes";
+import { TopLevelMenuResType } from "../types/topLevelMenuTypes";
 
 interface EditMgmtStore {
   editiDestinationData: DestinationResType | null;
@@ -15,6 +17,8 @@ interface EditMgmtStore {
   editiPackageTypeData: PackageType | null;
   editTagData: TagResType | null;
   editTourPackageData: TourPackageResType | null;
+  editSlotCategoryData: SlotsCategoryResType | null;
+  editTopLeveleMenuData: TopLevelMenuResType | null;
 
   setDestination: (v: DestinationResType | null) => void;
   setActivity: (v: ActivityResType | null) => void;
@@ -22,6 +26,8 @@ interface EditMgmtStore {
   setPackageType: (v: PackageType | null) => void;
   setTag: (v: TagResType | null) => void;
   setTourPackage: (v: TourPackageResType | null) => void;
+  setSlotCategory: (v: SlotsCategoryResType | null) => void;
+  setTopLevelMenu: (v: TopLevelMenuResType | null) => void;
 
   clearAll: () => void;
 }
@@ -33,6 +39,8 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
   editiPackageTypeData: null,
   editTagData: null,
   editTourPackageData: null,
+  editSlotCategoryData: null,
+  editTopLeveleMenuData: null,
 
   setDestination: (v) => set({ editiDestinationData: v }),
   setActivity: (v) => set({ editiActivityData: v }),
@@ -40,6 +48,8 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
   setPackageType: (v) => set({ editiPackageTypeData: v }),
   setTag: (v) => set({ editTagData: v }),
   setTourPackage: (v) => set({ editTourPackageData: v }),
+  setSlotCategory: (v) => set({ editSlotCategoryData: v }),
+  setTopLevelMenu: (v) => set({ editTopLeveleMenuData: v }),
 
   clearAll: () =>
     set({
@@ -49,6 +59,8 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
       editiPackageTypeData: null,
       editTagData: null,
       editTourPackageData: null,
+      editSlotCategoryData: null,
+      editTopLeveleMenuData: null,
     }),
 }));
 
@@ -81,6 +93,16 @@ export const editTourPackageAction = (v: TourPackageResType) =>
   useEditMgmtStore.getState().setTourPackage(v);
 export const closeTourPackageEditAction = () =>
   useEditMgmtStore.getState().setTourPackage(null);
+
+export const editSlotCategoryAction = (v: SlotsCategoryResType) =>
+  useEditMgmtStore.getState().setSlotCategory(v);
+export const closeSlotCategoryEditAction = () =>
+  useEditMgmtStore.getState().setSlotCategory(null);
+
+export const editTopLeveleMenuAction = (v: TopLevelMenuResType) =>
+  useEditMgmtStore.getState().setTopLevelMenu(v);
+export const closeTopLeveleMenuEditAction = () =>
+  useEditMgmtStore.getState().setTopLevelMenu(null);
 
 export const closeAllEditAction = () => {
   useEditMgmtStore.getState().clearAll();

@@ -1,19 +1,6 @@
 import axiosInstance from "../config";
 import { errorHandler } from "../errorHandler";
 
-export const fetchTopLevelTagsReq = async () => {
-  try {
-    const url = `/toplevels`;
-    const res = await axiosInstance.get(url);
-    const _data = res?.data?.data;
-    const _msg = res?.data?.message;
-
-    return { error: false, data: _data, message: _msg, errorMsg: "" };
-  } catch (err) {
-    const error = errorHandler(err, "fetchTopLevelTagsReq");
-    throw { error: true, data: "", message: "", errorMsg: error };
-  }
-};
 export const fetchTagsReq = async (
   page: number | string = 1,
   size: number | string = 50

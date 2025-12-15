@@ -39,6 +39,11 @@ const AppRoutes = () => {
             path={RoutesPath.tourPackage}
             element={<Page.TourPackageLayout />}
           />
+          <Route path={RoutesPath.category} element={<Page.CategoryLayout />} />
+          <Route
+            path={RoutesPath.topLevelMenu}
+            element={<Page.TopLevelMenuLayout />}
+          />
 
           {/* -------------Products---------------------- */}
           {/* <Route path={RoutesPath.approvedProducts}>

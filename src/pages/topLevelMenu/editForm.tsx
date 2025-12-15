@@ -5,25 +5,25 @@ import { toast } from "react-toastify";
 import { z } from "zod";
 
 import TextInput from "../../components/forms/elements/textInput";
-import { packageTypeSchema } from "../../schema/packageTypeSchema";
-import { updatePackageTypesReq } from "../../services/api/packages/packageTypeApi";
+import { topLevelMenuSchema } from "../../schema/topLevelMenuSchema";
+import { updateTopLevelMenuReq } from "../../services/api/topLevelMenu/topLevelMenuApi";
 import {
   closeAllEditAction,
   useEditMgmtStore,
 } from "../../store/editMgmtStore";
 
-type PackageTypeValues = z.infer<typeof packageTypeSchema>;
+type TopLevelMenuValues = z.infer<typeof topLevelMenuSchema>;
 
-const EditPackageTypeForm: React.FC = () => {
-  const editData = useEditMgmtStore((s) => s.editiPackageTypeData);
+const EditForm: React.FC = () => {
+  const editData = useEditMgmtStore((s) => s.editTopLeveleMenuData);
 
   const {
     control,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<PackageTypeValues>({
-    resolver: zodResolver(packageTypeSchema),
+  } = useForm<TopLevelMenuValues>({
+    resolver: zodResolver(topLevelMenuSchema),
     defaultValues: { name: "" },
   });
 
@@ -39,20 +39,25 @@ const EditPackageTypeForm: React.FC = () => {
     closeAllEditAction();
   };
 
-  const onSubmit = async (data: PackageTypeValues) => {
+  const onSubmit = async (data: TopLevelMenuValues) => {
     try {
-      await updatePackageTypesReq(editData?.id || "", data);
-      toast.success("Package type updated successfully!");
+      const reqBody = {
+        name: data?.name,
+        slug: data?.name?.toLowerCase(),
+        route: editData?.route || "package",
+      };
+      await updateTopLevelMenuReq(editData?.id || "", reqBody);
+      toast.success("Menu updated successfully!");
       onCancelOrClose();
     } catch (error: any) {
-      toast.error(error?.errorMsg || "Failed to update package type");
+      toast.error(error?.errorMsg || "Failed to update menu");
     }
   };
 
   return (
     <div className="mt-2 border rounded-lg p-5 shadow-sm bg-white relative">
       <div className="inline-block bg-gray-200 px-4 py-1 text-[15px] font-semibold rounded-md -mt-8 mb-4 shadow-sm absolute">
-        Edit Package Type
+        Edit Menu
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
@@ -62,8 +67,8 @@ const EditPackageTypeForm: React.FC = () => {
             control={control}
             render={({ field }) => (
               <TextInput
-                label="Package Type"
-                placeholder="Enter package type"
+                label="Menu"
+                placeholder="Enter menu"
                 value={field.value}
                 onChange={field.onChange}
                 error={errors.name?.message || undefined}
@@ -80,7 +85,7 @@ const EditPackageTypeForm: React.FC = () => {
             disabled={isSubmitting}
             className="px-4 py-2 rounded-md bg-primary text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
           >
-            {isSubmitting ? "Updating..." : "Update Package Type"}
+            {isSubmitting ? "Updating..." : "Update Menu"}
           </button>
 
           <button
@@ -97,4 +102,4 @@ const EditPackageTypeForm: React.FC = () => {
   );
 };
 
-export default EditPackageTypeForm;
+export default EditForm;

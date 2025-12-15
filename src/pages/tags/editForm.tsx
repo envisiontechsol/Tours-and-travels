@@ -6,11 +6,7 @@ import { z } from "zod";
 
 import DynamicFormFields from "../../components/forms/dynamicFormFields";
 import { tagSchema } from "../../schema/tagSchema";
-import {
-  addTagReq,
-  fetchTopLevelTagsReq,
-  upadteTagReq,
-} from "../../services/api/packages/tagsApi";
+import { addTagReq, upadteTagReq } from "../../services/api/packages/tagsApi";
 import { FormFieldConfigType, OptionType } from "../../types/formsTypes";
 import { getFormFieldsConfig } from "./formFieldsConfig";
 import { TopLevelTagResType } from "../../types/packageType";
@@ -18,6 +14,7 @@ import {
   closeAllEditAction,
   useEditMgmtStore,
 } from "../../store/editMgmtStore";
+import { fetchTopLevelMenusReq } from "../../services/api/topLevelMenu/topLevelMenuApi";
 
 type TagValues = z.infer<typeof tagSchema>;
 
@@ -60,7 +57,7 @@ const EditTagForm: React.FC = () => {
 
   const getTopLevelTagsList = async () => {
     try {
-      const res = await fetchTopLevelTagsReq();
+      const res = await fetchTopLevelMenusReq(0, 1);
       const tagsOpts = res?.data?.map((i: TopLevelTagResType) => ({
         label: i.name,
         value: i.id,

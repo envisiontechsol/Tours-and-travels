@@ -1,22 +1,26 @@
 import React, { memo, useEffect, useRef, useState } from "react";
+
+import { Link, useLocation } from "react-router-dom";
+
 import {
   FaChevronDown,
   FaChevronUp,
+  FaGlobeAsia,
+  FaHiking,
+  FaLayerGroup,
+  FaMapMarkedAlt,
+  FaSuitcaseRolling,
   FaTachometerAlt,
+  FaTags,
   FaTimes,
 } from "react-icons/fa";
-import { Link, useLocation } from "react-router-dom";
+import { GiDuration } from "react-icons/gi";
+import { LuSquare } from "react-icons/lu";
+import { MdCategory } from "react-icons/md";
+
 import { IMAGES } from "../theme/images";
 
-import {
-  FaClock,
-  FaGlobeAsia,
-  FaListUl,
-  FaMapMarkerAlt,
-  FaSuitcaseRolling,
-} from "react-icons/fa";
 import RoutesPath from "../routes/routesPath";
-import { Tag } from "lucide-react";
 
 interface SubMenuItem {
   name: string;
@@ -53,51 +57,63 @@ const SideNavbar: React.FC<SideNavbarProps> = ({
   const menus: MenuItem[] = [
     {
       name: "Dashboard",
-      icon: <FaTachometerAlt size={18} />,
+      icon: <FaTachometerAlt size={16} />,
       route: RoutesPath.adminDashboard,
     },
+
     {
       name: "Manage Location",
-      icon: <FaGlobeAsia size={18} />,
+      icon: <FaGlobeAsia size={16} />,
       route: null,
       subMenu: [
         {
           name: "Destinations",
           route: RoutesPath.destination,
-          icon: <FaMapMarkerAlt />,
-          headerLabel: "Manage Location/Add Destination",
+          icon: <FaMapMarkedAlt size={14} />,
+          headerLabel: "Manage Location / Add Destination",
         },
         {
           name: "Activity",
           route: RoutesPath.activity,
-          icon: <FaMapMarkerAlt />,
+          icon: <FaHiking size={14} />,
+        },
+        {
+          name: "Category",
+          route: RoutesPath.category,
+          icon: <MdCategory size={14} />,
         },
       ],
     },
+
     {
       name: "Manage Package",
-      icon: <FaSuitcaseRolling size={18} />,
+      icon: <FaSuitcaseRolling size={16} />,
       route: null,
       subMenu: [
         {
           name: "Package Duration",
           route: RoutesPath.packageDuration,
-          icon: <FaClock />,
+          icon: <GiDuration size={14} />,
         },
         {
           name: "Package Type",
           route: RoutesPath.packageType,
-          icon: <FaListUl />,
+          icon: <FaLayerGroup size={14} />,
         },
         {
           name: "Tags",
           route: RoutesPath.tags,
-          icon: <Tag size={12} />,
+          icon: <FaTags size={14} />,
+        },
+        {
+          name: "Menu",
+          route: RoutesPath.topLevelMenu,
+          icon: <LuSquare size={14} />,
         },
         {
           name: "Tour Package",
           route: RoutesPath.tourPackage,
-          icon: <FaSuitcaseRolling />,
+          icon: <FaSuitcaseRolling size={14} />,
         },
       ],
     },

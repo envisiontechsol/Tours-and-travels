@@ -6,13 +6,11 @@ import { z } from "zod";
 
 import DynamicFormFields from "../../components/forms/dynamicFormFields";
 import { tagSchema } from "../../schema/tagSchema";
-import {
-  addTagReq,
-  fetchTopLevelTagsReq,
-} from "../../services/api/packages/tagsApi";
+import { addTagReq } from "../../services/api/packages/tagsApi";
+import { fetchTopLevelMenusReq } from "../../services/api/topLevelMenu/topLevelMenuApi";
 import { FormFieldConfigType, OptionType } from "../../types/formsTypes";
-import { getFormFieldsConfig } from "./formFieldsConfig";
 import { TopLevelTagResType } from "../../types/packageType";
+import { getFormFieldsConfig } from "./formFieldsConfig";
 
 type TagValues = z.infer<typeof tagSchema>;
 
@@ -32,7 +30,7 @@ const AddTagForm: React.FC = () => {
 
   const getTopLevelTagsList = async () => {
     try {
-      const res = await fetchTopLevelTagsReq();
+      const res = await fetchTopLevelMenusReq();
       const tagsOpts = res?.data?.map((i: TopLevelTagResType) => ({
         label: i.name,
         value: i.id,
