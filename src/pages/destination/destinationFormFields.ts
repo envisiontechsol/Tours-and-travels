@@ -22,7 +22,7 @@ export const getDestinationFormFields = (
   },
   {
     name: "bannerImage",
-    label: "Banner Image",
+    label: "Banner Image (1920 x 800)",
     type: "file",
     previewUrl: formData?.bannerImageUrl || undefined,
     gridCols: "md:col-span-1",

@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -26,6 +26,8 @@ type DestinationFormValues = z.infer<typeof destinationSchema>;
 const EditDestinationForm = () => {
   const editData = useEditMgmtStore((s) => s.editiDestinationData);
 
+  const [isSubmitting, setisSubmitting] = useState(false);
+
   const user = useAuthStore((s) => s.user);
   console.log(user, "user");
 
@@ -33,7 +35,7 @@ const EditDestinationForm = () => {
     control,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<DestinationFormValues>({
     resolver: zodResolver(destinationSchema),
     defaultValues: {
@@ -49,6 +51,7 @@ const EditDestinationForm = () => {
 
   const onSubmit = async (data: DestinationFormValues) => {
     if (!editData?.id) return toast.error("Destination ID is not present");
+    setisSubmitting(true);
     try {
       const formData = new FormData();
       formData.append("name", data.name);
@@ -68,6 +71,8 @@ const EditDestinationForm = () => {
       reset();
     } catch (error: any) {
       toast.error(error.errorMsg || "Failed to add destination");
+    } finally {
+      setisSubmitting(false);
     }
   };
 
@@ -77,7 +82,7 @@ const EditDestinationForm = () => {
         about: editData?.about,
         isActive: editData?.isActive,
         name: editData?.name,
-        bannerImagetage: editData?.bannerImageTage,
+        bannerImagetage: editData?.bannerImageTag,
         bannerImage: undefined,
       });
     }
@@ -135,7 +140,7 @@ const EditDestinationForm = () => {
             disabled={isSubmitting}
             className="px-4 py-2 rounded-md bg-primary text-white font-medium"
           >
-            Upadte Destination
+            {isSubmitting ? "Updating..." : "Upadte Destination"}
           </button>
 
           <button

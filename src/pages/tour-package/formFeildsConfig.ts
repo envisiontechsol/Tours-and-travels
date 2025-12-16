@@ -102,7 +102,7 @@ export const getFormFieldsConfig2 = (
 ): FormFieldConfigType[] => [
   {
     name: "bannerImage",
-    label: "Banner Image",
+    label: "Banner Image (1920 x 800)",
     type: "file",
     previewUrl: data?.bannerImageUrl || undefined,
   },
@@ -113,7 +113,7 @@ export const getFormFieldsConfig2 = (
   },
   {
     name: "tourImage",
-    label: "Tour Image",
+    label: "Tour Image (1024 x 1024)",
     type: "file",
     previewUrl: data?.tourImageUrl || undefined,
   },
@@ -124,7 +124,7 @@ export const getFormFieldsConfig2 = (
   },
   {
     name: "image1Url",
-    label: "Image 1 ",
+    label: "Image 1 (1024 x 1024)",
     type: "file",
     previewUrl: data?.image1Url || undefined,
   },
@@ -136,7 +136,7 @@ export const getFormFieldsConfig2 = (
 
   {
     name: "image2Url",
-    label: "Image 2 ",
+    label: "Image 2 (1024 x 1024)",
     type: "file",
     previewUrl: data?.image2Url || undefined,
   },
@@ -147,7 +147,7 @@ export const getFormFieldsConfig2 = (
   },
   {
     name: "image3Url",
-    label: "Image 3 ",
+    label: "Image 3 (1024 x 1024)",
     type: "file",
     previewUrl: data?.image3Url || undefined,
   },

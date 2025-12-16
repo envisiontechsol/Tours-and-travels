@@ -44,7 +44,7 @@ export const getActivityFormFields = (
   },
   {
     name: "bannerImage",
-    label: "Banner Image",
+    label: "Banner Image (1920 x 800)",
     type: "file",
     previewUrl: formData?.bannerImageUrl || undefined,
     gridCols: "md:col-span-1",
@@ -58,7 +58,7 @@ export const getActivityFormFields = (
   },
   {
     name: "image1",
-    label: "Image 1",
+    label: "Image 1 (1024 x 1024)",
     type: "file",
     previewUrl: formData?.image1Url || undefined,
     gridCols: "md:col-span-1",
@@ -72,7 +72,7 @@ export const getActivityFormFields = (
   },
   {
     name: "image2",
-    label: "Image 2",
+    label: "Image 2 (1024 x 1024)",
     type: "file",
     previewUrl: formData?.image2Url || undefined,
     gridCols: "md:col-span-1",
@@ -86,7 +86,7 @@ export const getActivityFormFields = (
   },
   {
     name: "image3",
-    label: "Image 3",
+    label: "Image 3 (1024 x 1024)",
     type: "file",
     previewUrl: formData?.image3Url || undefined,
     gridCols: "md:col-span-1",
@@ -100,7 +100,7 @@ export const getActivityFormFields = (
   },
   {
     name: "image4",
-    label: "Image 4",
+    label: "Image 4 (1024 x 1024)",
     type: "file",
     previewUrl: formData?.image4Url || undefined,
     gridCols: "md:col-span-1",
