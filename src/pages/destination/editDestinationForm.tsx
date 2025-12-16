@@ -59,8 +59,10 @@ const EditDestinationForm = () => {
       formData.append("isActive", (!!data.isActive).toString());
 
       formData.append("about", data.about);
-      formData.append("name", data.name);
-      formData.append("bannerImagetage", data?.bannerImagetage || "");
+      formData.append(
+        "bannerImageTag",
+        data?.bannerImagetage?.replace(" ", "").trim() || ""
+      );
 
       if (data.bannerImage && data.bannerImage.length > 0) {
         formData.append("bannerImage", data.bannerImage[0]);
