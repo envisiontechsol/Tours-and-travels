@@ -7,6 +7,8 @@ import {
   editTagAction,
 } from "../../store/editMgmtStore";
 import { SlotsCategoryResType } from "../../types/slotsTypes";
+import { ActionButtons } from "../../components/tables/tableButtons/actionButtons";
+import { deleteCategoryReq } from "../../services/api/others/slotsCatApi";
 
 export const categoryColumns: ColumnDef<SlotsCategoryResType>[] = [
   {
@@ -23,12 +25,16 @@ export const categoryColumns: ColumnDef<SlotsCategoryResType>[] = [
   {
     header: "Action",
     cell: ({ row }) => (
-      <button
-        className="p-2 bg-blue-500 text-white rounded"
-        onClick={() => editSlotCategoryAction(row.original)}
-      >
-        <Pencil size={16} />
-      </button>
+      <ActionButtons<SlotsCategoryResType>
+        row={row.original}
+        config={{
+          edit: true,
+          delete: false,
+          onEdit: editSlotCategoryAction,
+          onDelete: (data) => deleteCategoryReq(data.id),
+          deleteConfirmText: `Do you want to delete "${row.original.name}"?`,
+        }}
+      />
     ),
   },
 ];

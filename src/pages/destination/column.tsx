@@ -3,6 +3,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Pencil } from "lucide-react";
 import { DestinationResType } from "../../types/locationTypes";
 import { editDestinationAction } from "../../store/editMgmtStore";
+import { ActionButtons } from "../../components/tables/tableButtons/actionButtons";
+import { deleteDestinationReq } from "../../services/api/locations/destinationApi";
 
 const destinationColumns: ColumnDef<DestinationResType>[] = [
   {
@@ -27,12 +29,16 @@ const destinationColumns: ColumnDef<DestinationResType>[] = [
   {
     header: "Action",
     cell: ({ row }) => (
-      <button
-        className="p-2 bg-blue-500 text-white rounded"
-        onClick={() => editDestinationAction(row.original)}
-      >
-        <Pencil size={16} />
-      </button>
+      <ActionButtons<DestinationResType>
+        row={row.original}
+        config={{
+          edit: true,
+          delete: true,
+          onEdit: editDestinationAction,
+          onDelete: (data) => deleteDestinationReq(data.id),
+          deleteConfirmText: `Do you want to delete "${row.original.name}"?`,
+        }}
+      />
     ),
   },
 ];

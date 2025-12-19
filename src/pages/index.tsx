@@ -1,3 +1,4 @@
+import AboutEditor from "./aboutUs/aboutUsEditorPage";
 import ActivityLayout from "./activities/activityLayout";
 import CategoryLayout from "./category/categoryLayout";
 import Dashboard from "./dashboard";
@@ -19,4 +20,5 @@ export {
   TourPackageLayout,
   CategoryLayout,
   TopLevelMenuLayout,
+  AboutEditor,
 };

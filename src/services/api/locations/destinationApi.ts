@@ -60,3 +60,16 @@ export const upadteDestinationReq = async (id: string, body: any) => {
     throw { error: true, data: "", message: "", errorMsg: error };
   }
 };
+export const deleteDestinationReq = async (id: string) => {
+  try {
+    const url = `/destinations/${id}`;
+    const res = await axiosInstance.delete(url);
+    const _data = res?.data;
+    const _msg = res?.data?.message || "Deleted successfully";
+
+    return { error: false, data: _data, message: _msg, errorMsg: "" };
+  } catch (err) {
+    const error = errorHandler(err, "deleteDestinationReq");
+    throw { error: true, data: "", message: "", errorMsg: error };
+  }
+};

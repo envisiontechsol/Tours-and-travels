@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import * as Page from "../pages";
-import RoutesPath from "./routesPath";
 import { AdminLayout } from "../pages/layout";
-import { toast } from "react-toastify";
+import RoutesPath from "./routesPath";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -44,6 +43,7 @@ const AppRoutes = () => {
             path={RoutesPath.topLevelMenu}
             element={<Page.TopLevelMenuLayout />}
           />
+          <Route path={RoutesPath.aboutEditor} element={<Page.AboutEditor />} />
 
           {/* -------------Products---------------------- */}
           {/* <Route path={RoutesPath.approvedProducts}>

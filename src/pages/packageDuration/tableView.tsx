@@ -5,8 +5,11 @@ import { PackageDurationResType, PackageType } from "../../types/packageType";
 import HLoader from "../../components/loaders/hLoader";
 import packageDurationColumns from "./column";
 import { fetchPackageDurationReq } from "../../services/api/packages/packageDurationApi";
+import { useTableRefreshStore } from "../../store/tableRefreshStore";
 
 const TableList = () => {
+  const { refreshKey } = useTableRefreshStore();
+
   const [data, setData] = useState<PackageDurationResType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -19,29 +22,32 @@ const TableList = () => {
     hasNext: false,
   });
 
-  const fetchData = useCallback(async (page: number, pageSize: number) => {
-    setIsLoading(true);
-    setError(null);
+  const fetchData = useCallback(
+    async (page: number, pageSize: number) => {
+      setIsLoading(true);
+      setError(null);
 
-    try {
-      const res = await fetchPackageDurationReq(page, pageSize);
+      try {
+        const res = await fetchPackageDurationReq(page, pageSize);
 
-      setData(res?.data);
-      setPagination({
-        pageIndex: res?.config?.page,
-        pageSize: res?.config?.pageSize,
-        total: res?.config?.total,
-        totalPages: res?.config?.totalPages,
-        hasPrev: res?.config?.hasPrev,
-        hasNext: res?.config?.hasNext,
-      });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-      setData([]);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+        setData(res?.data);
+        setPagination({
+          pageIndex: res?.config?.page,
+          pageSize: res?.config?.pageSize,
+          total: res?.config?.total,
+          totalPages: res?.config?.totalPages,
+          hasPrev: res?.config?.hasPrev,
+          hasNext: res?.config?.hasNext,
+        });
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+        setData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [refreshKey]
+  );
 
   useEffect(() => {
     fetchData(1, pagination.pageSize);

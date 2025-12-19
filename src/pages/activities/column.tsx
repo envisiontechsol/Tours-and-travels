@@ -3,6 +3,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Pencil } from "lucide-react";
 import { ActivityResType } from "../../types/activityTypes";
 import { editActivityAction } from "../../store/editMgmtStore";
+import { ActionButtons } from "../../components/tables/tableButtons/actionButtons";
+import { deleteActivityReq } from "../../services/api/activites/activityApi";
 
 const ImageCell = ({
   imageUrl,
@@ -126,12 +128,16 @@ const activityColumns: ColumnDef<ActivityResType>[] = [
   {
     header: "Action",
     cell: ({ row }) => (
-      <button
-        className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        onClick={() => editActivityAction(row.original)}
-      >
-        <Pencil size={16} />
-      </button>
+      <ActionButtons<ActivityResType>
+        row={row.original}
+        config={{
+          edit: true,
+          delete: true,
+          onEdit: editActivityAction,
+          onDelete: (data) => deleteActivityReq(data.id),
+          deleteConfirmText: `Do you want to delete "${row.original.title}"?`,
+        }}
+      />
     ),
   },
 ];

@@ -3,6 +3,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Pencil } from "lucide-react";
 import { PackageType } from "../../types/packageType";
 import { editPackageTypeAction } from "../../store/editMgmtStore";
+import { ActionButtons } from "../../components/tables/tableButtons/actionButtons";
+import { deletePackageTypesReq } from "../../services/api/packages/packageTypeApi";
 
 export const placeColumns: ColumnDef<PackageType>[] = [
   {
@@ -19,12 +21,16 @@ export const placeColumns: ColumnDef<PackageType>[] = [
   {
     header: "Action",
     cell: ({ row }) => (
-      <button
-        className="p-2 bg-blue-500 text-white rounded"
-        onClick={() => editPackageTypeAction(row.original)}
-      >
-        <Pencil size={16} />
-      </button>
+      <ActionButtons<PackageType>
+        row={row.original}
+        config={{
+          edit: true,
+          delete: true,
+          onEdit: editPackageTypeAction,
+          onDelete: (data) => deletePackageTypesReq(data.id),
+          deleteConfirmText: `Do you want to delete "${row.original.name}"?`,
+        }}
+      />
     ),
   },
 ];

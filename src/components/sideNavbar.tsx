@@ -117,6 +117,11 @@ const SideNavbar: React.FC<SideNavbarProps> = ({
         },
       ],
     },
+    {
+      name: "About Us",
+      icon: <FaTachometerAlt size={16} />,
+      route: RoutesPath.aboutEditor,
+    },
   ];
 
   // Close on outside click

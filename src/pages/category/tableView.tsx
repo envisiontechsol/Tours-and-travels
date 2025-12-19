@@ -5,6 +5,7 @@ import { fetchSlotsCategoryReq } from "../../services/api/others/slotsCatApi";
 import { TagResType } from "../../types/packageType";
 import { categoryColumns } from "./column";
 import { SlotsCategoryResType } from "../../types/slotsTypes";
+import { useTableRefreshStore } from "../../store/tableRefreshStore";
 
 interface ApiResponse {
   ok: boolean;
@@ -18,6 +19,8 @@ interface ApiResponse {
 }
 
 const TableList = () => {
+  const { refreshKey } = useTableRefreshStore();
+
   const [data, setData] = useState<SlotsCategoryResType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -30,29 +33,32 @@ const TableList = () => {
     hasNext: false,
   });
 
-  const fetchData = useCallback(async (page: number, pageSize: number) => {
-    setIsLoading(true);
-    setError(null);
+  const fetchData = useCallback(
+    async (page: number, pageSize: number) => {
+      setIsLoading(true);
+      setError(null);
 
-    try {
-      const res = await fetchSlotsCategoryReq();
+      try {
+        const res = await fetchSlotsCategoryReq();
 
-      setData(res?.data);
-      // setPagination({
-      //   pageIndex: res?.config?.page,
-      //   pageSize: res?.config?.pageSize,
-      //   total: res?.config?.total,
-      //   totalPages: res?.config?.totalPages,
-      //   hasPrev: res?.config?.hasPrev,
-      //   hasNext: res?.config?.hasNext,
-      // });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-      setData([]);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+        setData(res?.data);
+        // setPagination({
+        //   pageIndex: res?.config?.page,
+        //   pageSize: res?.config?.pageSize,
+        //   total: res?.config?.total,
+        //   totalPages: res?.config?.totalPages,
+        //   hasPrev: res?.config?.hasPrev,
+        //   hasNext: res?.config?.hasNext,
+        // });
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+        setData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [refreshKey]
+  );
 
   useEffect(() => {
     fetchData(1, pagination.pageSize);

@@ -4,8 +4,11 @@ import DataTable from "../../components/tables/dataTable";
 import { TourPackageResType } from "../../types/tourTypes";
 import { fetchTourPackagesReq } from "../../services/api/tours/toursApi";
 import tourPackageColumns from "./column";
+import { useTableRefreshStore } from "../../store/tableRefreshStore";
 
 const TableList = () => {
+  const { refreshKey } = useTableRefreshStore();
+
   const [data, setData] = useState<TourPackageResType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -18,29 +21,32 @@ const TableList = () => {
     hasNext: false,
   });
 
-  const fetchData = useCallback(async (page: number, pageSize: number) => {
-    setIsLoading(true);
-    setError(null);
+  const fetchData = useCallback(
+    async (page: number, pageSize: number) => {
+      setIsLoading(true);
+      setError(null);
 
-    try {
-      const res = await fetchTourPackagesReq(page, pageSize);
+      try {
+        const res = await fetchTourPackagesReq(page, pageSize);
 
-      setData(res?.data);
-      setPagination({
-        pageIndex: res?.config?.page,
-        pageSize: res?.config?.pageSize,
-        total: res?.config?.total,
-        totalPages: res?.config?.totalPages,
-        hasPrev: res?.config?.hasPrev,
-        hasNext: res?.config?.hasNext,
-      });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-      setData([]);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+        setData(res?.data);
+        setPagination({
+          pageIndex: res?.config?.page,
+          pageSize: res?.config?.pageSize,
+          total: res?.config?.total,
+          totalPages: res?.config?.totalPages,
+          hasPrev: res?.config?.hasPrev,
+          hasNext: res?.config?.hasNext,
+        });
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+        setData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [refreshKey]
+  );
 
   useEffect(() => {
     fetchData(1, pagination.pageSize);

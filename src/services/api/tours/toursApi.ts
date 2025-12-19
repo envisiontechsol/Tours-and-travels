@@ -60,3 +60,17 @@ export const updateTourPackageReq = async (id: string, body: any) => {
     throw { error: true, data: "", message: "", errorMsg: error };
   }
 };
+
+export const deleteTourPackageReq = async (id: string) => {
+  try {
+    const url = `/tour-packages/${id}`;
+    const res = await axiosInstance.delete(url);
+    const _data = res?.data;
+    const _msg = res?.data?.message;
+
+    return { error: false, data: _data, message: _msg, errorMsg: "" };
+  } catch (err) {
+    const error = errorHandler(err, "deleteTourPackageReq");
+    throw { error: true, data: "", message: "", errorMsg: error };
+  }
+};

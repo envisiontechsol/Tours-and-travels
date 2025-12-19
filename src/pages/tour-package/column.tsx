@@ -2,6 +2,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Pencil, Star } from "lucide-react";
 import { TourPackageResType } from "../../types/tourTypes";
 import { editTourPackageAction } from "../../store/editMgmtStore";
+import { ActionButtons } from "../../components/tables/tableButtons/actionButtons";
+import { deleteTourPackageReq } from "../../services/api/tours/toursApi";
 
 const ImageCell = ({
   imageUrl,
@@ -90,7 +92,7 @@ const tourPackageColumns: ColumnDef<TourPackageResType>[] = [
     header: "About",
     accessorKey: "about",
     cell: ({ row }) => (
-      <div className="max-w-xs truncate" title={row.original.about}>
+      <div className="max-w-xs truncate" title={row.original.about || ""}>
         {row.original.about}
       </div>
     ),
@@ -134,8 +136,8 @@ const tourPackageColumns: ColumnDef<TourPackageResType>[] = [
     accessorKey: "bannerImageUrl",
     cell: ({ row }) => (
       <ImageCell
-        imageUrl={row.original.bannerImageUrl}
-        altText={row.original.bannerImagetage}
+        imageUrl={row.original.bannerImageUrl || ""}
+        altText={row.original.bannerImagetage || ""}
         size="w-16 h-12"
       />
     ),
@@ -145,8 +147,8 @@ const tourPackageColumns: ColumnDef<TourPackageResType>[] = [
     accessorKey: "tourImageUrl",
     cell: ({ row }) => (
       <ImageCell
-        imageUrl={row.original.tourImageUrl}
-        altText={row.original.tourImagetage}
+        imageUrl={row.original.tourImageUrl || ""}
+        altText={row.original.tourImagetage || ""}
         size="w-16 h-12"
       />
     ),
@@ -163,12 +165,16 @@ const tourPackageColumns: ColumnDef<TourPackageResType>[] = [
   {
     header: "Action",
     cell: ({ row }) => (
-      <button
-        className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        onClick={() => editTourPackageAction(row.original)}
-      >
-        <Pencil size={16} />
-      </button>
+      <ActionButtons<TourPackageResType>
+        row={row.original}
+        config={{
+          edit: true,
+          delete: false,
+          onEdit: editTourPackageAction,
+          onDelete: (data) => deleteTourPackageReq(data.id),
+          deleteConfirmText: `Do you want to delete "${row.original.name}"?`,
+        }}
+      />
     ),
   },
 ];

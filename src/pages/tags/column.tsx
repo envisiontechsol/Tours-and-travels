@@ -3,6 +3,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Pencil } from "lucide-react";
 import { TagResType } from "../../types/packageType";
 import { editTagAction } from "../../store/editMgmtStore";
+import { ActionButtons } from "../../components/tables/tableButtons/actionButtons";
+import { deleteTagReq } from "../../services/api/packages/tagsApi";
 
 export const tagsColumns: ColumnDef<TagResType>[] = [
   {
@@ -19,12 +21,16 @@ export const tagsColumns: ColumnDef<TagResType>[] = [
   {
     header: "Action",
     cell: ({ row }) => (
-      <button
-        className="p-2 bg-blue-500 text-white rounded"
-        onClick={() => editTagAction(row.original)}
-      >
-        <Pencil size={16} />
-      </button>
+      <ActionButtons<TagResType>
+        row={row.original}
+        config={{
+          edit: true,
+          delete: false,
+          onEdit: editTagAction,
+          onDelete: (data) => deleteTagReq(data.id),
+          deleteConfirmText: `Do you want to delete "${row.original.name}"?`,
+        }}
+      />
     ),
   },
 ];

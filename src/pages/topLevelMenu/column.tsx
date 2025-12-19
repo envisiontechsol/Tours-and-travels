@@ -3,6 +3,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Pencil } from "lucide-react";
 import { editTopLeveleMenuAction } from "../../store/editMgmtStore";
 import { TopLevelMenuResType } from "../../types/topLevelMenuTypes";
+import { ActionButtons } from "../../components/tables/tableButtons/actionButtons";
+import { deleteTopLevelMenuReq } from "../../services/api/topLevelMenu/topLevelMenuApi";
 
 export const topLevelMenuColumns: ColumnDef<TopLevelMenuResType>[] = [
   {
@@ -19,12 +21,16 @@ export const topLevelMenuColumns: ColumnDef<TopLevelMenuResType>[] = [
   {
     header: "Action",
     cell: ({ row }) => (
-      <button
-        className="p-2 bg-blue-500 text-white rounded"
-        onClick={() => editTopLeveleMenuAction(row.original)}
-      >
-        <Pencil size={16} />
-      </button>
+      <ActionButtons<TopLevelMenuResType>
+        row={row.original}
+        config={{
+          edit: true,
+          delete: false,
+          onEdit: editTopLeveleMenuAction,
+          onDelete: (data) => deleteTopLevelMenuReq(data.id),
+          deleteConfirmText: `Do you want to delete "${row.original.name}"?`,
+        }}
+      />
     ),
   },
 ];

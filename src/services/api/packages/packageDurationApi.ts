@@ -56,3 +56,17 @@ export const updatePackageDurationReq = async (
     throw { error: true, data: "", message: "", errorMsg: error };
   }
 };
+
+export const deletePackageDurationReq = async (id: string) => {
+  try {
+    const url = `/package-durations/${id}`;
+    const res = await axiosInstance.delete(url);
+    const _data = res?.data;
+    const _msg = res?.data?.message;
+
+    return { error: false, data: _data, message: _msg, errorMsg: "" };
+  } catch (err) {
+    const error = errorHandler(err, "deletePackageDurationReq");
+    throw { error: true, data: "", message: "", errorMsg: error };
+  }
+};

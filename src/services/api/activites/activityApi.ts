@@ -81,6 +81,20 @@ export const updateActivityReq = async (id: string, body: any) => {
   }
 };
 
+export const deleteActivityReq = async (id: string) => {
+  try {
+    const url = `/activities/${id}`;
+    const res = await axiosInstance.delete(url);
+    const _data = res?.data;
+    const _msg = res?.data?.message;
+
+    return { error: false, data: _data, message: _msg, errorMsg: "" };
+  } catch (err) {
+    const error = errorHandler(err, "deleteActivityReq");
+    throw { error: true, data: "", message: "", errorMsg: error };
+  }
+};
+
 const getCodeAndValue = (cat: string) => {
   let code = 0;
   let value = 0;

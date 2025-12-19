@@ -3,6 +3,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Pencil } from "lucide-react";
 import { PackageDurationResType } from "../../types/packageType";
 import { editPackageDurationAction } from "../../store/editMgmtStore";
+import { deletePackageDurationReq } from "../../services/api/packages/packageDurationApi";
+import { ActionButtons } from "../../components/tables/tableButtons/actionButtons";
 
 const packageDurationColumns: ColumnDef<PackageDurationResType>[] = [
   {
@@ -27,12 +29,16 @@ const packageDurationColumns: ColumnDef<PackageDurationResType>[] = [
   {
     header: "Action",
     cell: ({ row }) => (
-      <button
-        className="p-2 bg-blue-500 text-white rounded"
-        onClick={() => editPackageDurationAction(row.original)}
-      >
-        <Pencil size={16} />
-      </button>
+      <ActionButtons<PackageDurationResType>
+        row={row.original}
+        config={{
+          edit: true,
+          delete: true,
+          onEdit: editPackageDurationAction,
+          onDelete: (data) => deletePackageDurationReq(data.id),
+          deleteConfirmText: `Do you want to delete "${row.original.name}"?`,
+        }}
+      />
     ),
   },
 ];

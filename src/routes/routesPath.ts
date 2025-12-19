@@ -10,6 +10,7 @@ const RoutesPath = {
   tourPackage: "tour-package",
   category: "category",
   topLevelMenu: "menu",
+  aboutEditor: "about-editor",
 };
 
 export default RoutesPath;

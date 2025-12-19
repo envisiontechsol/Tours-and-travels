@@ -61,3 +61,17 @@ export const upadteTagReq = async (
     throw { error: true, data: "", message: "", errorMsg: error };
   }
 };
+
+export const deleteTagReq = async (id: string) => {
+  try {
+    const url = `/tags/${id}`;
+    const res = await axiosInstance.delete(url);
+    const _data = res?.data;
+    const _msg = res?.data?.message;
+
+    return { error: false, data: _data, message: _msg, errorMsg: "" };
+  } catch (err) {
+    const error = errorHandler(err, "deleteTagReq");
+    throw { error: true, data: "", message: "", errorMsg: error };
+  }
+};
