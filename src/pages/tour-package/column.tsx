@@ -1,7 +1,10 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Pencil, Star } from "lucide-react";
 import { TourPackageResType } from "../../types/tourTypes";
-import { editTourPackageAction } from "../../store/editMgmtStore";
+import {
+  editTourPackageAction,
+  viewTourPackageAction,
+} from "../../store/editMgmtStore";
 import { ActionButtons } from "../../components/tables/tableButtons/actionButtons";
 import { deleteTourPackageReq } from "../../services/api/tours/toursApi";
 
@@ -170,6 +173,8 @@ const tourPackageColumns: ColumnDef<TourPackageResType>[] = [
         config={{
           edit: true,
           delete: false,
+          view: true,
+          onView: viewTourPackageAction,
           onEdit: editTourPackageAction,
           onDelete: (data) => deleteTourPackageReq(data.id),
           deleteConfirmText: `Do you want to delete "${row.original.name}"?`,

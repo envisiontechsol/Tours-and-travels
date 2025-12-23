@@ -5,6 +5,7 @@ import { Pencil } from "lucide-react";
 import {
   editSlotCategoryAction,
   editTagAction,
+  viewSlotCategoryAction,
 } from "../../store/editMgmtStore";
 import { SlotsCategoryResType } from "../../types/slotsTypes";
 import { ActionButtons } from "../../components/tables/tableButtons/actionButtons";
@@ -30,6 +31,8 @@ export const categoryColumns: ColumnDef<SlotsCategoryResType>[] = [
         config={{
           edit: true,
           delete: false,
+          view: true,
+          onView: viewSlotCategoryAction,
           onEdit: editSlotCategoryAction,
           onDelete: (data) => deleteCategoryReq(data.id),
           deleteConfirmText: `Do you want to delete "${row.original.name}"?`,

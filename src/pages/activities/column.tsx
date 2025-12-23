@@ -2,7 +2,10 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Pencil } from "lucide-react";
 import { ActivityResType } from "../../types/activityTypes";
-import { editActivityAction } from "../../store/editMgmtStore";
+import {
+  editActivityAction,
+  viewActivityAction,
+} from "../../store/editMgmtStore";
 import { ActionButtons } from "../../components/tables/tableButtons/actionButtons";
 import { deleteActivityReq } from "../../services/api/activites/activityApi";
 
@@ -133,6 +136,8 @@ const activityColumns: ColumnDef<ActivityResType>[] = [
         config={{
           edit: true,
           delete: true,
+          view: true,
+          onView: viewActivityAction,
           onEdit: editActivityAction,
           onDelete: (data) => deleteActivityReq(data.id),
           deleteConfirmText: `Do you want to delete "${row.original.title}"?`,

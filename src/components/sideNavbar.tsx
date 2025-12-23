@@ -1,7 +1,5 @@
-import React, { memo, useEffect, useRef, useState } from "react";
-
-import { Link, useLocation } from "react-router-dom";
-
+import { memo, useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FaChevronDown,
   FaChevronUp,
@@ -15,181 +13,108 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import { GiDuration } from "react-icons/gi";
-import { LuSquare } from "react-icons/lu";
 import { MdCategory } from "react-icons/md";
-
-import { IMAGES } from "../theme/images";
-
 import RoutesPath from "../routes/routesPath";
-
-interface SubMenuItem {
-  name: string;
-  route: string;
-  icon?: JSX.Element;
-  headerLabel?: string;
-}
-
-interface MenuItem {
-  name: string;
-  icon: JSX.Element;
-  route: string | null;
-  headerLabel?: string;
-  subMenu?: SubMenuItem[];
-}
+import { IMAGES } from "../theme/images";
 
 interface SideNavbarProps {
   isSidebarOpen: boolean;
-  toggleSidebar: (isOpen: boolean) => void;
-  activeMenu: string;
-  handleMenuClick: (menuName: string) => void;
+  toggleSidebar: (open?: boolean) => void;
+  currentPath: string;
 }
 
-const SideNavbar: React.FC<SideNavbarProps> = ({
+const SideNavbar = ({
   isSidebarOpen,
   toggleSidebar,
-  activeMenu,
-  handleMenuClick,
-}) => {
+  currentPath,
+}: SideNavbarProps) => {
+  const navigate = useNavigate();
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [expandedMenus, setExpandedMenus] = useState<Set<string>>(new Set());
-  const location = useLocation();
 
-  const menus: MenuItem[] = [
+  const menus = [
     {
       name: "Dashboard",
-      icon: <FaTachometerAlt size={16} />,
-      route: RoutesPath.adminDashboard,
+      icon: <FaTachometerAlt />,
+      route: RoutesPath.dashboard,
     },
-
     {
       name: "Manage Location",
-      icon: <FaGlobeAsia size={16} />,
-      route: null,
+      icon: <FaGlobeAsia />,
       subMenu: [
         {
-          name: "Destinations",
+          name: "Destination",
           route: RoutesPath.destination,
-          icon: <FaMapMarkedAlt size={14} />,
-          headerLabel: "Manage Location / Add Destination",
+          icon: <FaMapMarkedAlt />,
         },
-        {
-          name: "Activity",
-          route: RoutesPath.activity,
-          icon: <FaHiking size={14} />,
-        },
-        {
-          name: "Category",
-          route: RoutesPath.category,
-          icon: <MdCategory size={14} />,
-        },
+        { name: "Activity", route: RoutesPath.activity, icon: <FaHiking /> },
+        { name: "Category", route: RoutesPath.category, icon: <MdCategory /> },
       ],
     },
-
     {
       name: "Manage Package",
-      icon: <FaSuitcaseRolling size={16} />,
-      route: null,
+      icon: <FaSuitcaseRolling />,
       subMenu: [
         {
           name: "Package Duration",
           route: RoutesPath.packageDuration,
-          icon: <GiDuration size={14} />,
+          icon: <GiDuration />,
         },
         {
           name: "Package Type",
           route: RoutesPath.packageType,
-          icon: <FaLayerGroup size={14} />,
+          icon: <FaLayerGroup />,
         },
-        {
-          name: "Tags",
-          route: RoutesPath.tags,
-          icon: <FaTags size={14} />,
-        },
-        {
-          name: "Menu",
-          route: RoutesPath.topLevelMenu,
-          icon: <LuSquare size={14} />,
-        },
+        { name: "Tags", route: RoutesPath.tags, icon: <FaTags /> },
         {
           name: "Tour Package",
           route: RoutesPath.tourPackage,
-          icon: <FaSuitcaseRolling size={14} />,
+          icon: <FaSuitcaseRolling />,
+        },
+        {
+          name: "User Itinerary",
+          route: RoutesPath.userItinerary,
+          icon: <FaSuitcaseRolling />,
         },
       ],
     },
     {
       name: "About Us",
-      icon: <FaTachometerAlt size={16} />,
+      icon: <FaTachometerAlt />,
       route: RoutesPath.aboutEditor,
+    },
+    {
+      name: "Reviews",
+      icon: <FaTachometerAlt />,
+      route: RoutesPath.reviews,
+    },
+    {
+      name: "Blogs",
+      icon: <FaTachometerAlt />,
+      route: RoutesPath.blogs,
     },
   ];
 
-  // Close on outside click
+  // Auto expand based on route
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        sidebarRef.current &&
-        !sidebarRef.current.contains(event.target as Node)
-      ) {
-        toggleSidebar(false);
-      }
-    };
+    const openMenus = new Set<string>();
 
-    if (isSidebarOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isSidebarOpen]);
-
-  // Auto open submenu if route matches
-  useEffect(() => {
-    const newExpandedMenus = new Set(expandedMenus);
-
-    menus.forEach((item) => {
-      if (item.subMenu) {
-        const shouldExpand = item.subMenu.some((sub) =>
-          location.pathname.includes(sub.route)
-        );
-
-        if (shouldExpand) {
-          newExpandedMenus.add(item.name);
-          const activeSub = item.subMenu.find((sub) =>
-            location.pathname.includes(sub.route)
-          );
-          if (activeSub) {
-            handleMenuClick(activeSub.headerLabel || activeSub.name);
-          }
-        }
+    menus.forEach((menu) => {
+      if (menu.subMenu?.some((s) => currentPath.includes(s.route))) {
+        openMenus.add(menu.name);
       }
     });
 
-    setExpandedMenus(newExpandedMenus);
-  }, [location.pathname]);
-
-  const toggleMenu = (name: string) => {
-    setExpandedMenus((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(name)) {
-        newSet.delete(name);
-      } else {
-        newSet.add(name);
-      }
-      return newSet;
-    });
-  };
-
-  const isMenuExpanded = (name: string) => {
-    return expandedMenus.has(name);
-  };
+    setExpandedMenus(openMenus);
+  }, [currentPath]);
 
   return (
     <aside
       ref={sidebarRef}
-      className={`fixed md:static z-50 inset-y-0 left-0 w-64 bg-primary text-white transform ${
-        isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-      } transition-transform duration-200 ease-in-out md:translate-x-0 border-gray-500`}
+      className={`fixed md:static z-40 w-64 h-full bg-primary text-white transition-transform ${
+        isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+      }`}
     >
-      {/* LOGO */}
       <div className="flex items-center justify-between px-4 py-4 border-b border-[#1f4d5a] relative">
         <img
           src={IMAGES.logo}
@@ -205,48 +130,52 @@ const SideNavbar: React.FC<SideNavbarProps> = ({
         </button>
       </div>
 
-      {/* MENU */}
-      <nav className="mt-2">
-        {menus.map((item) => (
-          <div key={item.name}>
-            {/* MAIN MENU ROW */}
+      <nav>
+        {menus.map((menu) => (
+          <div key={menu.name}>
             <div
-              onClick={() =>
-                item.subMenu
-                  ? toggleMenu(item.name)
-                  : item.route && (window.location.href = item.route)
-              }
-              className="flex items-center justify-between py-3 px-5 cursor-pointer hover:bg-[#064b5f]"
+              className="flex items-center justify-between px-5 py-3 cursor-pointer hover:bg-gray-700"
+              onClick={() => {
+                if (menu.subMenu) {
+                  setExpandedMenus((prev) =>
+                    prev.has(menu.name)
+                      ? new Set([...prev].filter((m) => m !== menu.name))
+                      : new Set(prev).add(menu.name)
+                  );
+                } else if (menu.route) {
+                  navigate(menu.route);
+                  toggleSidebar(false);
+                }
+              }}
             >
-              <div className="flex items-center gap-3">
-                {item.icon}
-                <span className="text-[15px]">{item.name}</span>
+              <div className="flex gap-3 items-center">
+                {menu.icon}
+                <span>{menu.name}</span>
               </div>
-              {item.subMenu &&
-                (isMenuExpanded(item.name) ? (
-                  <FaChevronUp size={12} />
+              {menu.subMenu &&
+                (expandedMenus.has(menu.name) ? (
+                  <FaChevronUp />
                 ) : (
-                  <FaChevronDown size={12} />
+                  <FaChevronDown />
                 ))}
             </div>
 
-            {/* SUB MENU */}
-            {isMenuExpanded(item.name) &&
-              item.subMenu?.map((sub) => (
+            {expandedMenus.has(menu.name) &&
+              menu.subMenu?.map((sub) => (
                 <Link
-                  key={sub.name}
+                  key={sub.route}
                   to={sub.route}
-                  onClick={() => {
-                    handleMenuClick(sub.headerLabel || sub.name);
-                    toggleSidebar(false);
-                  }}
-                  className={`flex items-center gap-3 py-3 pl-10 pr-4 border-l-4 text-sm ${
-                    activeMenu === sub.name
-                      ? "border-orange-400 text-orange-400 bg-[#0a3c4a]"
-                      : "border-transparent text-gray-200 hover:border-orange-300 hover:text-orange-300 hover:bg-[#064b5f]"
+                  onClick={() => toggleSidebar(false)}
+                  className={`block pl-10 py-2 text-sm ${
+                    currentPath.includes(sub.route)
+                      ? "bg-gray-800 text-orange-400"
+                      : "hover:bg-gray-700"
                   }`}
                 >
-                  {sub.icon} {sub.name}
+                  <span className="flex items-center gap-2">
+                    {sub.icon}
+                    {sub.name}
+                  </span>
                 </Link>
               ))}
           </div>

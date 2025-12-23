@@ -1,14 +1,16 @@
-import { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import * as Page from "../pages";
 import { AdminLayout } from "../pages/layout";
 import RoutesPath from "./routesPath";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+
   return null;
 };
 
@@ -16,10 +18,14 @@ const AppRoutes = () => {
   return (
     <BrowserRouter>
       <ScrollToTop />
+
       <Routes>
         <Route path={RoutesPath.signin} element={<Page.SigninPage />} />
+
         <Route path={RoutesPath.admin} element={<AdminLayout />}>
           <Route index element={<Page.Dashboard />} />
+          <Route path={RoutesPath.dashboard} element={<Page.Dashboard />} />
+
           <Route
             path={RoutesPath.destination}
             element={<Page.DestinationLayout />}
@@ -43,13 +49,13 @@ const AppRoutes = () => {
             path={RoutesPath.topLevelMenu}
             element={<Page.TopLevelMenuLayout />}
           />
+          <Route
+            path={RoutesPath.userItinerary}
+            element={<Page.UserItineraryLayout />}
+          />
           <Route path={RoutesPath.aboutEditor} element={<Page.AboutEditor />} />
-
-          {/* -------------Products---------------------- */}
-          {/* <Route path={RoutesPath.approvedProducts}>
-            <Route index element={<Page.ApprovedProList />} />
-            <Route path=":id" element={<Page.ProductDetails />} />
-          </Route> */}
+          <Route path={RoutesPath.reviews} element={<Page.ReviewLayout />} />
+          <Route path={RoutesPath.blogs} element={<Page.BlogLayout />} />
         </Route>
       </Routes>
     </BrowserRouter>

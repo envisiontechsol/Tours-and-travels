@@ -4,29 +4,38 @@ import PageTabBar from "../../components/pageTabBar";
 import { useEditMgmtStore } from "../../store/editMgmtStore";
 import TableList from "./tableView";
 import EditForm from "./editForm";
+import ViewDetails from "./viewDetails";
 
 const CategoryLayout = () => {
-  const [tabIndex, setTabIndex] = useState<number>(1);
+  const [tabIndex, setTabIndex] = useState<number>(0);
+
   const isEditing = useEditMgmtStore((s) => !!s.editSlotCategoryData);
+  const isViewing = useEditMgmtStore((s) => !!s.viewSlotCategoryData);
+
+  const tabs = [
+    ...(isEditing ? ["Edit"] : []),
+    "View",
+    ...(isViewing ? ["Details"] : []),
+  ];
 
   useEffect(() => {
     if (isEditing) {
-      setTabIndex(1);
+      setTabIndex(tabs.indexOf("Edit"));
+    } else if (isViewing) {
+      setTabIndex(tabs.indexOf("Details"));
     } else {
-      setTabIndex(0);
+      setTabIndex(tabs.indexOf("View"));
     }
-  }, [isEditing]);
+  }, [isEditing, isViewing]);
 
   return (
-    <div className="w-full p-6  relative  flex flex-col h-full">
-      <PageTabBar
-        tabs={["View", ...(isEditing ? ["Edit"] : [])]}
-        activeIndex={tabIndex}
-        onChange={setTabIndex}
-      />
-      <div className="overflow-y-auto relative flex flex-1 flex-col py-8 mt-4">
-        {tabIndex === 1 && isEditing && <EditForm />}
-        {tabIndex === 0 && <TableList />}
+    <div className="w-full p-6 relative flex flex-col h-full">
+      <PageTabBar tabs={tabs} activeIndex={tabIndex} onChange={setTabIndex} />
+
+      <div className="overflow-y-auto flex flex-1 flex-col py-8 mt-4">
+        {tabs[tabIndex] === "Edit" && <EditForm />}
+        {tabs[tabIndex] === "View" && <TableList />}
+        {tabs[tabIndex] === "Details" && <ViewDetails />}
       </div>
     </div>
   );

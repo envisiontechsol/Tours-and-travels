@@ -2,7 +2,10 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Pencil } from "lucide-react";
 import { PackageType } from "../../types/packageType";
-import { editPackageTypeAction } from "../../store/editMgmtStore";
+import {
+  editPackageTypeAction,
+  viewPackageTypeAction,
+} from "../../store/editMgmtStore";
 import { ActionButtons } from "../../components/tables/tableButtons/actionButtons";
 import { deletePackageTypesReq } from "../../services/api/packages/packageTypeApi";
 
@@ -26,6 +29,8 @@ export const placeColumns: ColumnDef<PackageType>[] = [
         config={{
           edit: true,
           delete: true,
+          view: true,
+          onView: viewPackageTypeAction,
           onEdit: editPackageTypeAction,
           onDelete: (data) => deletePackageTypesReq(data.id),
           deleteConfirmText: `Do you want to delete "${row.original.name}"?`,

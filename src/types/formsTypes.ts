@@ -25,3 +25,10 @@ export interface FormFieldConfigType {
   previewUrl?: string;
   disabled?: boolean;
 }
+
+export type ViewFieldConfigType = {
+  label: string;
+  key: string;
+  type?: "text" | "boolean" | "image" | "date" | "number";
+  render?: (data?: any) => any;
+};

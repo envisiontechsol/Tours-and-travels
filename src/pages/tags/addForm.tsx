@@ -30,7 +30,7 @@ const AddTagForm: React.FC = () => {
 
   const getTopLevelTagsList = async () => {
     try {
-      const res = await fetchTopLevelMenusReq();
+      const res = await fetchTopLevelMenusReq(1, 100);
       const tagsOpts = res?.data?.map((i: TopLevelTagResType) => ({
         label: i.name,
         value: i.id,

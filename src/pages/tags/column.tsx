@@ -2,7 +2,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Pencil } from "lucide-react";
 import { TagResType } from "../../types/packageType";
-import { editTagAction } from "../../store/editMgmtStore";
+import { editTagAction, viewTagAction } from "../../store/editMgmtStore";
 import { ActionButtons } from "../../components/tables/tableButtons/actionButtons";
 import { deleteTagReq } from "../../services/api/packages/tagsApi";
 
@@ -26,6 +26,8 @@ export const tagsColumns: ColumnDef<TagResType>[] = [
         config={{
           edit: true,
           delete: false,
+          view: true,
+          onView: viewTagAction,
           onEdit: editTagAction,
           onDelete: (data) => deleteTagReq(data.id),
           deleteConfirmText: `Do you want to delete "${row.original.name}"?`,

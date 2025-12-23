@@ -2,7 +2,10 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Pencil } from "lucide-react";
 import { PackageDurationResType } from "../../types/packageType";
-import { editPackageDurationAction } from "../../store/editMgmtStore";
+import {
+  editPackageDurationAction,
+  viewPackageDurationAction,
+} from "../../store/editMgmtStore";
 import { deletePackageDurationReq } from "../../services/api/packages/packageDurationApi";
 import { ActionButtons } from "../../components/tables/tableButtons/actionButtons";
 
@@ -34,6 +37,8 @@ const packageDurationColumns: ColumnDef<PackageDurationResType>[] = [
         config={{
           edit: true,
           delete: true,
+          view: true,
+          onView: viewPackageDurationAction,
           onEdit: editPackageDurationAction,
           onDelete: (data) => deletePackageDurationReq(data.id),
           deleteConfirmText: `Do you want to delete "${row.original.name}"?`,

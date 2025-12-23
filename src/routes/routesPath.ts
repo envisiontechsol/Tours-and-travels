@@ -1,7 +1,8 @@
 const RoutesPath = {
   signin: "/",
   admin: "/admin",
-  adminDashboard: "dashboard",
+
+  dashboard: "dashboard",
   destination: "destination",
   activity: "activity",
   packageDuration: "package-duration",
@@ -10,7 +11,10 @@ const RoutesPath = {
   tourPackage: "tour-package",
   category: "category",
   topLevelMenu: "menu",
+  userItinerary: "user-itinerary",
   aboutEditor: "about-editor",
+  reviews: "reviews",
+  blogs: "blogs",
 };
 
 export default RoutesPath;

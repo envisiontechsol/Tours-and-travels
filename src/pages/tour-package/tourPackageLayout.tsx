@@ -4,23 +4,31 @@ import TableList from "./tableView";
 import AddTourPackageForm from "./addForm";
 import { useEditMgmtStore } from "../../store/editMgmtStore";
 import EditTourPackageForm from "./editForm";
+import ViewDetails from "./viewDetails";
 
 const TourPackageLayout = () => {
   const [tabIndex, setTabIndex] = useState<number>(0);
   const isEditing = useEditMgmtStore((s) => !!s.editTourPackageData);
 
-  useEffect(() => {
-    if (isEditing) {
-      setTabIndex(0);
-    }
-  }, [isEditing]);
+  const isViewing = useEditMgmtStore((s) => !!s.viewTourPackageData);
 
+  useEffect(() => {
+    if (isEditing) return setTabIndex(0);
+    if (isViewing) return setTabIndex(2);
+    setTabIndex(1);
+  }, [isEditing, isViewing]);
+
+  const tabs = [
+    ...(isEditing ? ["Edit"] : ["Add"]),
+    "View",
+    ...(isViewing ? ["Details"] : []),
+  ];
   return (
-    <div className="w-full p-6  relative  flex flex-col h-full">
+    <div className="w-full p-6 relative flex flex-col h-full">
       <PageTabBar
-        tabs={[...(isEditing ? ["Edit"] : ["Add"]), "View"]}
+        tabs={tabs}
         activeIndex={tabIndex}
-        onChange={setTabIndex}
+        onChange={(idx) => setTabIndex(idx)}
       />
       <div className="overflow-y-auto relative flex flex-1 flex-col py-8 mt-4">
         {tabIndex === 0 ? (
@@ -31,6 +39,7 @@ const TourPackageLayout = () => {
           )
         ) : null}
         {tabIndex === 1 && <TableList />}
+        {tabIndex === 2 && isViewing && <ViewDetails />}
       </div>
     </div>
   );
