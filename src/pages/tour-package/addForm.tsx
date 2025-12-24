@@ -219,11 +219,11 @@ const AddTourPackageForm: React.FC = () => {
       }
 
       // IMAGE TAGS
-      formData.append("bannerAlt", data.bannerAlt);
-      formData.append("tourAlt", data.tourAlt);
-      formData.append("image1Alt", data.image1Alt);
-      formData.append("image2Alt", data.image2Alt);
-      formData.append("image3Alt", data.image3Alt);
+      formData.append("bannerAlt", data.bannerAlt || "");
+      formData.append("tourAlt", data.tourAlt || "");
+      formData.append("image1Alt", data.image1Alt || "");
+      formData.append("image2Alt", data.image2Alt || "");
+      formData.append("image3Alt", data.image3Alt || "");
 
       // FILES
       if (data.bannerImage?.length > 0) {

@@ -13,14 +13,14 @@ const TopLevelMenuLayout = () => {
   const isViewing = useEditMgmtStore((s) => !!s.viewTopLeveleMenuData);
 
   useEffect(() => {
-    if (isEditing) return setTabIndex(0);
+    if (isEditing) return setTabIndex(1);
     if (isViewing) return setTabIndex(2);
-    setTabIndex(1);
+    setTabIndex(0);
   }, [isEditing, isViewing]);
 
   const tabs = [
-    ...(isEditing ? ["Edit"] : ["Add"]),
     "View",
+    ...(isEditing ? ["Edit"] : ["Add"]),
     ...(isViewing ? ["Details"] : []),
   ];
   return (
@@ -31,8 +31,8 @@ const TopLevelMenuLayout = () => {
         onChange={(idx) => setTabIndex(idx)}
       />
       <div className="overflow-y-auto relative flex flex-1 flex-col py-8 mt-4">
-        {tabIndex === 0 ? isEditing ? <EditForm /> : <AddTLMenuForm /> : null}
-        {tabIndex === 1 && <TableView />}
+        {tabIndex === 1 ? isEditing ? <EditForm /> : <AddTLMenuForm /> : null}
+        {tabIndex === 0 && <TableView />}
         {tabIndex === 2 && isViewing && <ViewDetails />}
       </div>
     </div>

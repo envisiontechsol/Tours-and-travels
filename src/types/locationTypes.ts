@@ -8,6 +8,7 @@ export interface DestinationResType {
   createdById: string;
   bannerImageUrl: string;
   bannerImageTag: string;
+  top10Rank: number;
   createdAt: string;
   updatedAt: string;
 }

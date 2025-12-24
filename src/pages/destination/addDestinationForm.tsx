@@ -55,6 +55,7 @@ const AddDestinationForm: React.FC = () => {
       formData.append("about", data.about);
       formData.append("createdById", user?.id || "NA");
       formData.append("bannerImageTag", data?.bannerImagetage || "");
+      formData.append("top10Rank", String(data?.top10Rank) || "");
 
       if (data.bannerImage && data.bannerImage.length > 0) {
         formData.append("bannerImage", data.bannerImage[0]);

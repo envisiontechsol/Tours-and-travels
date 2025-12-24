@@ -13,14 +13,14 @@ const ActivityLayout = () => {
   const isViewing = useEditMgmtStore((s) => !!s.viewActivityData);
 
   useEffect(() => {
-    if (isEditing) return setTabIndex(0);
+    if (isEditing) return setTabIndex(1);
     if (isViewing) return setTabIndex(2);
-    setTabIndex(1);
+    setTabIndex(0);
   }, [isEditing, isViewing]);
 
   const tabs = [
-    ...(isEditing ? ["Edit"] : ["Add"]),
     "View",
+    ...(isEditing ? ["Edit"] : ["Add"]),
     ...(isViewing ? ["Details"] : []),
   ];
   return (
@@ -32,10 +32,10 @@ const ActivityLayout = () => {
       />
 
       <div className="overflow-y-auto relative flex flex-1 flex-col py-8 mt-4">
-        {tabIndex === 0 &&
+        {tabIndex === 1 &&
           (isEditing ? <EditActivityForm /> : <AddActivityForm />)}
 
-        {tabIndex === 1 && <TableList />}
+        {tabIndex === 0 && <TableList />}
 
         {tabIndex === 2 && isViewing && <ViewDetails />}
       </div>

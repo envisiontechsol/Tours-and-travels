@@ -172,7 +172,7 @@ const tourPackageColumns: ColumnDef<TourPackageResType>[] = [
         row={row.original}
         config={{
           edit: true,
-          delete: false,
+          delete: true,
           view: true,
           onView: viewTourPackageAction,
           onEdit: editTourPackageAction,

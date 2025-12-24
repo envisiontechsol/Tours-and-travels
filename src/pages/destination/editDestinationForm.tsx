@@ -63,6 +63,7 @@ const EditDestinationForm = () => {
         "bannerImageTag",
         data?.bannerImagetage?.replace(" ", "").trim() || ""
       );
+      formData.append("top10Rank", String(data?.top10Rank) || "");
 
       if (data.bannerImage && data.bannerImage.length > 0) {
         formData.append("bannerImage", data.bannerImage[0]);
@@ -86,6 +87,7 @@ const EditDestinationForm = () => {
         name: editData?.name,
         bannerImagetage: editData?.bannerImageTag,
         bannerImage: undefined,
+        top10Rank: editData.top10Rank,
       });
     }
   }, [editData]);

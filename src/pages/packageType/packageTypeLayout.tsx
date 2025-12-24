@@ -12,14 +12,14 @@ const PackageTypeLayout = () => {
   const isViewing = useEditMgmtStore((s) => !!s.viewPackageTypeData);
 
   useEffect(() => {
-    if (isEditing) return setTabIndex(0);
+    if (isEditing) return setTabIndex(1);
     if (isViewing) return setTabIndex(2);
-    setTabIndex(1);
+    setTabIndex(0);
   }, [isEditing, isViewing]);
 
   const tabs = [
-    ...(isEditing ? ["Edit"] : ["Add"]),
     "View",
+    ...(isEditing ? ["Edit"] : ["Add"]),
     ...(isViewing ? ["Details"] : []),
   ];
   return (
@@ -31,14 +31,14 @@ const PackageTypeLayout = () => {
       />
 
       <div className="overflow-y-auto relative flex flex-1 flex-col py-8 mt-4">
-        {tabIndex === 0 ? (
+        {tabIndex === 1 ? (
           isEditing ? (
             <EditPackageTypeForm />
           ) : (
             <AddPackageTypeForm />
           )
         ) : null}
-        {tabIndex === 1 && <PackageTypeTable />}
+        {tabIndex === 0 && <PackageTypeTable />}
         {tabIndex === 2 && isViewing && <ViewDetails />}
       </div>
     </div>

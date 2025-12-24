@@ -34,6 +34,13 @@ export const getDestinationFormFields = (
     placeholder: "Enter tag",
     gridCols: "md:col-span-1",
   },
+  {
+    name: "top10Rank",
+    label: "Order By",
+    type: "number",
+    placeholder: "Enter number",
+    gridCols: "md:col-span-1",
+  },
 ];
 
 export const getDestinationAboutField = (): FormFieldConfigType => ({

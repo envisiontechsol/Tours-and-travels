@@ -3,6 +3,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import { ActionButtons } from "../../components/tables/tableButtons/actionButtons";
 import { UserItinerayListResType } from "../../types/user-itinerary-types";
+import { viewUserItineraryAction } from "../../store/editMgmtStore";
 
 export const placeColumns: ColumnDef<UserItinerayListResType>[] = [
   {
@@ -56,7 +57,7 @@ export const placeColumns: ColumnDef<UserItinerayListResType>[] = [
           edit: false,
           delete: false,
           view: true,
-          onView: () => {},
+          onView: viewUserItineraryAction,
         }}
       />
     ),

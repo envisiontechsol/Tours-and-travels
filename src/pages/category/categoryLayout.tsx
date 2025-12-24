@@ -13,8 +13,8 @@ const CategoryLayout = () => {
   const isViewing = useEditMgmtStore((s) => !!s.viewSlotCategoryData);
 
   const tabs = [
-    ...(isEditing ? ["Edit"] : []),
     "View",
+    ...(isEditing ? ["Edit"] : []),
     ...(isViewing ? ["Details"] : []),
   ];
 
@@ -33,8 +33,8 @@ const CategoryLayout = () => {
       <PageTabBar tabs={tabs} activeIndex={tabIndex} onChange={setTabIndex} />
 
       <div className="overflow-y-auto flex flex-1 flex-col py-8 mt-4">
-        {tabs[tabIndex] === "Edit" && <EditForm />}
         {tabs[tabIndex] === "View" && <TableList />}
+        {tabs[tabIndex] === "Edit" && <EditForm />}
         {tabs[tabIndex] === "Details" && <ViewDetails />}
       </div>
     </div>

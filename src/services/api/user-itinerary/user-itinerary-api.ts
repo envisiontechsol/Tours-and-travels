@@ -24,3 +24,22 @@ export const fetchUserItineraries = async (
     throw { error: true, data: "", message: "", errorMsg: error };
   }
 };
+
+export const fetchUserItineraryByIdReq = async (body: {
+  packageId: string;
+  userId: string;
+}) => {
+  const packageIdIs = body?.packageId;
+  const userIdIs = body?.userId;
+  try {
+    const url = `/user-itineraries/${packageIdIs}/plan?userId=${userIdIs}`;
+    const res = await axiosInstance.get(url);
+    const _data = res?.data?.data || null;
+    const _msg = res?.data?.message;
+
+    return { error: false, data: _data, message: _msg, errorMsg: "" };
+  } catch (err) {
+    const error = errorHandler(err, "fetchUserItineraryByIdReq");
+    throw { error: true, data: "", message: "", errorMsg: error };
+  }
+};

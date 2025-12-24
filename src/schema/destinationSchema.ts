@@ -1,20 +1,24 @@
 import { z } from "zod";
+import { imageSizeRefine } from "../utils/functions/zodImageRefine";
 
 export const destinationSchema = z
   .object({
-    name: z.string().min(2, "Name must be at least 2 characters"),
+    name: z.string().min(2),
     isActive: z.boolean().optional(),
-    about: z.string().min(5, "Write a short description"),
-    bannerImage: z.any(),
-    bannerImagetage: z.string(),
+    about: z.string().min(5),
+
+    bannerImage: z.any().optional(),
+    bannerImagetage: z.string().optional(),
+
+    top10Rank: z.number().min(1),
+  })
+  .refine(imageSizeRefine("bannerImage", 1920, 800), {
+    message: "Banner image must be exactly 1920 × 800 pixels",
+    path: ["bannerImage"],
   })
   .refine(
-    (data) => {
-      if (data?.bannerImage && data.bannerImage.length > 0) {
-        return data?.bannerImagetage && data.bannerImagetage.length > 0;
-      }
-      return true;
-    },
+    (data) =>
+      data?.bannerImage?.length ? !!data.bannerImagetage?.trim() : true,
     {
       message: "Banner tag is required when banner image is provided",
       path: ["bannerImagetage"],

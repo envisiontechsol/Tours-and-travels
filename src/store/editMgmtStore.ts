@@ -13,6 +13,7 @@ import { SlotsCategoryResType } from "../types/slotsTypes";
 import { TopLevelMenuResType } from "../types/topLevelMenuTypes";
 import { BlogPostResType } from "../types/blogsTypes";
 import { ReviewResType } from "../types/reviewsTypes";
+import { UserItinerayListResType } from "../types/user-itinerary-types";
 
 /* -------------------- STORE INTERFACE -------------------- */
 interface EditMgmtStore {
@@ -39,6 +40,7 @@ interface EditMgmtStore {
   viewTopLeveleMenuData: TopLevelMenuResType | null;
   viewBlogData: BlogPostResType | null;
   viewReviewData: ReviewResType | null;
+  viewUserItineraryData: UserItinerayListResType | null;
 
   /* -------- EDIT SETTERS -------- */
   setDestination: (v: DestinationResType | null) => void;
@@ -63,6 +65,7 @@ interface EditMgmtStore {
   setViewTopLevelMenu: (v: TopLevelMenuResType | null) => void;
   setViewBlog: (v: BlogPostResType | null) => void;
   setViewReview: (v: ReviewResType | null) => void;
+  setViewUserItinerary: (v: UserItinerayListResType | null) => void;
 
   clearAllEdit: () => void;
   clearAllView: () => void;
@@ -93,6 +96,7 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
   viewTopLeveleMenuData: null,
   viewBlogData: null,
   viewReviewData: null,
+  viewUserItineraryData: null,
 
   /* -------- EDIT SETTERS -------- */
   setDestination: (v) => set({ editiDestinationData: v }),
@@ -117,6 +121,7 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
   setViewTopLevelMenu: (v) => set({ viewTopLeveleMenuData: v }),
   setViewBlog: (v) => set({ viewBlogData: v }),
   setViewReview: (v) => set({ viewReviewData: v }),
+  setViewUserItinerary: (v) => set({ viewUserItineraryData: v }),
 
   /* -------- CLEAR -------- */
   clearAllEdit: () =>
@@ -145,6 +150,7 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
       viewTopLeveleMenuData: null,
       viewBlogData: null,
       viewReviewData: null,
+      viewUserItineraryData: null,
     }),
 }));
 
@@ -249,6 +255,11 @@ export const viewReviewAction = (v: ReviewResType) =>
   useEditMgmtStore.getState().setViewReview(v);
 export const closeReviewViewAction = () =>
   useEditMgmtStore.getState().setViewReview(null);
+
+export const viewUserItineraryAction = (v: UserItinerayListResType) =>
+  useEditMgmtStore.getState().setViewUserItinerary(v);
+export const closeUserItineraryViewAction = () =>
+  useEditMgmtStore.getState().setViewUserItinerary(null);
 
 /* -------------------- GLOBAL CLOSE -------------------- */
 export const closeAllEditAction = () =>
