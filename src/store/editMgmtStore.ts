@@ -14,6 +14,8 @@ import { TopLevelMenuResType } from "../types/topLevelMenuTypes";
 import { BlogPostResType } from "../types/blogsTypes";
 import { ReviewResType } from "../types/reviewsTypes";
 import { UserItinerayListResType } from "../types/user-itinerary-types";
+import { UserResWithPermissionType } from "../types/usersTypes";
+import { VehicleResType } from "../types/vechicleTypes";
 
 /* -------------------- STORE INTERFACE -------------------- */
 interface EditMgmtStore {
@@ -28,6 +30,8 @@ interface EditMgmtStore {
   editTopLeveleMenuData: TopLevelMenuResType | null;
   editBlogData: BlogPostResType | null;
   editReviewData: ReviewResType | null;
+  editUserPermission: UserResWithPermissionType | null;
+  editVehicleData: VehicleResType | null;
 
   /* -------- VIEW DATA -------- */
   viewDestinationData: DestinationResType | null;
@@ -41,6 +45,8 @@ interface EditMgmtStore {
   viewBlogData: BlogPostResType | null;
   viewReviewData: ReviewResType | null;
   viewUserItineraryData: UserItinerayListResType | null;
+  viewUserPermission: UserResWithPermissionType | null;
+  viewVehicleData: VehicleResType | null;
 
   /* -------- EDIT SETTERS -------- */
   setDestination: (v: DestinationResType | null) => void;
@@ -53,6 +59,8 @@ interface EditMgmtStore {
   setTopLevelMenu: (v: TopLevelMenuResType | null) => void;
   setBlog: (v: BlogPostResType | null) => void;
   setReview: (v: ReviewResType | null) => void;
+  setUserPermission: (v: UserResWithPermissionType | null) => void;
+  setVehicle: (v: VehicleResType | null) => void;
 
   /* -------- VIEW SETTERS -------- */
   setViewDestination: (v: DestinationResType | null) => void;
@@ -66,6 +74,8 @@ interface EditMgmtStore {
   setViewBlog: (v: BlogPostResType | null) => void;
   setViewReview: (v: ReviewResType | null) => void;
   setViewUserItinerary: (v: UserItinerayListResType | null) => void;
+  setViewUserPermission: (v: UserResWithPermissionType | null) => void;
+  setViewVehicle: (v: VehicleResType | null) => void;
 
   clearAllEdit: () => void;
   clearAllView: () => void;
@@ -84,7 +94,8 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
   editTopLeveleMenuData: null,
   editBlogData: null,
   editReviewData: null,
-
+  editUserPermission: null,
+  editVehicleData: null,
   /* -------- VIEW STATE -------- */
   viewDestinationData: null,
   viewActivityData: null,
@@ -97,6 +108,8 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
   viewBlogData: null,
   viewReviewData: null,
   viewUserItineraryData: null,
+  viewUserPermission: null,
+  viewVehicleData: null,
 
   /* -------- EDIT SETTERS -------- */
   setDestination: (v) => set({ editiDestinationData: v }),
@@ -109,6 +122,8 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
   setTopLevelMenu: (v) => set({ editTopLeveleMenuData: v }),
   setBlog: (v) => set({ editBlogData: v }),
   setReview: (v) => set({ editReviewData: v }),
+  setUserPermission: (v) => set({ editUserPermission: v }),
+  setVehicle: (v) => set({ editVehicleData: v }),
 
   /* -------- VIEW SETTERS -------- */
   setViewDestination: (v) => set({ viewDestinationData: v }),
@@ -122,6 +137,8 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
   setViewBlog: (v) => set({ viewBlogData: v }),
   setViewReview: (v) => set({ viewReviewData: v }),
   setViewUserItinerary: (v) => set({ viewUserItineraryData: v }),
+  setViewUserPermission: (v) => set({ viewUserPermission: v }),
+  setViewVehicle: (v) => set({ viewVehicleData: v }),
 
   /* -------- CLEAR -------- */
   clearAllEdit: () =>
@@ -136,6 +153,8 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
       editTopLeveleMenuData: null,
       editBlogData: null,
       editReviewData: null,
+      editUserPermission: null,
+      editVehicleData: null,
     }),
 
   clearAllView: () =>
@@ -151,6 +170,8 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
       viewBlogData: null,
       viewReviewData: null,
       viewUserItineraryData: null,
+      viewUserPermission: null,
+      viewVehicleData: null,
     }),
 }));
 
@@ -204,6 +225,16 @@ export const editReviewAction = (v: ReviewResType) =>
   useEditMgmtStore.getState().setReview(v);
 export const closeReviewEditAction = () =>
   useEditMgmtStore.getState().setReview(null);
+
+export const editUserPermissionAction = (v: UserResWithPermissionType) =>
+  useEditMgmtStore.getState().setUserPermission(v);
+export const closeEditUserPermissionAction = () =>
+  useEditMgmtStore.getState().setUserPermission(null);
+
+export const editVehicleAction = (v: VehicleResType) =>
+  useEditMgmtStore.getState().setVehicle(v);
+export const closeVehicleEditAction = () =>
+  useEditMgmtStore.getState().setVehicle(null);
 
 /* -------------------- VIEW ACTIONS -------------------- */
 export const viewDestinationAction = (v: DestinationResType) =>
@@ -260,6 +291,16 @@ export const viewUserItineraryAction = (v: UserItinerayListResType) =>
   useEditMgmtStore.getState().setViewUserItinerary(v);
 export const closeUserItineraryViewAction = () =>
   useEditMgmtStore.getState().setViewUserItinerary(null);
+
+export const viewUserPermissionAction = (v: UserResWithPermissionType) =>
+  useEditMgmtStore.getState().setViewUserPermission(v);
+export const closeViewUserPermissionAction = () =>
+  useEditMgmtStore.getState().setViewUserPermission(null);
+
+export const viewVehicleAction = (v: VehicleResType) =>
+  useEditMgmtStore.getState().setViewVehicle(v);
+export const closeVehicleViewAction = () =>
+  useEditMgmtStore.getState().setViewVehicle(null);
 
 /* -------------------- GLOBAL CLOSE -------------------- */
 export const closeAllEditAction = () =>

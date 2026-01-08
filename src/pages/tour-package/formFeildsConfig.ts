@@ -156,6 +156,11 @@ export const getFormFieldsConfig2 = (
     label: "Image 3 Tag",
     type: "text",
   },
+  {
+    name: "hotelRatingText",
+    label: "Hotel Rating",
+    type: "text",
+  },
 
   {
     name: "isActive",
@@ -167,11 +172,54 @@ export const getFormFieldsConfig2 = (
     label: "Selected",
     type: "checkbox",
   },
+
+  {
+    name: "activitiesIncluded",
+    label: "Activities Included",
+    type: "checkbox",
+  },
+  {
+    name: "hotels3Star",
+    label: "Hotels 3 Star",
+    type: "checkbox",
+  },
+  {
+    name: "concierge24x7",
+    label: "Concierge (24x7)",
+    type: "checkbox",
+  },
   {
     name: "about",
     label: "About Package",
     type: "textarea",
     rows: 4,
+    gridCols: "md:col-span-2",
+  },
+];
+
+export const getMetaFields = (): FormFieldConfigType[] => [
+  {
+    name: "metaTitle",
+    label: "Meta Title",
+    type: "text",
+    placeholder: "Enter meta title",
+    required: true,
+    gridCols: "md:col-span-1",
+  },
+  {
+    name: "metaKeywords",
+    label: "Meta Keywords",
+    type: "text",
+    placeholder: "Enter meta keywords (comma separated)",
+    required: true,
+    gridCols: "md:col-span-1",
+  },
+  {
+    name: "metaDescription",
+    label: "Meta Description",
+    type: "textarea",
+    placeholder: "Enter meta description",
+    required: true,
     gridCols: "md:col-span-2",
   },
 ];

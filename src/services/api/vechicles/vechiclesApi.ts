@@ -1,16 +1,17 @@
-import { DestinationReqBodyType } from "../../../types/locationTypes";
 import axiosInstance from "../config";
 import { errorHandler } from "../errorHandler";
 
-export const fetchDestinationReq = async (
+/* -------------------- FETCH VEHICLES -------------------- */
+export const fetchVehicleReq = async (
   page: number | string = 1,
   size: number | string = 20
 ) => {
   try {
-    const url = `/destinations?page=${page}&pageSize=${size}`;
+    const url = `/vehicles`; //?page=${page}&pageSize=${size}
     const res = await axiosInstance.get(url);
-    const _data = res?.data?.data;
-    const _config = res?.data || null;
+
+    const _data = res?.data?.data?.rows;
+    const _config = res?.data?.data || null;
     const _msg = res?.data?.message;
 
     return {
@@ -21,55 +22,63 @@ export const fetchDestinationReq = async (
       errorMsg: "",
     };
   } catch (err) {
-    const error = errorHandler(err, "fetchDestinationReq");
+    const error = errorHandler(err, "fetchVehicleReq");
     throw { error: true, data: "", message: "", errorMsg: error };
   }
 };
 
-export const addDestinationReq = async (body: any) => {
+/* -------------------- ADD VEHICLE -------------------- */
+export const addVehicleReq = async (body: any) => {
   try {
-    const url = `/destinations`;
+    const url = `/vehicles`;
     const res = await axiosInstance.post(url, body, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
+
     const _data = res?.data;
     const _msg = res?.data?.message;
 
     return { error: false, data: _data, message: _msg, errorMsg: "" };
   } catch (err) {
-    const error = errorHandler(err, "addDestinationReq");
+    const error = errorHandler(err, "addVehicleReq");
     throw { error: true, data: "", message: "", errorMsg: error };
   }
 };
-export const updateDestinationReq = async (id: string, body: any) => {
+
+/* -------------------- UPDATE VEHICLE -------------------- */
+export const updateVehicleReq = async (id: string, body: any) => {
   try {
-    const url = `/destinations/${id}`;
+    const url = `/vehicles/${id}`;
     const res = await axiosInstance.patch(url, body, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
+
     const _data = res?.data;
     const _msg = res?.data?.message || "Updated successfully";
 
     return { error: false, data: _data, message: _msg, errorMsg: "" };
   } catch (err) {
-    const error = errorHandler(err, "updateDestinationReq");
+    const error = errorHandler(err, "updateVehicleReq");
     throw { error: true, data: "", message: "", errorMsg: error };
   }
 };
-export const deleteDestinationReq = async (id: string) => {
+
+/* -------------------- DELETE VEHICLE -------------------- */
+export const deleteVehicleReq = async (id: string) => {
   try {
-    const url = `/destinations/${id}`;
+    const url = `/vehicles/${id}`;
     const res = await axiosInstance.delete(url);
+
     const _data = res?.data;
     const _msg = res?.data?.message || "Deleted successfully";
 
     return { error: false, data: _data, message: _msg, errorMsg: "" };
   } catch (err) {
-    const error = errorHandler(err, "deleteDestinationReq");
+    const error = errorHandler(err, "deleteVehicleReq");
     throw { error: true, data: "", message: "", errorMsg: error };
   }
 };

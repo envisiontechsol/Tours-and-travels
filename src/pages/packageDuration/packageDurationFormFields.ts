@@ -1,5 +1,3 @@
-// src/forms/config/activityFormFields.ts
-
 import { FormFieldConfigType } from "../../types/formsTypes";
 
 export const getPDFormFields = (): FormFieldConfigType[] => [

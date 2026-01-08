@@ -13,7 +13,11 @@ import { fetchPackageTypesReq } from "../../services/api/packages/packageTypeApi
 import { fetchTagsReq } from "../../services/api/packages/tagsApi";
 import { FormFieldConfigType, OptionType } from "../../types/formsTypes";
 import { PackageDurationResType } from "../../types/packageType";
-import { getFormFieldsConfig, getFormFieldsConfig2 } from "./formFeildsConfig";
+import {
+  getFormFieldsConfig,
+  getFormFieldsConfig2,
+  getMetaFields,
+} from "./formFeildsConfig";
 import ItineraryManager from "./itineraryManager";
 import {
   addTourPackageReq,
@@ -70,6 +74,13 @@ const EditTourPackageForm: React.FC = () => {
       image1Url: undefined,
       image2Url: undefined,
       image3Url: undefined,
+      hotelRatingText: "",
+      activitiesIncluded: false,
+      hotels3Star: false,
+      concierge24x7: false,
+      metaTitle: "",
+      metaKeywords: "",
+      metaDescription: "",
     },
   });
 
@@ -189,7 +200,7 @@ const EditTourPackageForm: React.FC = () => {
 
       // BASIC FIELDS
       formData.append("name", data.name);
-      formData.append("code", data.code);
+      formData.append("code", data?.code || "");
       formData.append("url", data.url || "");
       formData.append("destinationId", data?.destination?.value);
       formData.append("priceInINR", String(data.priceInINR));
@@ -213,11 +224,11 @@ const EditTourPackageForm: React.FC = () => {
       }
 
       // IMAGE TAGS
-      formData.append("bannerAlt", data.bannerAlt);
-      formData.append("tourAlt", data.tourAlt);
-      formData.append("image1Alt", data.image1Alt);
-      formData.append("image2Alt", data.image2Alt);
-      formData.append("image3Alt", data.image3Alt);
+      formData.append("bannerAlt", data.bannerAlt || "");
+      formData.append("tourAlt", data.tourAlt || "");
+      formData.append("image1Alt", data.image1Alt || "");
+      formData.append("image2Alt", data.image2Alt || "");
+      formData.append("image3Alt", data.image3Alt || "");
 
       // FILES
       if (data.bannerImage?.length > 0) {
@@ -241,7 +252,15 @@ const EditTourPackageForm: React.FC = () => {
         formData.append("itineraryDays", JSON.stringify(itineraryDays));
         console.log(itineraryDays);
       }
+      formData.append("metaTitle", data?.metaTitle || "");
+      formData.append("metaKeywords", data?.metaKeywords || "");
+      formData.append("metaDescription", data?.metaDescription || "");
 
+      formData.append("hotelRatingText", data?.hotelRatingText || "");
+
+      formData.append("activitiesIncluded", String(data.activitiesIncluded));
+      formData.append("hotels3Star", String(data.hotels3Star));
+      formData.append("concierge24x7", String(data.concierge24x7));
       // DEBUG
       for (let [k, v] of formData.entries()) {
         console.log("REQ =>", k, v);
@@ -319,6 +338,14 @@ const EditTourPackageForm: React.FC = () => {
               value: String(selectedDestination.value),
             }
           : undefined,
+
+        hotelRatingText: editData?.hotelRatingText,
+        activitiesIncluded: editData?.activitiesIncluded,
+        hotels3Star: editData?.hotels3Star,
+        concierge24x7: editData?.concierge24x7,
+        metaTitle: editData?.metaTitle,
+        metaKeywords: editData?.metaKeywords,
+        metaDescription: editData?.metaDescription,
       });
     }
   }, [
@@ -344,6 +371,11 @@ const EditTourPackageForm: React.FC = () => {
   const section2Fields: FormFieldConfigType[] = useMemo(
     () => getFormFieldsConfig2(editData),
     [editData]
+  );
+
+  const metaFormFields: FormFieldConfigType[] = useMemo(
+    () => getMetaFields(),
+    []
   );
 
   return (
@@ -385,6 +417,14 @@ const EditTourPackageForm: React.FC = () => {
             </p>
           </div>
         )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <DynamicFormFields
+            control={control}
+            errors={errors}
+            fields={metaFormFields}
+          />
+        </div>
 
         {/* BUTTONS */}
         <div className="mt-6 flex items-center space-x-3">

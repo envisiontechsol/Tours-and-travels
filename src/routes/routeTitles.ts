@@ -13,6 +13,9 @@ const routeTitles: Record<string, string> = {
   "/admin/about-editor": "About Us",
   "/admin/reviews": "Reviews",
   "/admin/blogs": "Blogs",
+  "/admin/cms": "CMS",
+  "/admin/users": "Users",
+  "/admin/vehicles": "Vehicles",
 };
 
 export default routeTitles;

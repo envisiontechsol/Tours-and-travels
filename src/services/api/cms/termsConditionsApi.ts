@@ -1,9 +1,9 @@
 import axiosInstance from "../config";
 import { errorHandler } from "../errorHandler";
 
-export const fetchAboutReq = async () => {
+export const fetchTermsConditionsReq = async () => {
   try {
-    const url = `/cms/about`;
+    const url = `/cms/TERMS_AND_CONDITIONS`;
     const res = await axiosInstance.get(url);
     const _data = res?.data?.data;
     const _config = res?.data || null;
@@ -17,35 +17,35 @@ export const fetchAboutReq = async () => {
       errorMsg: "",
     };
   } catch (err) {
-    const error = errorHandler(err, "fetchAboutReq");
+    const error = errorHandler(err, "fetchTermsConditionsReq");
     throw { error: true, data: "", message: "", errorMsg: error };
   }
 };
 
-export const addAboutReq = async (body: any) => {
+export const addTermsConditionsReq = async (body: any) => {
   try {
-    const url = `/cms/about`;
+    const url = `/cms/TERMS_AND_CONDITIONS`;
     const res = await axiosInstance.put(url, body);
     const _data = res?.data;
     const _msg = res?.data?.message;
 
     return { error: false, data: _data, message: _msg, errorMsg: "" };
   } catch (err) {
-    const error = errorHandler(err, "addAboutReq");
+    const error = errorHandler(err, "addTermsConditionsReq");
     throw { error: true, data: "", message: "", errorMsg: error };
   }
 };
 
-export const upadteAboutReq = async (id: string, body: any) => {
+export const upadteTermsConditionsReq = async (id: string, body: any) => {
   try {
-    const url = `/cms/about`;
+    const url = `/cms/TERMS_AND_CONDITIONS`;
     const res = await axiosInstance.patch(url, body);
     const _data = res?.data;
     const _msg = res?.data?.message || "Updated successfully";
 
     return { error: false, data: _data, message: _msg, errorMsg: "" };
   } catch (err) {
-    const error = errorHandler(err, "upadteAboutReq");
+    const error = errorHandler(err, "upadteTermsConditionsReq");
     throw { error: true, data: "", message: "", errorMsg: error };
   }
 };

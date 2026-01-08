@@ -15,6 +15,7 @@ import {
 import { FormFieldConfigType, OptionType } from "../../types/formsTypes";
 import { TagResType } from "../../types/packageType";
 import { getFormFieldsConfig } from "./formFieldsConfig";
+import { fetchDestinationReq } from "../../services/api/locations/destinationApi";
 
 type ReviewFormValues = z.infer<typeof reviewSchema>;
 
@@ -23,6 +24,9 @@ const EditReviewForm: React.FC = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [tagsOpts, setTagsOpts] = useState<OptionType[]>([]);
+  const [destinationOptions, setDestinationOptions] = useState<OptionType[]>(
+    []
+  );
 
   const {
     control,
@@ -52,8 +56,21 @@ const EditReviewForm: React.FC = () => {
     } catch (error) {}
   };
 
+  const loadDestinations = async () => {
+    try {
+      const res = await fetchDestinationReq();
+      setDestinationOptions(
+        res?.data?.map((d: any) => ({
+          label: d.name,
+          value: d.id,
+        })) || []
+      );
+    } catch (err) {}
+  };
+
   useEffect(() => {
     getTagsList();
+    loadDestinations();
   }, []);
 
   /** 🔹 Populate form on edit */
@@ -62,13 +79,16 @@ const EditReviewForm: React.FC = () => {
     const matchedTags = tagsOpts.filter((opt) =>
       editData?.tagLinks?.some((t) => String(t.tagId) === String(opt.value))
     );
+    const matchedDestTags = destinationOptions.filter((opt) =>
+      editData?.tagLinks?.some((t) => String(t.tagId) === String(opt.value))
+    );
     reset({
       name: editData.name,
       rating: editData.rating,
       location: editData.location,
       feedback: editData.feedback,
-      tagIds: !!matchedTags?.length
-        ? matchedTags?.map((i) => ({
+      tagIds: !![...matchedTags, ...matchedDestTags]?.length
+        ? [...matchedTags, ...matchedDestTags]?.map((i) => ({
             label: i.label,
             value: String(i.value),
           }))
@@ -105,9 +125,14 @@ const EditReviewForm: React.FC = () => {
     }
   };
 
+  const tagsListOfOpt = useMemo(
+    () => [...tagsOpts, ...destinationOptions],
+    [tagsOpts, destinationOptions]
+  );
+
   const formFields: FormFieldConfigType[] = useMemo(
-    () => getFormFieldsConfig(tagsOpts),
-    [tagsOpts]
+    () => getFormFieldsConfig(tagsListOfOpt),
+    [tagsListOfOpt]
   );
 
   if (!editData) return null;

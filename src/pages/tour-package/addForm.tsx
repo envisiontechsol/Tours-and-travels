@@ -13,7 +13,11 @@ import { fetchPackageTypesReq } from "../../services/api/packages/packageTypeApi
 import { fetchTagsReq } from "../../services/api/packages/tagsApi";
 import { FormFieldConfigType, OptionType } from "../../types/formsTypes";
 import { PackageDurationResType } from "../../types/packageType";
-import { getFormFieldsConfig, getFormFieldsConfig2 } from "./formFeildsConfig";
+import {
+  getFormFieldsConfig,
+  getFormFieldsConfig2,
+  getMetaFields,
+} from "./formFeildsConfig";
 import ItineraryManager from "./itineraryManager";
 import { addTourPackageReq } from "../../services/api/tours/toursApi";
 import { convertStringToUrlSlug } from "../../utils/functions/stringToUrlSlug";
@@ -62,6 +66,13 @@ const AddTourPackageForm: React.FC = () => {
       image1Url: undefined,
       image2Url: undefined,
       image3Url: undefined,
+      hotelRatingText: "",
+      activitiesIncluded: false,
+      hotels3Star: false,
+      concierge24x7: false,
+      metaTitle: "",
+      metaKeywords: "",
+      metaDescription: "",
     },
   });
 
@@ -248,6 +259,16 @@ const AddTourPackageForm: React.FC = () => {
         console.log(itineraryDays);
       }
 
+      formData.append("metaTitle", data?.metaTitle || "");
+      formData.append("metaKeywords", data?.metaKeywords || "");
+      formData.append("metaDescription", data?.metaDescription || "");
+
+      formData.append("hotelRatingText", data?.hotelRatingText || "");
+
+      formData.append("activitiesIncluded", String(data.activitiesIncluded));
+      formData.append("hotels3Star", String(data.hotels3Star));
+      formData.append("concierge24x7", String(data.concierge24x7));
+
       // DEBUG
       for (let [k, v] of formData.entries()) {
         console.log("REQ =>", k, v);
@@ -277,6 +298,11 @@ const AddTourPackageForm: React.FC = () => {
 
   const section2Fields: FormFieldConfigType[] = useMemo(
     () => getFormFieldsConfig2(),
+    []
+  );
+
+  const metaFormFields: FormFieldConfigType[] = useMemo(
+    () => getMetaFields(),
     []
   );
 
@@ -318,6 +344,14 @@ const AddTourPackageForm: React.FC = () => {
             </p>
           </div>
         )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <DynamicFormFields
+            control={control}
+            errors={errors}
+            fields={metaFormFields}
+          />
+        </div>
 
         {/* BUTTONS */}
         <div className="mt-6 flex items-center space-x-3">

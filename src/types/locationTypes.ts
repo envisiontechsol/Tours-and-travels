@@ -11,6 +11,12 @@ export interface DestinationResType {
   top10Rank: number;
   createdAt: string;
   updatedAt: string;
+  metaTitle: string;
+  metaKeywords: string;
+  metaDescription: string;
+  travelInsuranceIncluded: boolean;
+  visaInformationHtml: string;
+  insurancePriceInINR: number;
 }
 
 export interface DestinationReqBodyType {

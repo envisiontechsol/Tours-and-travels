@@ -38,12 +38,12 @@ const AboutEditor: React.FC = () => {
   useEffect(() => {
     if (!editor) return;
 
-    const getAboutContent = async () => {
+    const getContent = async () => {
       setLoading(true);
       try {
         const res = await fetchAboutReq();
-        if (res?.data?.about) {
-          editor.commands.setContent(res.data.about);
+        if (res?.data?.content) {
+          editor.commands.setContent(res.data.content);
         }
       } catch (error: any) {
         toast.error(error?.errorMsg || "Failed to load About content");
@@ -52,7 +52,7 @@ const AboutEditor: React.FC = () => {
       }
     };
 
-    getAboutContent();
+    getContent();
   }, [editor]);
 
   const saveContent = async () => {
@@ -61,7 +61,7 @@ const AboutEditor: React.FC = () => {
     setSaving(true);
     try {
       await addAboutReq({
-        about: editor.getHTML(),
+        content: editor.getHTML(),
       });
       toast.success("About page saved successfully");
     } catch (error: any) {

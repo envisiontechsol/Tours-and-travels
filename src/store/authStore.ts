@@ -1,6 +1,11 @@
 // src/store/authStore.ts
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { ModulesResType } from "../types/modulesTypes";
+
+interface MenuAccessType extends ModulesResType {
+  actions: string[];
+}
 
 type User = {
   id: string | null;
@@ -11,7 +16,8 @@ type User = {
 
 type AuthState = {
   user: User;
-  setUser: (user: User) => void;
+  menuAccess: MenuAccessType[];
+  setUser: (user: User, permissions: MenuAccessType[]) => void;
   clearUser: () => void;
 };
 
@@ -24,8 +30,9 @@ export const useAuthStore = create<AuthState>()(
         name: null,
         role: null,
       },
+      menuAccess: [],
 
-      setUser: (user) =>
+      setUser: (user, permissions) =>
         set({
           user: {
             id: user.id,
@@ -33,6 +40,7 @@ export const useAuthStore = create<AuthState>()(
             name: user.name,
             role: user.role,
           },
+          menuAccess: permissions,
         }),
 
       clearUser: () =>
@@ -52,7 +60,10 @@ export const useAuthStore = create<AuthState>()(
 );
 
 // Action function
-export const setAuthDetailsAction = (data: User) => {
+export const setAuthDetailsAction = (
+  data: User,
+  permissions: MenuAccessType[]
+) => {
   console.log("AUTH DATA:", data);
-  useAuthStore.getState().setUser(data);
+  useAuthStore.getState().setUser(data, permissions);
 };

@@ -58,6 +58,15 @@ export const tourPackageSchema = z
 
     isActive: z.boolean(),
     selected: z.boolean(),
+
+    hotelRatingText: z.string(),
+    activitiesIncluded: z.boolean(),
+    hotels3Star: z.boolean(),
+    concierge24x7: z.boolean(),
+
+    metaTitle: z.string().min(2),
+    metaKeywords: z.string().min(2),
+    metaDescription: z.string().min(2),
   })
   .refine(imageSizeRefine("bannerImage", 1920, 800), {
     message: "Banner image must be exactly 1920 × 800 pixels",

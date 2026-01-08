@@ -13,8 +13,11 @@ const RoutesPath = {
   topLevelMenu: "menu",
   userItinerary: "user-itinerary",
   aboutEditor: "about-editor",
+  cms: "cms",
   reviews: "reviews",
   blogs: "blogs",
+  users: "users",
+  vehicle: "vehicles",
 };
 
 export default RoutesPath;

@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -8,7 +8,7 @@ import Checkbox from "../../components/forms/elements/checkbox";
 import Textarea from "../../components/forms/elements/textarea";
 import TextInput from "../../components/forms/elements/textInput";
 import { destinationSchema } from "../../schema/destinationSchema";
-import { upadteDestinationReq } from "../../services/api/locations/destinationApi";
+import { updateDestinationReq } from "../../services/api/locations/destinationApi";
 import { useAuthStore } from "../../store/authStore";
 import {
   closeAllEditAction,
@@ -18,8 +18,11 @@ import { FormFieldConfigType } from "../../types/formsTypes";
 import {
   getDestinationAboutField,
   getDestinationFormFields,
+  getMetaFields,
 } from "./destinationFormFields";
 import DynamicFormFields from "../../components/forms/dynamicFormFields";
+import { TipTapEditorInputRefType } from "../../types/tipTapEditorTypes";
+import TipTapEditorInput from "../../components/forms/elements/tipTapEditorInput";
 
 type DestinationFormValues = z.infer<typeof destinationSchema>;
 
@@ -30,6 +33,8 @@ const EditDestinationForm = () => {
 
   const user = useAuthStore((s) => s.user);
   console.log(user, "user");
+
+  const editorRef = useRef<TipTapEditorInputRefType>(null);
 
   const {
     control,
@@ -65,10 +70,27 @@ const EditDestinationForm = () => {
       );
       formData.append("top10Rank", String(data?.top10Rank) || "");
 
+      formData.append(
+        "travelInsuranceIncluded",
+        (!!data.travelInsuranceIncluded).toString()
+      );
+      formData.append(
+        "insurancePriceInINR",
+        String(data?.insurancePriceInINR) || ""
+      );
+      formData.append(
+        "visaInformationHtml",
+        editorRef.current?.getHTML() || ""
+      );
+
+      formData.append("metaTitle", data?.metaTitle || "");
+      formData.append("metaKeywords", data?.metaKeywords || "");
+      formData.append("metaDescription", data?.metaDescription || "");
+
       if (data.bannerImage && data.bannerImage.length > 0) {
         formData.append("bannerImage", data.bannerImage[0]);
       }
-      await upadteDestinationReq(editData?.id, formData);
+      await updateDestinationReq(editData?.id, formData);
       onCancelOrClose();
       toast.success("Destination upadte successfully!");
       reset();
@@ -85,15 +107,27 @@ const EditDestinationForm = () => {
         about: editData?.about,
         isActive: editData?.isActive,
         name: editData?.name,
-        bannerImagetage: editData?.bannerImageTag,
+        bannerImagetage: editData?.bannerImageTag || "",
         bannerImage: undefined,
         top10Rank: editData.top10Rank,
+        metaTitle: editData?.metaTitle,
+        metaKeywords: editData?.metaKeywords,
+        metaDescription: editData?.metaDescription,
+        travelInsuranceIncluded: editData?.travelInsuranceIncluded,
+        insurancePriceInINR: editData?.insurancePriceInINR,
       });
     }
-  }, [editData]);
+    // if (!!editData?.visaInformationHtml) {
+    //   editorRef.current?.setContent(editData.visaInformationHtml);
+    // }
+  }, [editData, editorRef]);
 
   const formFields: FormFieldConfigType[] = useMemo(
     () => getDestinationFormFields(editData),
+    []
+  );
+  const metaFormFields: FormFieldConfigType[] = useMemo(
+    () => getMetaFields(),
     []
   );
 
@@ -111,6 +145,14 @@ const EditDestinationForm = () => {
             control={control}
             errors={errors}
             fields={formFields}
+          />
+        </div>
+
+        <div className="mt-5">
+          <TipTapEditorInput
+            ref={editorRef}
+            label="Visa Information"
+            initialContent={editData?.visaInformationHtml || ""}
           />
         </div>
 
@@ -134,6 +176,13 @@ const EditDestinationForm = () => {
                 required={aboutField.required}
               />
             )}
+          />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <DynamicFormFields
+            control={control}
+            errors={errors}
+            fields={metaFormFields}
           />
         </div>
 

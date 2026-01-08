@@ -32,7 +32,7 @@ export const SigninPage: React.FC = () => {
     setLoginLoader(true);
     try {
       const res = await adminLoginReq(data);
-      setAuthDetailsAction(res?.data?.user);
+      setAuthDetailsAction(res?.data?.user, res?.data?.permissions || []);
       navigate(`${RoutesPath.admin}`);
     } catch (error: any) {
       toast.error("Login failed! Please check your username and password.");
@@ -46,12 +46,12 @@ export const SigninPage: React.FC = () => {
     onLogin(data);
   };
 
-  // useEffect(() => {
-  //   reset({
-  //     email: "seed.admin@example.com",
-  //     password: "root",
-  //   });
-  // }, []);
+  useEffect(() => {
+    reset({
+      email: "seed.admin@example.com",
+      password: "root",
+    });
+  }, []);
 
   return (
     <div className="h-screen w-full flex flex-col bg-gray-100">

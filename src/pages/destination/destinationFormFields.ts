@@ -41,6 +41,28 @@ export const getDestinationFormFields = (
     placeholder: "Enter number",
     gridCols: "md:col-span-1",
   },
+  {
+    name: "travelInsuranceIncluded",
+    label: "Travel Insurance Included",
+    type: "checkbox",
+    gridCols: "md:col-span-1 self-end",
+  },
+  {
+    name: "insurancePriceInINR",
+    label: "Insurance Price (INR)",
+    type: "number",
+    placeholder: "Enter insurance price",
+    required: true,
+    gridCols: "md:col-span-1",
+  },
+
+  // {
+  //   name: "visaInformationHtml",
+  //   label: "Visa Information",
+  //   type: "textarea",
+  //   placeholder: "Enter visa information",
+  //   gridCols: "md:col-span-2",
+  // },
 ];
 
 export const getDestinationAboutField = (): FormFieldConfigType => ({
@@ -51,3 +73,30 @@ export const getDestinationAboutField = (): FormFieldConfigType => ({
   required: true,
   rows: 4,
 });
+
+export const getMetaFields = (): FormFieldConfigType[] => [
+  {
+    name: "metaTitle",
+    label: "Meta Title",
+    type: "text",
+    placeholder: "Enter meta title",
+    required: true,
+    gridCols: "md:col-span-1",
+  },
+  {
+    name: "metaKeywords",
+    label: "Meta Keywords",
+    type: "text",
+    placeholder: "Enter meta keywords (comma separated)",
+    required: true,
+    gridCols: "md:col-span-1",
+  },
+  {
+    name: "metaDescription",
+    label: "Meta Description",
+    type: "textarea",
+    placeholder: "Enter meta description",
+    required: true,
+    gridCols: "md:col-span-2",
+  },
+];

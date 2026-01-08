@@ -11,12 +11,16 @@ import { addReviewReq } from "../../services/api/reviews/reviewApi";
 import { FormFieldConfigType, OptionType } from "../../types/formsTypes";
 import { TagResType } from "../../types/packageType";
 import { getFormFieldsConfig } from "./formFieldsConfig";
+import { fetchDestinationReq } from "../../services/api/locations/destinationApi";
 
 type ReviewFormValues = z.infer<typeof reviewSchema>;
 
 const AddForm: React.FC = () => {
   const [isSubmitting, setisSubmitting] = useState(false);
   const [tagsOpts, settagsOpts] = useState<OptionType[]>([]);
+  const [destinationOptions, setDestinationOptions] = useState<OptionType[]>(
+    []
+  );
 
   const {
     control,
@@ -45,9 +49,27 @@ const AddForm: React.FC = () => {
     } catch (error) {}
   };
 
+  const loadDestinations = async () => {
+    try {
+      const res = await fetchDestinationReq();
+      setDestinationOptions(
+        res?.data?.map((d: any) => ({
+          label: d.name,
+          value: d.id,
+        })) || []
+      );
+    } catch (err) {}
+  };
+
   useEffect(() => {
     getTagsList();
+    loadDestinations();
   }, []);
+
+  const tagsListOfOpt = useMemo(
+    () => [...tagsOpts, ...destinationOptions],
+    [tagsOpts, destinationOptions]
+  );
 
   const onSubmit = async (data: ReviewFormValues) => {
     setisSubmitting(true);
@@ -69,8 +91,8 @@ const AddForm: React.FC = () => {
   };
 
   const formFields: FormFieldConfigType[] = useMemo(
-    () => getFormFieldsConfig(tagsOpts),
-    [tagsOpts]
+    () => getFormFieldsConfig(tagsListOfOpt),
+    [tagsListOfOpt]
   );
 
   return (

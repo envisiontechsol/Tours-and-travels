@@ -12,9 +12,12 @@ import Underline from "@tiptap/extension-underline";
 
 import { Toolbar } from "../../components/editor/toolbar";
 import { toast } from "react-toastify";
-import { addAboutReq, fetchAboutReq } from "../../services/api/cms/aboutApi";
+import {
+  addPrivacyPolicyReq,
+  fetchPrivacyPolicyReq,
+} from "../../services/api/cms/privacyPolicyApi";
 
-const AboutEditor: React.FC = () => {
+const PrivacyPolicyEditor: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
@@ -38,21 +41,21 @@ const AboutEditor: React.FC = () => {
   useEffect(() => {
     if (!editor) return;
 
-    const getAboutContent = async () => {
+    const getContent = async () => {
       setLoading(true);
       try {
-        const res = await fetchAboutReq();
-        if (res?.data?.about) {
-          editor.commands.setContent(res.data.about);
+        const res = await fetchPrivacyPolicyReq();
+        if (res?.data?.content) {
+          editor.commands.setContent(res.data.content);
         }
       } catch (error: any) {
-        toast.error(error?.errorMsg || "Failed to load About content");
+        toast.error(error?.errorMsg || "Failed to load Privacy Policy content");
       } finally {
         setLoading(false);
       }
     };
 
-    getAboutContent();
+    getContent();
   }, [editor]);
 
   const saveContent = async () => {
@@ -60,12 +63,12 @@ const AboutEditor: React.FC = () => {
 
     setSaving(true);
     try {
-      await addAboutReq({
-        about: editor.getHTML(),
+      await addPrivacyPolicyReq({
+        content: editor.getHTML(),
       });
-      toast.success("About page saved successfully");
+      toast.success("Privacy Policy page saved successfully");
     } catch (error: any) {
-      toast.error(error?.errorMsg || "Failed to save About page");
+      toast.error(error?.errorMsg || "Failed to save Privacy Policy page");
     } finally {
       setSaving(false);
     }
@@ -75,7 +78,9 @@ const AboutEditor: React.FC = () => {
 
   return (
     <div className="mx-auto max-w-5xl py-8">
-      <h1 className="mb-4 text-2xl font-semibold">About Page Editor</h1>
+      <h1 className="mb-4 text-2xl font-semibold">
+        Privacy Policy Page Editor
+      </h1>
 
       <div className="rounded-lg border bg-white shadow-sm">
         <Toolbar editor={editor} />
@@ -98,11 +103,11 @@ const AboutEditor: React.FC = () => {
           disabled={saving}
           className="rounded-md bg-blue-600 px-6 py-2 text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {saving ? "Saving..." : "Save About Page"}
+          {saving ? "Saving..." : "Save Privacy Policy Page"}
         </button>
       </div>
     </div>
   );
 };
 
-export default AboutEditor;
+export default PrivacyPolicyEditor;

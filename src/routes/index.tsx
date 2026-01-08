@@ -53,7 +53,9 @@ const AppRoutes = () => {
             path={RoutesPath.userItinerary}
             element={<Page.UserItineraryLayout />}
           />
-          <Route path={RoutesPath.aboutEditor} element={<Page.AboutEditor />} />
+          <Route path={RoutesPath.vehicle} element={<Page.VehicleLayout />} />
+          <Route path={RoutesPath.users} element={<Page.UsersLayout />} />
+          <Route path={RoutesPath.cms} element={<Page.CMSPage />} />
           <Route path={RoutesPath.reviews} element={<Page.ReviewLayout />} />
           <Route path={RoutesPath.blogs} element={<Page.BlogLayout />} />
         </Route>

@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -13,13 +13,18 @@ import { FormFieldConfigType } from "../../types/formsTypes";
 import {
   getDestinationAboutField,
   getDestinationFormFields,
+  getMetaFields,
 } from "./destinationFormFields";
+import { TipTapEditorInputRefType } from "../../types/tipTapEditorTypes";
+import TipTapEditorInput from "../../components/forms/elements/tipTapEditorInput";
 
 type DestinationFormValues = z.infer<typeof destinationSchema>;
 
 const AddDestinationForm: React.FC = () => {
   const { user } = useAuthStore();
   console.log(user, "user");
+
+  const editorRef = useRef<TipTapEditorInputRefType>(null);
 
   const {
     control,
@@ -34,11 +39,19 @@ const AddDestinationForm: React.FC = () => {
       about: "",
       bannerImagetage: "",
       bannerImage: undefined,
+      metaTitle: "",
+      metaKeywords: "",
+      metaDescription: "",
+      travelInsuranceIncluded: false,
+      visaInformationHtml: "",
+      insurancePriceInINR: 0,
     },
   });
 
   const onResetForm = () => {
     reset();
+    editorRef.current?.clear();
+
     const fileInputs = document.querySelectorAll('input[type="file"]');
     fileInputs.forEach((input) => {
       (input as HTMLInputElement).value = "";
@@ -54,11 +67,32 @@ const AddDestinationForm: React.FC = () => {
 
       formData.append("about", data.about);
       formData.append("createdById", user?.id || "NA");
-      formData.append("bannerImageTag", data?.bannerImagetage || "");
+
       formData.append("top10Rank", String(data?.top10Rank) || "");
+
+      formData.append(
+        "travelInsuranceIncluded",
+        (!!data.travelInsuranceIncluded).toString()
+      );
+      formData.append(
+        "insurancePriceInINR",
+        String(data?.insurancePriceInINR) || ""
+      );
+      formData.append(
+        "visaInformationHtml",
+        editorRef.current?.getHTML() || ""
+      );
+
+      formData.append("metaTitle", data?.metaTitle || "");
+      formData.append("metaKeywords", data?.metaKeywords || "");
+      formData.append("metaDescription", data?.metaDescription || "");
 
       if (data.bannerImage && data.bannerImage.length > 0) {
         formData.append("bannerImage", data.bannerImage[0]);
+        formData.append(
+          "bannerImageTag",
+          data?.bannerImagetage?.replace(" ", "").trim() || ""
+        );
       }
       await addDestinationReq(formData);
 
@@ -71,6 +105,10 @@ const AddDestinationForm: React.FC = () => {
 
   const formFields: FormFieldConfigType[] = useMemo(
     () => getDestinationFormFields(),
+    []
+  );
+  const metaFormFields: FormFieldConfigType[] = useMemo(
+    () => getMetaFields(),
     []
   );
 
@@ -88,6 +126,10 @@ const AddDestinationForm: React.FC = () => {
             errors={errors}
             fields={formFields}
           />
+        </div>
+
+        <div className="mt-5">
+          <TipTapEditorInput ref={editorRef} label="Visa Information" />
         </div>
 
         {/* About Textarea */}
@@ -113,6 +155,13 @@ const AddDestinationForm: React.FC = () => {
           />
         </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <DynamicFormFields
+            control={control}
+            errors={errors}
+            fields={metaFormFields}
+          />
+        </div>
         {/* BUTTONS */}
         <div className="mt-6 flex items-center space-x-3">
           <button

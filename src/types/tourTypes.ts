@@ -48,6 +48,13 @@ export interface TourPackageResType {
   tags: TagType[];
   destination: DestinationType;
   type: PackageType;
+  hotelRatingText: string;
+  activitiesIncluded: boolean;
+  hotels3Star: boolean;
+  concierge24x7: boolean;
+  metaTitle: string;
+  metaKeywords: string;
+  metaDescription: string;
 }
 
 export interface DurationType {
