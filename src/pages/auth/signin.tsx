@@ -46,12 +46,12 @@ export const SigninPage: React.FC = () => {
     onLogin(data);
   };
 
-  useEffect(() => {
-    reset({
-      email: "seed.admin@example.com",
-      password: "root",
-    });
-  }, []);
+  // useEffect(() => {
+  //   reset({
+  //     email: "super.admin@example.com",
+  //     password: "Root@12345678",
+  //   });
+  // }, []);
 
   return (
     <div className="h-screen w-full flex flex-col bg-gray-100">
