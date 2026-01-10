@@ -45,12 +45,17 @@ export const addUsersReq = async (body: {
     throw { error: true, data: "", message: "", errorMsg: error };
   }
 };
-export const updateUsersReq = async (id: string, body: { name: string }) => {
+export const updateUsersReq = async (
+  id: string,
+  body: {
+    email: string;
+    password?: string;
+    name: string;
+    phone: string;
+  }
+) => {
   try {
-    const reqBody = {
-      name: body?.name,
-      slug: body?.name,
-    };
+    const reqBody = body;
     const url = `/admins/${id}`;
     const res = await axiosInstance.patch(url, reqBody);
     const _data = res?.data;

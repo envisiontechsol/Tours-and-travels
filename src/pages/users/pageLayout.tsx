@@ -1,50 +1,54 @@
-import { useEffect, useState } from "react";
-import PageTabBar from "../../components/pageTabBar";
+import { useEffect, useMemo, useState } from "react";
+import PageTabBar, { TabName } from "../../components/pageTabBar";
 import { useEditMgmtStore } from "../../store/editMgmtStore";
-import TableView from "./tableView";
 import AddUsersForm from "./addForm";
+import EditUsersForm from "./editForm";
 import EditPermission from "./editPermission";
-import ViewPermissionDetails from "./viewPermissionDetails";
-// import AddPackageTypeForm from "./addForm";
-// import EditPackageTypeForm from "./editForm";
-// import PackageTypeTable from "./tableView";
-// import ViewDetails from "./viewDetails";
+import TableView from "./tableView";
+import ViewDetails from "./viewDetails";
 
 const UsersLayout = () => {
-  const [tabIndex, setTabIndex] = useState<number>(0);
-  const isEditing = useEditMgmtStore((s) => !!s.editUserPermission);
-  const isViewing = useEditMgmtStore((s) => !!s.viewUserPermission);
+  const [activeTab, setActiveTab] = useState<string>("View");
+  const isEditing = useEditMgmtStore((s) => !!s.editUser);
+  const isViewing = useEditMgmtStore((s) => !!s.viewUser);
+
+  const isEditingPermission = useEditMgmtStore((s) => s.editUserPermission);
+
+  const getTabName = (tab: string) => {
+    setActiveTab(tab);
+  };
+
+  const tabs = useMemo(() => {
+    return [
+      TabName.VIEW,
+      isEditing ? TabName.EDIT : TabName.ADD,
+      ...(isViewing ? [TabName.DETAILS] : []),
+      ...(isEditingPermission ? [TabName.EDIT_PERMISSIONS] : []),
+    ];
+  }, [isEditing, isViewing, isEditingPermission]);
 
   useEffect(() => {
-    if (isEditing) return setTabIndex(1);
-    if (isViewing) return setTabIndex(2);
-    setTabIndex(0);
-  }, [isEditing, isViewing]);
+    if (isEditingPermission) return getTabName(TabName.EDIT_PERMISSIONS);
+    if (isViewing) return getTabName(TabName.DETAILS);
+    if (isEditing) return getTabName(TabName.EDIT);
 
-  const tabs = [
-    "View",
-    ...(isEditing ? ["Edit"] : ["Add"]),
-    ...(isViewing ? ["Details"] : []),
-  ];
+    getTabName(TabName.VIEW);
+  }, [isEditing, isViewing, isEditingPermission, tabs]);
+
   return (
     <div className="w-full p-6 relative flex flex-col h-full">
       <PageTabBar
         tabs={tabs}
-        activeIndex={tabIndex}
-        onChange={(idx) => setTabIndex(idx)}
+        activeTab={activeTab}
+        onChange={(tab) => getTabName(tab)}
       />
 
       <div className="overflow-y-auto relative flex flex-1 flex-col py-8 mt-4">
-        {tabIndex === 1 ? (
-          isEditing ? (
-            <EditPermission />
-          ) : (
-            <AddUsersForm />
-          )
-        ) : null}
-
-        {tabIndex === 2 && isViewing && <ViewPermissionDetails />}
-        {tabIndex === 0 && <TableView />}
+        {activeTab === TabName.ADD && <AddUsersForm />}
+        {activeTab === TabName.EDIT && <EditUsersForm />}
+        {activeTab === TabName.DETAILS && <ViewDetails />}
+        {activeTab === TabName.VIEW && <TableView />}
+        {activeTab === TabName.EDIT_PERMISSIONS && <EditPermission />}
       </div>
     </div>
   );

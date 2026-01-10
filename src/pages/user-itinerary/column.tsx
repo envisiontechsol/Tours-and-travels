@@ -58,6 +58,7 @@ export const placeColumns: ColumnDef<UserItinerayListResType>[] = [
           delete: false,
           view: true,
           onView: viewUserItineraryAction,
+          // onDelete:()=>{}
         }}
       />
     ),

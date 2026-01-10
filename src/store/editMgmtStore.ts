@@ -31,6 +31,7 @@ interface EditMgmtStore {
   editBlogData: BlogPostResType | null;
   editReviewData: ReviewResType | null;
   editUserPermission: UserResWithPermissionType | null;
+  editUser: UserResWithPermissionType | null;
   editVehicleData: VehicleResType | null;
 
   /* -------- VIEW DATA -------- */
@@ -46,6 +47,7 @@ interface EditMgmtStore {
   viewReviewData: ReviewResType | null;
   viewUserItineraryData: UserItinerayListResType | null;
   viewUserPermission: UserResWithPermissionType | null;
+  viewUser: UserResWithPermissionType | null;
   viewVehicleData: VehicleResType | null;
 
   /* -------- EDIT SETTERS -------- */
@@ -60,6 +62,7 @@ interface EditMgmtStore {
   setBlog: (v: BlogPostResType | null) => void;
   setReview: (v: ReviewResType | null) => void;
   setUserPermission: (v: UserResWithPermissionType | null) => void;
+  setUser: (v: UserResWithPermissionType | null) => void;
   setVehicle: (v: VehicleResType | null) => void;
 
   /* -------- VIEW SETTERS -------- */
@@ -75,6 +78,7 @@ interface EditMgmtStore {
   setViewReview: (v: ReviewResType | null) => void;
   setViewUserItinerary: (v: UserItinerayListResType | null) => void;
   setViewUserPermission: (v: UserResWithPermissionType | null) => void;
+  setViewUser: (v: UserResWithPermissionType | null) => void;
   setViewVehicle: (v: VehicleResType | null) => void;
 
   clearAllEdit: () => void;
@@ -95,6 +99,7 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
   editBlogData: null,
   editReviewData: null,
   editUserPermission: null,
+  editUser: null,
   editVehicleData: null,
   /* -------- VIEW STATE -------- */
   viewDestinationData: null,
@@ -109,6 +114,7 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
   viewReviewData: null,
   viewUserItineraryData: null,
   viewUserPermission: null,
+  viewUser: null,
   viewVehicleData: null,
 
   /* -------- EDIT SETTERS -------- */
@@ -123,6 +129,7 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
   setBlog: (v) => set({ editBlogData: v }),
   setReview: (v) => set({ editReviewData: v }),
   setUserPermission: (v) => set({ editUserPermission: v }),
+  setUser: (v) => set({ editUser: v }),
   setVehicle: (v) => set({ editVehicleData: v }),
 
   /* -------- VIEW SETTERS -------- */
@@ -138,6 +145,7 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
   setViewReview: (v) => set({ viewReviewData: v }),
   setViewUserItinerary: (v) => set({ viewUserItineraryData: v }),
   setViewUserPermission: (v) => set({ viewUserPermission: v }),
+  setViewUser: (v) => set({ viewUser: v }),
   setViewVehicle: (v) => set({ viewVehicleData: v }),
 
   /* -------- CLEAR -------- */
@@ -154,6 +162,7 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
       editBlogData: null,
       editReviewData: null,
       editUserPermission: null,
+      editUser: null,
       editVehicleData: null,
     }),
 
@@ -171,6 +180,7 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
       viewReviewData: null,
       viewUserItineraryData: null,
       viewUserPermission: null,
+      viewUser: null,
       viewVehicleData: null,
     }),
 }));
@@ -230,6 +240,11 @@ export const editUserPermissionAction = (v: UserResWithPermissionType) =>
   useEditMgmtStore.getState().setUserPermission(v);
 export const closeEditUserPermissionAction = () =>
   useEditMgmtStore.getState().setUserPermission(null);
+
+export const editUserAction = (v: UserResWithPermissionType) =>
+  useEditMgmtStore.getState().setUser(v);
+export const closeEditUserAction = () =>
+  useEditMgmtStore.getState().setUser(null);
 
 export const editVehicleAction = (v: VehicleResType) =>
   useEditMgmtStore.getState().setVehicle(v);
@@ -296,6 +311,11 @@ export const viewUserPermissionAction = (v: UserResWithPermissionType) =>
   useEditMgmtStore.getState().setViewUserPermission(v);
 export const closeViewUserPermissionAction = () =>
   useEditMgmtStore.getState().setViewUserPermission(null);
+
+export const viewUserAction = (v: UserResWithPermissionType) =>
+  useEditMgmtStore.getState().setViewUser(v);
+export const closeViewUserAction = () =>
+  useEditMgmtStore.getState().setViewUser(null);
 
 export const viewVehicleAction = (v: VehicleResType) =>
   useEditMgmtStore.getState().setViewVehicle(v);

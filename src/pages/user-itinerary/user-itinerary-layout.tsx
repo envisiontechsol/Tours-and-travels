@@ -1,31 +1,40 @@
-import { useEffect, useState } from "react";
-import PageTabBar from "../../components/pageTabBar";
-import TableView from "./tableView";
+import { useEffect, useMemo, useState } from "react";
+import PageTabBar, { TabName } from "../../components/pageTabBar";
 import { useEditMgmtStore } from "../../store/editMgmtStore";
+import TableView from "./tableView";
 import ViewDetails from "./viewDetails";
 
 const UserItineraryLayout = () => {
-  const [tabIndex, setTabIndex] = useState<number>(0);
+  const [activeTab, setActiveTab] = useState<string>(TabName.VIEW);
+
   const isViewing = useEditMgmtStore((s) => !!s.viewUserItineraryData);
 
-  useEffect(() => {
-    if (isViewing) return setTabIndex(1);
-    setTabIndex(0);
+  const getTabName = (tab: string) => {
+    setActiveTab(tab);
+  };
+
+  /* ----------------------- TABS ----------------------- */
+  const tabs = useMemo(() => {
+    return [TabName.VIEW, ...(isViewing ? [TabName.DETAILS] : [])];
   }, [isViewing]);
 
-  const tabs = ["View", ...(isViewing ? ["Details"] : [])];
+  /* ------------------ AUTO TAB SWITCH ------------------ */
+  useEffect(() => {
+    if (isViewing) return getTabName(TabName.DETAILS);
+    getTabName(TabName.VIEW);
+  }, [isViewing, tabs]);
 
   return (
     <div className="w-full p-6 relative flex flex-col h-full">
       <PageTabBar
         tabs={tabs}
-        activeIndex={tabIndex}
-        onChange={(idx) => setTabIndex(idx)}
+        activeTab={activeTab}
+        onChange={(tab) => getTabName(tab)}
       />
 
       <div className="overflow-y-auto relative flex flex-1 flex-col py-8 mt-4">
-        {tabIndex === 0 && <TableView />}
-        {tabIndex === 1 && isViewing && <ViewDetails />}
+        {activeTab === TabName.VIEW && <TableView />}
+        {activeTab === TabName.DETAILS && <ViewDetails />}
       </div>
     </div>
   );

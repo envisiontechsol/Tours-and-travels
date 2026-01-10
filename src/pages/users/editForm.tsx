@@ -1,18 +1,24 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
 
 import DynamicFormFields from "../../components/forms/dynamicFormFields";
 import { userSchema } from "../../schema/usersSchema";
-import { addUsersReq } from "../../services/api/users/usersApi";
+import { addUsersReq, updateUsersReq } from "../../services/api/users/usersApi";
 import { FormFieldConfigType } from "../../types/formsTypes";
 import { getUserFormFields } from "./formFields";
+import {
+  closeAllEditAction,
+  useEditMgmtStore,
+} from "../../store/editMgmtStore";
 
 type UsersValues = z.infer<typeof userSchema>;
 
-const AddUsersForm: React.FC = () => {
+const EditUsersForm: React.FC = () => {
+  const editData = useEditMgmtStore((s) => s.editUser);
+
   const {
     control,
     handleSubmit,
@@ -23,13 +29,35 @@ const AddUsersForm: React.FC = () => {
     defaultValues: { name: "", phone: "", email: "", password: "" },
   });
 
+  useEffect(() => {
+    if (editData?.userId) {
+      reset({
+        name: editData?.name,
+        phone: editData?.phone,
+        email: editData?.email || "",
+        password: editData?.password || "",
+      });
+    }
+  }, [editData]);
+
+  const onCancelOrClose = () => {
+    closeAllEditAction();
+  };
+
   const onSubmit = async (data: UsersValues) => {
     try {
-      await addUsersReq(data);
-      toast.success("User added successfully!");
+      const reqBody = {
+        name: data?.name,
+        phone: data?.phone,
+        email: data?.email || "",
+        password: data?.password || "",
+      };
+      await updateUsersReq(editData?.userId || "", reqBody);
+      toast.success("User updated successfully!");
+      onCancelOrClose();
       reset();
     } catch (error: any) {
-      toast.error(error?.errorMsg || "Failed to add User");
+      toast.error(error?.errorMsg || "Failed to update User");
     }
   };
 
@@ -60,16 +88,16 @@ const AddUsersForm: React.FC = () => {
             disabled={isSubmitting}
             className="px-4 py-2 rounded-md bg-primary text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
           >
-            {isSubmitting ? "Adding..." : "Add User"}
+            {isSubmitting ? "Updating..." : "Update User"}
           </button>
 
           <button
             type="button"
-            onClick={() => reset()}
+            onClick={() => onCancelOrClose()}
             disabled={isSubmitting}
             className="px-4 py-2 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Reset
+            Cancel
           </button>
         </div>
       </form>
@@ -77,4 +105,4 @@ const AddUsersForm: React.FC = () => {
   );
 };
 
-export default AddUsersForm;
+export default EditUsersForm;

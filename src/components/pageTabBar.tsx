@@ -1,14 +1,22 @@
 import React from "react";
 
+export const TabName = {
+  VIEW: "View",
+  ADD: "Add",
+  EDIT: "Edit",
+  DETAILS: "Details",
+  EDIT_PERMISSIONS: "Edit Permissions",
+} as const;
+
 interface PageTabBarProps {
   tabs: string[];
-  activeIndex: number;
-  onChange: (index: number) => void;
+  activeTab: string;
+  onChange: (tab: string) => void;
 }
 
 const PageTabBar: React.FC<PageTabBarProps> = ({
   tabs,
-  activeIndex,
+  activeTab,
   onChange,
 }) => {
   return (
@@ -17,9 +25,9 @@ const PageTabBar: React.FC<PageTabBarProps> = ({
         {tabs.map((t, i) => (
           <button
             key={t}
-            onClick={() => onChange(i)}
+            onClick={() => onChange(t)}
             className={`px-4 py-2 font-medium m-0 mb-0 border-b-2 border-0 outline-0 rounded-none focus:outline-none ${
-              activeIndex === i ? "border-primary" : "border-transparent"
+              activeTab === t ? "border-primary" : "border-transparent"
             }`}
           >
             {t}
