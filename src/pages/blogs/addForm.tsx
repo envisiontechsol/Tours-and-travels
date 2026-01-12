@@ -8,7 +8,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import Underline from "@tiptap/extension-underline";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
@@ -18,6 +18,7 @@ import DynamicFormFields from "../../components/forms/dynamicFormFields";
 import { blogSchema } from "../../schema/blogSchema";
 import { addBlogReq } from "../../services/api/blogs/blogsApi";
 import { getBlogFormFields } from "./formFields";
+import { convertStringToUrlSlug } from "../../utils/functions/stringToUrlSlug";
 
 type BlogFormValues = z.infer<typeof blogSchema>;
 
@@ -26,6 +27,8 @@ const AddForm: React.FC = () => {
     control,
     handleSubmit,
     reset,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<BlogFormValues>({
     resolver: zodResolver(blogSchema),
@@ -62,7 +65,13 @@ const AddForm: React.FC = () => {
 
   const formFields = useMemo(() => getBlogFormFields(), []);
 
-  console.log(errors);
+  const postTitleValue = watch("postTitle");
+
+  useEffect(() => {
+    if (typeof postTitleValue !== "string") return;
+
+    setValue("blogUrl", convertStringToUrlSlug(postTitleValue));
+  }, [postTitleValue]);
 
   const onResetForm = () => {
     reset();

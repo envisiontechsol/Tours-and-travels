@@ -43,7 +43,7 @@ const TableView = () => {
         setData(res?.data);
         setPagination({
           pageIndex: res?.config?.page,
-          pageSize: res?.config?.pageSize,
+          pageSize: res?.config?.pageSize || 100,
           total: res?.config?.total,
           totalPages: res?.config?.totalPages,
           hasPrev: res?.config?.hasPrev,

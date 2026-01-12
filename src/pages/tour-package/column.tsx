@@ -39,10 +39,14 @@ const ImageCell = ({
 const tourPackageColumns: ColumnDef<TourPackageResType>[] = [
   {
     header: "Sl #",
-    accessorKey: "id",
-    cell: ({ row }) => (
-      <span className="font-medium text-gray-700">{row.index + 1}</span>
-    ),
+    cell: ({ row, table }) => {
+      const { pageIndex, pageSize } = table.options.meta as {
+        pageIndex: number;
+        pageSize: number;
+      };
+
+      return pageIndex * pageSize + row.index + 1;
+    },
   },
   {
     header: "Tour Name",
@@ -79,8 +83,8 @@ const tourPackageColumns: ColumnDef<TourPackageResType>[] = [
     header: "Tags",
     accessorKey: "tags",
     cell: ({ row }) => (
-      <div className="flex flex-wrap gap-1 max-w-xs">
-        {row.original.tags.map((tag) => (
+      <div className="flex flex-wrap gap-1 ">
+        {row.original.tags?.slice(0, 3).map((tag) => (
           <span
             key={tag.id}
             className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium"
@@ -88,6 +92,7 @@ const tourPackageColumns: ColumnDef<TourPackageResType>[] = [
             {tag?.name}
           </span>
         ))}
+        {row.original.tags?.length > 3 && "[...]"}
       </div>
     ),
   },

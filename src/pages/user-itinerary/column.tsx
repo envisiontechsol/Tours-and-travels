@@ -8,10 +8,14 @@ import { viewUserItineraryAction } from "../../store/editMgmtStore";
 export const placeColumns: ColumnDef<UserItinerayListResType>[] = [
   {
     header: "Sl #",
-    accessorKey: "id",
-    cell: ({ row }) => (
-      <span className="font-medium text-gray-700">{row.index + 1}</span>
-    ),
+    cell: ({ row, table }) => {
+      const { pageIndex, pageSize } = table.options.meta as {
+        pageIndex: number;
+        pageSize: number;
+      };
+
+      return pageIndex * pageSize + row.index + 1;
+    },
   },
   {
     header: "Name",

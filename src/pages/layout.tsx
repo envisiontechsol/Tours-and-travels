@@ -24,7 +24,7 @@ export const AdminLayout = () => {
         currentPath={location.pathname}
       />
 
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto bg-white">
         <div className="bg-white h-full rounded-xl">
           <DashboardHeader title={activeTitle} toggleSidebar={toggleSidebar} />
 
