@@ -2,6 +2,7 @@ export interface BlogPostResType {
   id: string;
   postTitle: string;
   blogUrl: string;
+  createdBy: string;
   featuredImageUrl: string | null;
   showComments: boolean;
   showHome: boolean;

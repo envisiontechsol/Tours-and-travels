@@ -17,9 +17,14 @@ export const topLevelMenuColumns: ColumnDef<TopLevelMenuResType>[] = [
         pageIndex: number;
         pageSize: number;
       };
+      console.log(pageIndex, pageSize);
 
       return pageIndex * pageSize + row.index + 1;
     },
+  },
+  {
+    header: "Order By",
+    accessorKey: "orderBy",
   },
   {
     header: "Name",

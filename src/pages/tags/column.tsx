@@ -19,6 +19,10 @@ export const tagsColumns: ColumnDef<TagResType>[] = [
     },
   },
   {
+    header: "Order By",
+    accessorKey: "orderBy",
+  },
+  {
     header: "Name",
     accessorKey: "name",
   },

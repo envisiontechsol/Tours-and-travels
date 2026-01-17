@@ -22,4 +22,12 @@ export const getFormFieldsConfig = (
     required: true,
     gridCols: "md:col-span-1",
   },
+
+  {
+    name: "orderBy",
+    label: "Order By",
+    type: "number",
+    placeholder: "Enter number",
+    gridCols: "md:col-span-1",
+  },
 ];

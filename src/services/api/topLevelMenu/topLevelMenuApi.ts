@@ -2,12 +2,16 @@ import { TopLevelMenuResType } from "../../../types/topLevelMenuTypes";
 import axiosInstance from "../config";
 import { errorHandler } from "../errorHandler";
 
-export const addTopLevelMenuReq = async (body: { name: string }) => {
+export const addTopLevelMenuReq = async (body: {
+  name: string;
+  orderBy: number;
+}) => {
   try {
     const reqBody = {
       name: body?.name,
       slug: body?.name?.toLowerCase()?.replace(" ", ""),
       route: "/package",
+      orderBy: body?.orderBy,
     };
     const url = `/toplevels`;
     const res = await axiosInstance.post(url, reqBody);

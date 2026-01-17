@@ -133,6 +133,7 @@ const SideNavbar = ({
       icon: <CarTaxiFront size={16} />,
       show: false,
       route: RoutesPath.vehicle,
+      module: "manageVehicles",
     },
     {
       name: "Users",
@@ -146,18 +147,21 @@ const SideNavbar = ({
       icon: <Info size={16} />,
       show: false,
       route: RoutesPath.cms,
+      module: "manageCMS",
     },
     {
       name: "Reviews",
       icon: <Star size={16} />,
       show: false,
       route: RoutesPath.reviews,
+      module: "manageReviews",
     },
     {
       name: "Blogs",
       icon: <FileText size={16} />,
       show: false,
       route: RoutesPath.blogs,
+      module: "manageBlogs",
     },
   ];
 

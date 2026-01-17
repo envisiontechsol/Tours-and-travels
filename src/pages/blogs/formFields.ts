@@ -21,6 +21,14 @@ export const getBlogFormFields = (
     gridCols: "md:col-span-1",
   },
   {
+    name: "createdBy",
+    label: "Created By",
+    type: "text",
+    placeholder: "Enter name",
+    required: true,
+    gridCols: "md:col-span-1",
+  },
+  {
     name: "featuredImage",
     label: "Featured Image",
     type: "file",

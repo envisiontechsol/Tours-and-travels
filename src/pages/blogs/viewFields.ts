@@ -3,6 +3,7 @@ import { ViewFieldConfigType } from "../../types/formsTypes";
 export const getViewFields = (): ViewFieldConfigType[] => [
   { label: "Post Title", key: "postTitle" },
   { label: "Blog URL", key: "blogUrl" },
+  { label: "Created By", key: "createdBy" },
   { label: "Featured Image", key: "featuredImageUrl", type: "image" },
   { label: "Show Comments", key: "showComments", type: "boolean" },
   { label: "Show on Home", key: "showHome", type: "boolean" },

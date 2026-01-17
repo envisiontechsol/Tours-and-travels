@@ -3,10 +3,10 @@ import { errorHandler } from "../errorHandler";
 
 export const fetchUserItineraries = async (
   page: number | string = 1,
-  size: number | string = 20
+  size: number | string = 10
 ) => {
   try {
-    const url = `/user-itineraries`;
+    const url = `/user-itineraries?page=${page}&pageSize=${size}`;
     const res = await axiosInstance.get(url);
     const _data = res?.data?.data;
     const _config = res?.data;

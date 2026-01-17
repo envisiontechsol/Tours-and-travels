@@ -25,7 +25,7 @@ const AddTagForm: React.FC = () => {
     formState: { errors },
   } = useForm<TagValues>({
     resolver: zodResolver(tagSchema),
-    defaultValues: { name: "", toplevel: undefined },
+    defaultValues: { name: "", toplevel: undefined, orderBy: 0 },
   });
 
   const getTopLevelTagsList = async () => {
@@ -46,7 +46,11 @@ const AddTagForm: React.FC = () => {
   const onSubmit = async (data: TagValues) => {
     setisSubmitting(true);
     try {
-      await addTagReq({ name: data?.name, topLevelId: data?.toplevel?.value });
+      await addTagReq({
+        name: data?.name,
+        topLevelId: data?.toplevel?.value,
+        orderBy: data?.orderBy,
+      });
       toast.success("Tag added successfully!");
       reset();
     } catch (error: any) {

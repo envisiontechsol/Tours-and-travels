@@ -3,6 +3,7 @@ import { z } from "zod";
 export const blogSchema = z.object({
   postTitle: z.string().min(1, "Blog name is required"),
   blogUrl: z.string().min(1, "Blog url is required"),
+  createdBy: z.string().min(1, "Created By is required"),
   showComments: z.boolean(),
   showHome: z.boolean(),
   // content: z.string().optional(),

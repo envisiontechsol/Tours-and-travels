@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
@@ -11,6 +11,9 @@ import {
   closeAllEditAction,
   useEditMgmtStore,
 } from "../../store/editMgmtStore";
+import { FormFieldConfigType } from "../../types/formsTypes";
+import { getFormFields } from "./formFileds";
+import DynamicFormFields from "../../components/forms/dynamicFormFields";
 
 type TopLevelMenuValues = z.infer<typeof topLevelMenuSchema>;
 
@@ -24,13 +27,14 @@ const EditForm: React.FC = () => {
     formState: { errors, isSubmitting },
   } = useForm<TopLevelMenuValues>({
     resolver: zodResolver(topLevelMenuSchema),
-    defaultValues: { name: "" },
+    defaultValues: { name: "", orderBy: 0 },
   });
 
   useEffect(() => {
     if (editData?.id) {
       reset({
         name: editData?.name,
+        orderBy: editData?.orderBy,
       });
     }
   }, [editData]);
@@ -44,7 +48,8 @@ const EditForm: React.FC = () => {
       const reqBody = {
         name: data?.name,
         slug: data?.name?.toLowerCase(),
-        route: editData?.route || "package",
+        route: editData?.route || "/package",
+        orderBy: data?.orderBy,
       };
       await updateTopLevelMenuReq(editData?.id || "", reqBody);
       toast.success("Menu updated successfully!");
@@ -54,6 +59,8 @@ const EditForm: React.FC = () => {
     }
   };
 
+  const formFields: FormFieldConfigType[] = useMemo(() => getFormFields(), []);
+
   return (
     <div className="mt-2 border rounded-lg p-5 shadow-sm bg-white relative">
       <div className="inline-block bg-gray-200 px-4 py-1 text-[15px] font-semibold rounded-md -mt-8 mb-4 shadow-sm absolute">
@@ -62,22 +69,12 @@ const EditForm: React.FC = () => {
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Controller
-            name="name"
+          <DynamicFormFields
             control={control}
-            render={({ field }) => (
-              <TextInput
-                label="Menu"
-                placeholder="Enter menu"
-                value={field.value}
-                onChange={field.onChange}
-                error={errors.name?.message || undefined}
-                required
-              />
-            )}
+            errors={errors}
+            fields={formFields}
           />
         </div>
-
         {/* Buttons */}
         <div className="mt-6 flex items-center space-x-3">
           <button

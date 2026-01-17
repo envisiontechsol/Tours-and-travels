@@ -49,13 +49,13 @@ const DataTable = <TData,>({
       sorting,
       globalFilter,
       pagination: {
-        pageIndex: pageIndex - 1,
+        pageIndex: pageIndex > 0 ? pageIndex - 1 : 0,
         pageSize,
       },
     },
 
     meta: {
-      pageIndex: pageIndex - 1,
+      pageIndex: pageIndex > 0 ? pageIndex - 1 : 0,
       pageSize,
     },
 
@@ -199,7 +199,7 @@ const DataTable = <TData,>({
           {Array.from({ length: totalPages }).map((_, i) => (
             <button
               key={i}
-              onClick={() => onPageChange(i)}
+              onClick={() => onPageChange(i + 1)}
               className={`px-3 py-1 border rounded ${
                 pageIndex === i + 1
                   ? "bg-blue-600 text-white"

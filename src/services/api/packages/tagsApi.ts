@@ -3,10 +3,13 @@ import { errorHandler } from "../errorHandler";
 
 export const fetchTagsReq = async (
   page: number | string = 1,
-  size: number | string = 50
+  size: number | string = 50,
+  topLevelId?: string
 ) => {
   try {
-    const url = `/tags?page=${page}&pageSize=${size}`;
+    const url = !!topLevelId
+      ? `/tags?topLevelId=${topLevelId}&page=${page}&pageSize=${size}`
+      : `/tags?page=${page}&pageSize=${size}`;
     const res = await axiosInstance.get(url);
     const _data = res?.data?.data;
     const _config = res?.data || null;
@@ -24,11 +27,16 @@ export const fetchTagsReq = async (
     throw { error: true, data: "", message: "", errorMsg: error };
   }
 };
-export const addTagReq = async (body: { name: string; topLevelId: string }) => {
+export const addTagReq = async (body: {
+  name: string;
+  topLevelId: string;
+  orderBy: number;
+}) => {
   try {
     const reqBody = {
       name: body?.name,
       topLevelId: body?.topLevelId,
+      orderBy: Number(body?.orderBy),
     };
     const url = `/tags`;
     const res = await axiosInstance.post(url, reqBody);
@@ -43,12 +51,13 @@ export const addTagReq = async (body: { name: string; topLevelId: string }) => {
 };
 export const upadteTagReq = async (
   id: string,
-  body: { name: string; topLevelId: string }
+  body: { name: string; topLevelId: string; orderBy: number }
 ) => {
   try {
     const reqBody = {
       name: body?.name,
       topLevelId: body?.topLevelId,
+      orderBy: Number(body?.orderBy),
     };
     const url = `/tags/${id}`;
     const res = await axiosInstance.patch(url, reqBody);

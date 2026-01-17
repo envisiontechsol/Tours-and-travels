@@ -29,9 +29,9 @@ export const fetchReviewsReq = async (
   size: number | string
 ) => {
   try {
-    const url = `/reviews`;
+    const url = `/reviews?page=${page}&pageSize=${size}`;
     const res = await axiosInstance.get(url);
-    const _data = res?.data?.data?.items;
+    const _data = res?.data?.data;
     const _msg = res?.data?.message;
     const _config = res?.data;
 

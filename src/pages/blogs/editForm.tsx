@@ -71,6 +71,7 @@ const EditForm: React.FC = () => {
     reset({
       postTitle: editData.postTitle,
       blogUrl: editData.blogUrl,
+      createdBy: editData.createdBy,
       showComments: editData.showComments,
       showHome: editData.showHome,
       metaTitle: editData.metaTitle,
@@ -105,6 +106,7 @@ const EditForm: React.FC = () => {
       formData.append("metaTitle", data.metaTitle);
       formData.append("metaKeyword", data.metaKeyword);
       formData.append("metaDescription", data.metaDescription);
+      formData.append("createdBy", data.createdBy);
 
       if (data.featuredImage?.length) {
         formData.append("featuredImage", data.featuredImage[0]);

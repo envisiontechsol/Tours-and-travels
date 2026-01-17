@@ -112,12 +112,10 @@ const blogColumns: ColumnDef<BlogPostResType>[] = [
     ),
   },
   {
-    header: "Created At",
-    accessorKey: "createdAt",
+    header: "Created By",
+    accessorKey: "createdBy",
     cell: ({ row }) => (
-      <span className="text-sm text-gray-600">
-        {dayjs(row.original.createdAt).format("DD MMM YYYY")}
-      </span>
+      <span className="font-medium">{row.original?.createdBy}</span>
     ),
   },
   {

@@ -3,4 +3,5 @@ export interface TopLevelMenuResType {
   name: string;
   slug: string;
   route?: string | null;
+  orderBy: number;
 }

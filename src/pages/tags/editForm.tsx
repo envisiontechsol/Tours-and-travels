@@ -6,15 +6,15 @@ import { z } from "zod";
 
 import DynamicFormFields from "../../components/forms/dynamicFormFields";
 import { tagSchema } from "../../schema/tagSchema";
-import { addTagReq, upadteTagReq } from "../../services/api/packages/tagsApi";
-import { FormFieldConfigType, OptionType } from "../../types/formsTypes";
-import { getFormFieldsConfig } from "./formFieldsConfig";
-import { TopLevelTagResType } from "../../types/packageType";
+import { upadteTagReq } from "../../services/api/packages/tagsApi";
+import { fetchTopLevelMenusReq } from "../../services/api/topLevelMenu/topLevelMenuApi";
 import {
   closeAllEditAction,
   useEditMgmtStore,
 } from "../../store/editMgmtStore";
-import { fetchTopLevelMenusReq } from "../../services/api/topLevelMenu/topLevelMenuApi";
+import { FormFieldConfigType, OptionType } from "../../types/formsTypes";
+import { TopLevelTagResType } from "../../types/packageType";
+import { getFormFieldsConfig } from "./formFieldsConfig";
 
 type TagValues = z.infer<typeof tagSchema>;
 
@@ -31,7 +31,7 @@ const EditTagForm: React.FC = () => {
     formState: { errors },
   } = useForm<TagValues>({
     resolver: zodResolver(tagSchema),
-    defaultValues: { name: "", toplevel: undefined },
+    defaultValues: { name: "", toplevel: undefined, orderBy: 0 },
   });
 
   useEffect(() => {
@@ -41,6 +41,7 @@ const EditTagForm: React.FC = () => {
       );
       reset({
         name: editData?.name,
+        orderBy: Number(editData?.orderBy || 0),
         toplevel: selectedTopLevelTag
           ? {
               label: selectedTopLevelTag.label,
@@ -76,6 +77,7 @@ const EditTagForm: React.FC = () => {
       await upadteTagReq(editData?.id || "", {
         name: data?.name,
         topLevelId: data?.toplevel?.value,
+        orderBy: Number(data?.orderBy),
       });
       toast.success("Tag updated successfully!");
       onCancelOrClose();
