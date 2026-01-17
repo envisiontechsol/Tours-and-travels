@@ -2,7 +2,7 @@ import { BlogPostResType } from "../../types/blogsTypes";
 import { FormFieldConfigType } from "../../types/formsTypes";
 
 export const getBlogFormFields = (
-  formData?: BlogPostResType | null
+  formData?: BlogPostResType | null,
 ): FormFieldConfigType[] => [
   {
     name: "postTitle",
@@ -30,7 +30,7 @@ export const getBlogFormFields = (
   },
   {
     name: "featuredImage",
-    label: "Featured Image",
+    label: "Featured Image (1024 x 1024)",
     type: "file",
     previewUrl: formData?.featuredImageUrl || undefined,
     gridCols: "md:col-span-1",
