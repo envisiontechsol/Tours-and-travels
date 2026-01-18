@@ -150,6 +150,7 @@ const ToolbarButton = ({
   active?: boolean;
 }) => (
   <button
+    type="button"
     onClick={onClick}
     className={`flex h-9 w-9 items-center justify-center rounded-md border transition
       ${
