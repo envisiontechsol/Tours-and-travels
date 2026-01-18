@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -7,24 +7,21 @@ import Textarea from "../../components/forms/elements/textarea";
 
 import { toast } from "react-toastify";
 import DynamicFormFields from "../../components/forms/dynamicFormFields";
-import { slotsCategory } from "../../constants/slotsCategory";
+import TipTapEditorInput from "../../components/forms/elements/tipTapEditorInput";
 import { activitySchema } from "../../schema/activitySchema";
-import {
-  addActivityReq,
-  updateActivityReq,
-} from "../../services/api/activites/activityApi";
+import { updateActivityReq } from "../../services/api/activites/activityApi";
 import { fetchDestinationReq } from "../../services/api/locations/destinationApi";
-import { fetchTagsReq } from "../../services/api/packages/tagsApi";
-import {
-  getActivitydescriptionField,
-  getActivityFormFields,
-} from "./activityFormFields";
-import { FormFieldConfigType, OptionType } from "../../types/formsTypes";
+import { fetchSlotsCategoryReq } from "../../services/api/others/slotsCatApi";
 import {
   closeAllEditAction,
   useEditMgmtStore,
 } from "../../store/editMgmtStore";
-import { fetchSlotsCategoryReq } from "../../services/api/others/slotsCatApi";
+import { FormFieldConfigType, OptionType } from "../../types/formsTypes";
+import { TipTapEditorInputRefType } from "../../types/tipTapEditorTypes";
+import {
+  getActivitydescriptionField,
+  getActivityFormFields,
+} from "./activityFormFields";
 
 type ActivityFormValues = z.infer<typeof activitySchema>;
 
@@ -35,7 +32,6 @@ const EditActivityForm: React.FC = () => {
     control,
     handleSubmit,
     reset,
-    setValue,
     formState: { errors },
   } = useForm<ActivityFormValues>({
     resolver: zodResolver(activitySchema),
@@ -60,9 +56,13 @@ const EditActivityForm: React.FC = () => {
     },
   });
 
+  const overviweEditorRef = useRef<TipTapEditorInputRefType>(null);
+  const inclusionExclusionEditorRef = useRef<TipTapEditorInputRefType>(null);
+  const Ticket_typeEditorRef = useRef<TipTapEditorInputRefType>(null);
+
   const [categoryOptions, setCategoryOptions] = useState<OptionType[]>([]);
   const [destinationOptions, setDestinationOptions] = useState<OptionType[]>(
-    []
+    [],
   );
   const [isSubmitting, setisSubmitting] = useState(false);
 
@@ -79,11 +79,11 @@ const EditActivityForm: React.FC = () => {
     if (!editData) return;
 
     const selectedCategory = categoryOptions.find(
-      (c) => c.value === editData?.categoryId
+      (c) => c.value === editData?.categoryId,
     );
 
     const selectedDestination = destinationOptions.find(
-      (d) => d.value === editData?.destinationId
+      (d) => d.value === editData?.destinationId,
     );
 
     reset({
@@ -126,7 +126,7 @@ const EditActivityForm: React.FC = () => {
         res?.data?.map((cat: any) => ({
           label: cat.name,
           value: cat.id,
-        })) || []
+        })) || [],
       );
     } catch (err) {
       console.log("Failed to load categories", err);
@@ -140,7 +140,7 @@ const EditActivityForm: React.FC = () => {
         res?.data?.map((d: any) => ({
           label: d.name,
           value: d.id,
-        })) || []
+        })) || [],
       );
     } catch (err) {
       console.log("Failed to load destinations", err);
@@ -189,6 +189,15 @@ const EditActivityForm: React.FC = () => {
         formData.append("image4", data.image4[0]);
       }
 
+      formData.append("overviwe", overviweEditorRef.current?.getHTML() || "");
+      formData.append(
+        "inclusionExclusion",
+        inclusionExclusionEditorRef.current?.getHTML() || "",
+      );
+      formData.append(
+        "Ticket_type",
+        Ticket_typeEditorRef.current?.getHTML() || "",
+      );
       // ---- DEBUG OUTPUT ----
       for (let [key, value] of formData.entries()) {
         console.log("REQ:", key, value);
@@ -206,7 +215,7 @@ const EditActivityForm: React.FC = () => {
 
   const formFields: FormFieldConfigType[] = useMemo(
     () => getActivityFormFields(categoryOptions, destinationOptions, editData),
-    [categoryOptions, destinationOptions, editData]
+    [categoryOptions, destinationOptions, editData],
   );
 
   const descriptionField: FormFieldConfigType = getActivitydescriptionField();
@@ -245,6 +254,28 @@ const EditActivityForm: React.FC = () => {
                 }
               />
             )}
+          />
+        </div>
+
+        <div className="mt-5">
+          <TipTapEditorInput
+            ref={overviweEditorRef}
+            label="Overviwe"
+            initialContent={editData?.overviwe || ""}
+          />
+        </div>
+        <div className="mt-5">
+          <TipTapEditorInput
+            ref={inclusionExclusionEditorRef}
+            label="Inclusion Exclusion Information"
+            initialContent={editData?.inclusionExclusion || ""}
+          />
+        </div>
+        <div className="mt-5">
+          <TipTapEditorInput
+            ref={Ticket_typeEditorRef}
+            label="Ticket type"
+            initialContent={editData?.Ticket_type || ""}
           />
         </div>
 

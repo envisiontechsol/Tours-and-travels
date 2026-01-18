@@ -33,6 +33,9 @@ export interface ActivityResType {
   image4tage: string;
   createdAt: string;
   updatedAt: string;
+  overviwe: string;
+  inclusionExclusion: string;
+  Ticket_type: string;
 }
 
 export interface ActivityReqBodyType {

@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -16,6 +16,8 @@ import {
   getActivitydescriptionField,
   getActivityFormFields,
 } from "./activityFormFields";
+import TipTapEditorInput from "../../components/forms/elements/tipTapEditorInput";
+import { TipTapEditorInputRefType } from "../../types/tipTapEditorTypes";
 
 type ActivityFormValues = z.infer<typeof activitySchema>;
 
@@ -48,14 +50,22 @@ const AddActivityForm: React.FC = () => {
     },
   });
 
+  const overviweEditorRef = useRef<TipTapEditorInputRefType>(null);
+  const inclusionExclusionEditorRef = useRef<TipTapEditorInputRefType>(null);
+  const Ticket_typeEditorRef = useRef<TipTapEditorInputRefType>(null);
+
   const [categoryOptions, setCategoryOptions] = useState<OptionType[]>([]);
   const [destinationOptions, setDestinationOptions] = useState<OptionType[]>(
-    []
+    [],
   );
   const [isSubmitting, setisSubmitting] = useState(false);
 
   const onResetForm = () => {
     reset();
+    overviweEditorRef.current?.clear();
+    inclusionExclusionEditorRef.current?.clear();
+    Ticket_typeEditorRef.current?.clear();
+
     const fileInputs = document.querySelectorAll('input[type="file"]');
     fileInputs.forEach((input) => {
       (input as HTMLInputElement).value = "";
@@ -74,7 +84,7 @@ const AddActivityForm: React.FC = () => {
         res?.data?.map((cat: any) => ({
           label: cat.name,
           value: cat.id,
-        })) || []
+        })) || [],
       );
     } catch (err) {
       console.log("Failed to load categories", err);
@@ -88,7 +98,7 @@ const AddActivityForm: React.FC = () => {
         res?.data?.map((d: any) => ({
           label: d.name,
           value: d.id,
-        })) || []
+        })) || [],
       );
     } catch (err) {
       console.log("Failed to load destinations", err);
@@ -137,6 +147,16 @@ const AddActivityForm: React.FC = () => {
         formData.append("image4", data.image4[0]);
       }
 
+      formData.append("overviwe", overviweEditorRef.current?.getHTML() || "");
+      formData.append(
+        "inclusionExclusion",
+        inclusionExclusionEditorRef.current?.getHTML() || "",
+      );
+      formData.append(
+        "Ticket_type",
+        Ticket_typeEditorRef.current?.getHTML() || "",
+      );
+
       // ---- DEBUG OUTPUT ----
       for (let [key, value] of formData.entries()) {
         console.log("REQ:", key, value);
@@ -154,7 +174,7 @@ const AddActivityForm: React.FC = () => {
 
   const formFields: FormFieldConfigType[] = useMemo(
     () => getActivityFormFields(categoryOptions, destinationOptions),
-    [categoryOptions, destinationOptions]
+    [categoryOptions, destinationOptions],
   );
 
   const descriptionField: FormFieldConfigType = getActivitydescriptionField();
@@ -194,6 +214,19 @@ const AddActivityForm: React.FC = () => {
               />
             )}
           />
+        </div>
+
+        <div className="mt-5">
+          <TipTapEditorInput ref={overviweEditorRef} label="Overviwe" />
+        </div>
+        <div className="mt-5">
+          <TipTapEditorInput
+            ref={inclusionExclusionEditorRef}
+            label="Inclusion Exclusion Information"
+          />
+        </div>
+        <div className="mt-5">
+          <TipTapEditorInput ref={Ticket_typeEditorRef} label="Ticket type" />
         </div>
 
         {/* BUTTONS */}

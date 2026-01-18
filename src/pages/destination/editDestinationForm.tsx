@@ -66,21 +66,21 @@ const EditDestinationForm = () => {
       formData.append("about", data.about);
       formData.append(
         "bannerImageTag",
-        data?.bannerImagetage?.replace(" ", "").trim() || ""
+        data?.bannerImagetage?.replace(" ", "").trim() || "",
       );
       formData.append("top10Rank", String(data?.top10Rank) || "");
 
       formData.append(
         "travelInsuranceIncluded",
-        (!!data.travelInsuranceIncluded).toString()
+        (!!data.travelInsuranceIncluded).toString(),
       );
       formData.append(
         "insurancePriceInINR",
-        String(data?.insurancePriceInINR) || ""
+        String(data?.insurancePriceInINR) || "",
       );
       formData.append(
         "visaInformationHtml",
-        editorRef.current?.getHTML() || ""
+        editorRef.current?.getHTML() || "",
       );
 
       formData.append("metaTitle", data?.metaTitle || "");
@@ -117,18 +117,15 @@ const EditDestinationForm = () => {
         insurancePriceInINR: editData?.insurancePriceInINR,
       });
     }
-    // if (!!editData?.visaInformationHtml) {
-    //   editorRef.current?.setContent(editData.visaInformationHtml);
-    // }
-  }, [editData, editorRef]);
+  }, [editData]);
 
   const formFields: FormFieldConfigType[] = useMemo(
     () => getDestinationFormFields(editData),
-    []
+    [],
   );
   const metaFormFields: FormFieldConfigType[] = useMemo(
     () => getMetaFields(),
-    []
+    [],
   );
 
   const aboutField: FormFieldConfigType = getDestinationAboutField();

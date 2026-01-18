@@ -25,7 +25,7 @@ const EditReviewForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [tagsOpts, setTagsOpts] = useState<OptionType[]>([]);
   const [destinationOptions, setDestinationOptions] = useState<OptionType[]>(
-    []
+    [],
   );
 
   const {
@@ -63,7 +63,7 @@ const EditReviewForm: React.FC = () => {
         res?.data?.map((d: any) => ({
           label: d.name,
           value: d.id,
-        })) || []
+        })) || [],
       );
     } catch (err) {}
   };
@@ -73,14 +73,13 @@ const EditReviewForm: React.FC = () => {
     loadDestinations();
   }, []);
 
-  /** 🔹 Populate form on edit */
   useEffect(() => {
     if (!editData || !tagsOpts.length) return;
     const matchedTags = tagsOpts.filter((opt) =>
-      editData?.tagLinks?.some((t) => String(t.tagId) === String(opt.value))
+      editData?.tagIds?.some((t) => String(t) === String(opt.value)),
     );
     const matchedDestTags = destinationOptions.filter((opt) =>
-      editData?.tagLinks?.some((t) => String(t.tagId) === String(opt.value))
+      editData?.tagIds?.some((t) => String(t) === String(opt.value)),
     );
     reset({
       name: editData.name,
@@ -127,12 +126,12 @@ const EditReviewForm: React.FC = () => {
 
   const tagsListOfOpt = useMemo(
     () => [...tagsOpts, ...destinationOptions],
-    [tagsOpts, destinationOptions]
+    [tagsOpts, destinationOptions],
   );
 
   const formFields: FormFieldConfigType[] = useMemo(
     () => getFormFieldsConfig(tagsListOfOpt),
-    [tagsListOfOpt]
+    [tagsListOfOpt],
   );
 
   if (!editData) return null;

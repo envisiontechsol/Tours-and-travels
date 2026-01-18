@@ -36,6 +36,9 @@ export const activitySchema = z
     isActive: z.boolean(),
     editable: z.boolean(),
     priceInINR: z.number().min(0, "Price is required"),
+    // overviwe: z.string().optional(),
+    // inclusionExclusion: z.string().optional(),
+    // Ticket_type: z.string().optional(),
   })
 
   /* ---------- IMAGE SIZE VALIDATION ---------- */
@@ -72,7 +75,7 @@ export const activitySchema = z
     {
       message: "Banner tag is required when banner image is provided",
       path: ["bannerTag"],
-    }
+    },
   )
 
   .refine((data) => (data?.image1?.length ? !!data.image1Tag?.trim() : true), {
