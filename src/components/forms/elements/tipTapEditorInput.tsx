@@ -1,4 +1,3 @@
-// components/editor/TipTapEditorInput.tsx
 import React, { forwardRef, useEffect, useImperativeHandle } from "react";
 
 import Color from "@tiptap/extension-color";
@@ -9,6 +8,8 @@ import Link from "@tiptap/extension-link";
 import TextAlign from "@tiptap/extension-text-align";
 import Underline from "@tiptap/extension-underline";
 import StarterKit from "@tiptap/starter-kit";
+import { TextStyle, FontSize } from "@tiptap/extension-text-style";
+
 import { EditorContent, useEditor } from "@tiptap/react";
 import { Toolbar } from "../../editor/toolbar";
 import { TipTapEditorInputRefType } from "../../../types/tipTapEditorTypes";
@@ -25,9 +26,11 @@ const TipTapEditorInput = forwardRef<TipTapEditorInputRefType, Props>(
       extensions: [
         StarterKit,
         Underline,
+        TextStyle,
         Color,
         Highlight.configure({ multicolor: true }),
         FontFamily,
+        FontSize,
         Link.configure({ openOnClick: false }),
         Image,
         TextAlign.configure({
@@ -67,7 +70,7 @@ const TipTapEditorInput = forwardRef<TipTapEditorInputRefType, Props>(
         </div>
       </div>
     );
-  }
+  },
 );
 
 export default TipTapEditorInput;

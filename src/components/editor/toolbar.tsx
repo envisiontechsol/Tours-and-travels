@@ -14,10 +14,32 @@ import {
   Image as ImageIcon,
   Highlighter,
 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const fonts = ["Inter", "Arial", "Times New Roman", "Georgia", "Courier New"];
 
+const fontSizes = ["12px", "14px", "16px", "18px", "20px", "24px", "32px"];
+
 export const Toolbar = ({ editor }: { editor: Editor }) => {
+  const [fontSize, setFontSize] = useState("16px");
+
+  useEffect(() => {
+    if (!editor) return;
+
+    const updateFontSize = () => {
+      const size = editor.getAttributes("textStyle").fontSize;
+      setFontSize(size || "16px");
+    };
+
+    updateFontSize(); // initial
+    editor.on("selectionUpdate", updateFontSize);
+    editor.on("transaction", updateFontSize);
+
+    return () => {
+      editor.off("selectionUpdate", updateFontSize);
+      editor.off("transaction", updateFontSize);
+    };
+  }, [editor]);
   return (
     <div className="sticky top-0 z-10 flex flex-wrap items-center gap-2 border-b bg-white p-2 shadow-sm">
       {/* Undo / Redo */}
@@ -64,6 +86,19 @@ export const Toolbar = ({ editor }: { editor: Editor }) => {
         {fonts.map((f) => (
           <option key={f} value={f}>
             {f}
+          </option>
+        ))}
+      </select>
+      <select
+        className="h-9 rounded-md border px-2 text-sm focus:outline-none"
+        value={fontSize}
+        onChange={(e) =>
+          editor.chain().focus().setFontSize(e.target.value).run()
+        }
+      >
+        {fontSizes.map((size) => (
+          <option key={size} value={size}>
+            {size}
           </option>
         ))}
       </select>
