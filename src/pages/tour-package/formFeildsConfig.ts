@@ -64,13 +64,6 @@ export const getFormFieldsConfig = (
     type: "number",
   },
   {
-    name: "visaPriceInINR",
-    label: "Visa Price In INR",
-    type: "number",
-    required: true,
-  },
-
-  {
     name: "packageTypeId",
     label: "Package Type",
     type: "select",

@@ -22,7 +22,6 @@ export const tourPackageSchema = z
     flightMarginPct: z.number().min(0).optional(),
 
     rating: z.number().min(0).max(5).optional(),
-    visaPriceInINR: z.number().min(1, "Minimum Price required"),
     about: z.string().min(10, "About the package is required"),
 
     startingCity: z.string().optional(),

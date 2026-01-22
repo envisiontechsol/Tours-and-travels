@@ -17,6 +17,7 @@ export interface DestinationResType {
   travelInsuranceIncluded: boolean;
   visaInformationHtml: string;
   insurancePriceInINR: number;
+  visaPriceInINR: number;
 }
 
 export interface DestinationReqBodyType {

@@ -4,7 +4,7 @@ import { FormFieldConfigType } from "../../types/formsTypes";
 import { DestinationResType } from "../../types/locationTypes";
 
 export const getDestinationFormFields = (
-  formData?: DestinationResType | null
+  formData?: DestinationResType | null,
 ): FormFieldConfigType[] => [
   {
     name: "name",
@@ -52,6 +52,14 @@ export const getDestinationFormFields = (
     label: "Insurance Price (INR)",
     type: "number",
     placeholder: "Enter insurance price",
+    required: true,
+    gridCols: "md:col-span-1",
+  },
+  {
+    name: "visaPriceInINR",
+    label: "Visa Price (INR)",
+    type: "number",
+    placeholder: "Enter visa price",
     required: true,
     gridCols: "md:col-span-1",
   },

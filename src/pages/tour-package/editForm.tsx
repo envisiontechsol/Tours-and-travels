@@ -56,7 +56,6 @@ const EditTourPackageForm: React.FC = () => {
       flightMarginPct: 0,
       hotelMarginPct: 0,
       rating: 0,
-      visaPriceInINR: 0,
       about: "",
       inclusionText: "",
       exclusionText: "",
@@ -214,7 +213,6 @@ const EditTourPackageForm: React.FC = () => {
       formData.append("hotelMarginPct", String(data.hotelMarginPct));
       formData.append("flightMarginPct", String(data.flightMarginPct));
       formData.append("rating", String(data.rating));
-      formData.append("visaPriceInINR", String(data.visaPriceInINR));
       formData.append("about", data.about);
       formData.append("isActive", String(data.isActive));
       formData.append("selected", String(data.selected));
@@ -320,7 +318,6 @@ const EditTourPackageForm: React.FC = () => {
         profitMarginPct: Number(editData?.profitMarginPct || 0),
         priceInINR: Number(editData?.priceInINR || 0),
         rating: Number(editData?.rating || 0),
-        visaPriceInINR: Number(editData?.visaPriceInINR || 0),
         tourAlt: editData?.tourImagetage || "",
         tourImage: undefined,
         selected: !!editData?.selected,

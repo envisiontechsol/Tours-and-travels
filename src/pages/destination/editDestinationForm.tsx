@@ -78,6 +78,7 @@ const EditDestinationForm = () => {
         "insurancePriceInINR",
         String(data?.insurancePriceInINR) || "",
       );
+      formData.append("visaPriceInINR", String(data.visaPriceInINR));
       formData.append(
         "visaInformationHtml",
         editorRef.current?.getHTML() || "",
@@ -115,6 +116,7 @@ const EditDestinationForm = () => {
         metaDescription: editData?.metaDescription,
         travelInsuranceIncluded: editData?.travelInsuranceIncluded,
         insurancePriceInINR: editData?.insurancePriceInINR,
+        visaPriceInINR: editData?.visaPriceInINR,
       });
     }
   }, [editData]);

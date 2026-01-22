@@ -45,6 +45,7 @@ const AddDestinationForm: React.FC = () => {
       travelInsuranceIncluded: false,
       visaInformationHtml: "",
       insurancePriceInINR: 0,
+      visaPriceInINR: 0,
     },
   });
 
@@ -72,15 +73,16 @@ const AddDestinationForm: React.FC = () => {
 
       formData.append(
         "travelInsuranceIncluded",
-        (!!data.travelInsuranceIncluded).toString()
+        (!!data.travelInsuranceIncluded).toString(),
       );
       formData.append(
         "insurancePriceInINR",
-        String(data?.insurancePriceInINR) || ""
+        String(data?.insurancePriceInINR) || "",
       );
+      formData.append("visaPriceInINR", String(data.visaPriceInINR));
       formData.append(
         "visaInformationHtml",
-        editorRef.current?.getHTML() || ""
+        editorRef.current?.getHTML() || "",
       );
 
       formData.append("metaTitle", data?.metaTitle || "");
@@ -91,7 +93,7 @@ const AddDestinationForm: React.FC = () => {
         formData.append("bannerImage", data.bannerImage[0]);
         formData.append(
           "bannerImageTag",
-          data?.bannerImagetage?.replace(" ", "").trim() || ""
+          data?.bannerImagetage?.replace(" ", "").trim() || "",
         );
       }
       await addDestinationReq(formData);
@@ -105,11 +107,11 @@ const AddDestinationForm: React.FC = () => {
 
   const formFields: FormFieldConfigType[] = useMemo(
     () => getDestinationFormFields(),
-    []
+    [],
   );
   const metaFormFields: FormFieldConfigType[] = useMemo(
     () => getMetaFields(),
-    []
+    [],
   );
 
   const aboutField: FormFieldConfigType = getDestinationAboutField();

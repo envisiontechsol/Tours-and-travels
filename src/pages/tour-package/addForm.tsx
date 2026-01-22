@@ -48,7 +48,6 @@ const AddTourPackageForm: React.FC = () => {
       flightMarginPct: 0,
       hotelMarginPct: 0,
       rating: 0,
-      visaPriceInINR: 0,
       about: "",
       inclusionText: "",
       exclusionText: "",
@@ -222,7 +221,6 @@ const AddTourPackageForm: React.FC = () => {
       formData.append("hotelMarginPct", String(data.hotelMarginPct));
       formData.append("flightMarginPct", String(data.flightMarginPct));
       formData.append("rating", String(data.rating));
-      formData.append("visaPriceInINR", String(data.visaPriceInINR));
       formData.append("about", data.about);
       formData.append("isActive", String(data.isActive));
       formData.append("selected", String(data.selected));
