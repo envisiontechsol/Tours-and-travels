@@ -12,6 +12,7 @@ export interface TourPackageResType {
   HotelMarginPct: string; // string
 
   rating: string; // string from API
+  visaPriceInINR: string; // string from API
   about: string | null;
 
   isActive: boolean;
@@ -55,6 +56,7 @@ export interface TourPackageResType {
   metaTitle: string;
   metaKeywords: string;
   metaDescription: string;
+  inclusionExclusion: string;
 }
 
 export interface DurationType {

@@ -6,11 +6,11 @@ import EditForm from "./editForm";
 import TableList from "./tableView";
 import ViewDetails from "./viewDetails";
 
-const QuickLinkLayout = () => {
+const FooterConfigLayout = () => {
   const [activeTab, setActiveTab] = useState<string>(TabName.VIEW);
 
-  const isEditing = useEditMgmtStore((s) => !!s.editQuickLinkData);
-  const isViewing = useEditMgmtStore((s) => !!s.viewQuickLinkData);
+  const isEditing = useEditMgmtStore((s) => !!s.editFooterData);
+  const isViewing = useEditMgmtStore((s) => !!s.viewFooterData);
 
   const getTabName = (tab: string) => {
     setActiveTab(tab);
@@ -53,4 +53,4 @@ const QuickLinkLayout = () => {
   );
 };
 
-export default QuickLinkLayout;
+export default FooterConfigLayout;

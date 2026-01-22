@@ -51,6 +51,9 @@ const tourPackageColumns: ColumnDef<TourPackageResType>[] = [
   {
     header: "Tour Name",
     accessorKey: "name",
+    meta: {
+      className: "min-w-[300px]",
+    },
   },
   {
     header: "Code",
@@ -79,23 +82,23 @@ const tourPackageColumns: ColumnDef<TourPackageResType>[] = [
       </span>
     ),
   },
-  {
-    header: "Tags",
-    accessorKey: "tags",
-    cell: ({ row }) => (
-      <div className="flex flex-wrap gap-1 ">
-        {row.original.tags?.slice(0, 3).map((tag) => (
-          <span
-            key={tag.id}
-            className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium"
-          >
-            {tag?.name}
-          </span>
-        ))}
-        {row.original.tags?.length > 3 && "[...]"}
-      </div>
-    ),
-  },
+  // {
+  //   header: "Tags",
+  //   accessorKey: "tags",
+  //   cell: ({ row }) => (
+  //     <div className="flex flex-wrap gap-1 ">
+  //       {row.original.tags?.slice(0, 3).map((tag) => (
+  //         <span
+  //           key={tag.id}
+  //           className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium"
+  //         >
+  //           {tag?.name}
+  //         </span>
+  //       ))}
+  //       {row.original.tags?.length > 3 && "[...]"}
+  //     </div>
+  //   ),
+  // },
   {
     header: "About",
     accessorKey: "about",

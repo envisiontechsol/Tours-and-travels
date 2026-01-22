@@ -132,13 +132,15 @@ const DataTable = <TData,>({
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className="p-3 border font-semibold text-gray-700 cursor-pointer"
+                  className={`p-3 border font-semibold text-gray-700 cursor-pointer ${
+                    header?.column?.columnDef?.meta?.className ?? "min-w-[60px]"
+                  }`}
                   onClick={header.column.getToggleSortingHandler()}
                 >
                   <div className="flex items-center gap-2">
                     {flexRender(
                       header.column.columnDef.header,
-                      header.getContext()
+                      header.getContext(),
                     )}
                     {{ asc: "▲", desc: "▼" }[
                       header.column.getIsSorted() as string
@@ -156,7 +158,7 @@ const DataTable = <TData,>({
             .rows.filter((row) =>
               JSON.stringify(row.original)
                 .toLowerCase()
-                .includes(filterInput.toLowerCase())
+                .includes(filterInput.toLowerCase()),
             )
             .map((row) => (
               <tr key={row.id} className="border-b hover:bg-gray-50">

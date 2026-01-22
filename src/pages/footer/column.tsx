@@ -1,12 +1,10 @@
-// components/table/placeColumns.tsx
 import { ColumnDef } from "@tanstack/react-table";
-import { Pencil } from "lucide-react";
-import { TagResType } from "../../types/packageType";
-import { editTagAction, viewTagAction } from "../../store/editMgmtStore";
 import { ActionButtons } from "../../components/tables/tableButtons/actionButtons";
-import { deleteTagReq } from "../../services/api/packages/tagsApi";
+import { deleteFooterReq } from "../../services/api/footer/footerApi";
+import { editFooterAction, viewFooterAction } from "../../store/editMgmtStore";
+import { FooterResType } from "../../types/footerTypes";
 
-export const tagsColumns: ColumnDef<TagResType>[] = [
+export const footerColumns: ColumnDef<FooterResType>[] = [
   {
     header: "Sl #",
     cell: ({ row, table }) => {
@@ -19,25 +17,25 @@ export const tagsColumns: ColumnDef<TagResType>[] = [
     },
   },
   {
-    header: "Order By",
-    accessorKey: "orderBy",
-  },
-  {
     header: "Name",
     accessorKey: "name",
   },
   {
+    header: "Value",
+    accessorKey: "value",
+  },
+  {
     header: "Action",
     cell: ({ row }) => (
-      <ActionButtons<TagResType>
+      <ActionButtons<FooterResType>
         row={row.original}
         config={{
           edit: true,
           delete: true,
           view: true,
-          onView: viewTagAction,
-          onEdit: editTagAction,
-          onDelete: (data) => deleteTagReq(data.id),
+          onView: viewFooterAction,
+          onEdit: editFooterAction,
+          onDelete: (data) => deleteFooterReq(data.id),
           deleteConfirmText: `Do you want to delete "${row.original.name}"?`,
         }}
       />

@@ -62,7 +62,10 @@ const AppRoutes = () => {
             path={RoutesPath.quickLink}
             element={<Page.QuickLinkLayout />}
           />
-          {/* <Route path={RoutesPath.footer} element={<Page.FooterConfigLayout />} /> */}
+          <Route
+            path={RoutesPath.footer}
+            element={<Page.FooterConfigLayout />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>

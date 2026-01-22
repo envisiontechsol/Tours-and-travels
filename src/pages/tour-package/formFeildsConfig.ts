@@ -8,7 +8,7 @@ export const getFormFieldsConfig = (
   packagesTypesOptions: OptionType[],
   destinationOptions: OptionType[],
   durationOptions: OptionType[],
-  tagsOptions: OptionType[]
+  tagsOptions: OptionType[],
 ): FormFieldConfigType[] => [
   {
     name: "name",
@@ -63,6 +63,12 @@ export const getFormFieldsConfig = (
     label: "Rating",
     type: "number",
   },
+  {
+    name: "visaPriceInINR",
+    label: "Visa Price In INR",
+    type: "number",
+    required: true,
+  },
 
   {
     name: "packageTypeId",
@@ -98,7 +104,7 @@ export const getFormFieldsConfig = (
 ];
 
 export const getFormFieldsConfig2 = (
-  data?: TourPackageResType | null
+  data?: TourPackageResType | null,
 ): FormFieldConfigType[] => [
   {
     name: "bannerImage",

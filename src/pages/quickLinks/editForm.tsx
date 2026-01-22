@@ -6,14 +6,14 @@ import { z } from "zod";
 
 import DynamicFormFields from "../../components/forms/dynamicFormFields";
 import { quickLinkSchema } from "../../schema/quickLinkSchema";
-import { fetchTagsReq } from "../../services/api/packages/tagsApi";
 import { updateQuickLinkReq } from "../../services/api/quickLinks/quickLinkApi";
+import { fetchTourPackagesReq } from "../../services/api/tours/toursApi";
 import {
   closeAllEditAction,
   useEditMgmtStore,
 } from "../../store/editMgmtStore";
 import { FormFieldConfigType, OptionType } from "../../types/formsTypes";
-import { TagResType } from "../../types/packageType";
+import { TourPackageResType } from "../../types/tourTypes";
 import { getFormFieldsConfig } from "./formFieldsConfig";
 
 type QuickLinkFormValues = z.infer<typeof quickLinkSchema>;
@@ -44,8 +44,8 @@ const EditForm: React.FC = () => {
   /** 🔹 Fetch tags */
   const getTagsList = async () => {
     try {
-      const res = await fetchTagsReq(1, 100);
-      const opts = res?.data?.map((i: TagResType) => ({
+      const res = await fetchTourPackagesReq(1, 100);
+      const opts = res?.data?.map((i: TourPackageResType) => ({
         label: i.name,
         value: i.id,
       }));
@@ -57,7 +57,6 @@ const EditForm: React.FC = () => {
     getTagsList();
   }, []);
 
-  /** 🔹 Prefill form when edit data + tags are ready */
   useEffect(() => {
     if (!editData || !tagsOpts.length) return;
 

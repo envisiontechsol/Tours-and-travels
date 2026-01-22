@@ -2,7 +2,7 @@ import { ViewFieldConfigType } from "../../types/formsTypes";
 import { TourPackageResType } from "../../types/tourTypes";
 
 export const getViewFields = (
-  data?: TourPackageResType | null
+  data?: TourPackageResType | null,
 ): ViewFieldConfigType[] => [
   { label: "Package Name", key: "name" },
   { label: "Slug", key: "slug" },
@@ -14,6 +14,7 @@ export const getViewFields = (
   { label: "Price (INR)", key: "priceInINR", type: "number" },
   { label: "Fake Price (INR)", key: "fakePriceInINR", type: "number" },
   { label: "Rating", key: "rating", type: "number" },
+  { label: "Visa Price InINR", key: "visaPriceInINR", type: "number" },
   { label: "Code", key: "code" },
   { label: "URL", key: "url" },
   { label: "Duration", key: "duration.name" },

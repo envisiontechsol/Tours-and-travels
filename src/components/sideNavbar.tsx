@@ -210,7 +210,7 @@ const SideNavbar = ({
   return (
     <aside
       ref={sidebarRef}
-      className={`fixed md:static z-40 w-64 h-full bg-primary text-white transition-transform
+      className={`fixed md:static z-40 w-64 h-full bg-primary text-white transition-transform overflow-y-auto
         ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         }

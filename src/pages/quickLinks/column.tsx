@@ -31,11 +31,11 @@ export const quickLinkColumns: ColumnDef<QuickLinkResType>[] = [
     header: "Meta Title",
     accessorKey: "metaTitle",
   },
-  {
-    header: "Tags",
-    cell: ({ row }) =>
-      row.original.tags?.map((tag) => tag.name).join(", ") || "-",
-  },
+  // {
+  //   header: "Tags",
+  //   cell: ({ row }) =>
+  //     row.original.tags?.map((tag) => tag.name).join(", ") || "-",
+  // },
   {
     header: "Action",
     cell: ({ row }) => (

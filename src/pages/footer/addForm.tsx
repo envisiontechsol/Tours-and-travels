@@ -1,87 +1,59 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
 
 import DynamicFormFields from "../../components/forms/dynamicFormFields";
-import { quickLinkSchema } from "../../schema/quickLinkSchema";
-import { fetchTagsReq } from "../../services/api/packages/tagsApi";
-import { addQuickLinkReq } from "../../services/api/quickLinks/quickLinkApi";
-import { FormFieldConfigType, OptionType } from "../../types/formsTypes";
-import { TagResType } from "../../types/packageType";
+import { footerSchema } from "../../schema/footerSchema";
+import { addFooterReq } from "../../services/api/footer/footerApi";
+import { FormFieldConfigType } from "../../types/formsTypes";
 import { getFormFieldsConfig } from "./formFieldsConfig";
-import { fetchTourPackagesReq } from "../../services/api/tours/toursApi";
-import { TourPackageResType } from "../../types/tourTypes";
 
-type QuickLinkFormValues = z.infer<typeof quickLinkSchema>;
+type FooterFormValues = z.infer<typeof footerSchema>;
 
-const AddForm: React.FC = () => {
+const AddFooterForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [tagsOpts, setTagsOpts] = useState<OptionType[]>([]);
 
   const {
     control,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<QuickLinkFormValues>({
-    resolver: zodResolver(quickLinkSchema),
+  } = useForm<FooterFormValues>({
+    resolver: zodResolver(footerSchema),
     defaultValues: {
       name: "",
-      url: "",
-      metaTitle: "",
-      metaKeywords: "",
-      metaDescription: "",
-      tagIds: [],
+      value: "",
     },
   });
 
-  const getTagsList = async () => {
-    try {
-      const res = await fetchTourPackagesReq(1, 100);
-      const opts = res?.data?.map((i: TourPackageResType) => ({
-        label: i.name,
-        value: i.id,
-      }));
-      setTagsOpts(opts?.length ? opts : []);
-    } catch (err) {}
-  };
-
-  useEffect(() => {
-    getTagsList();
-  }, []);
-
-  const onSubmit = async (data: QuickLinkFormValues) => {
+  const onSubmit = async (data: FooterFormValues) => {
     setIsSubmitting(true);
     try {
-      await addQuickLinkReq({
+      await addFooterReq({
         name: data.name,
-        url: data.url,
-        metaTitle: data.metaTitle,
-        metaKeywords: data.metaKeywords,
-        metaDescription: data.metaDescription,
-        tagIds: data.tagIds.map((tag) => tag.value),
+        value: data.value,
       });
 
-      toast.success("Quick link added successfully!");
+      toast.success("Footer added successfully!");
       reset();
     } catch (error: any) {
-      toast.error(error.errorMsg || "Failed to add quick link");
+      toast.error(error.errorMsg || "Failed to add footer");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const formFields: FormFieldConfigType[] = useMemo(
-    () => getFormFieldsConfig(tagsOpts),
-    [tagsOpts],
+    () => getFormFieldsConfig(),
+    [],
   );
 
   return (
     <div className="mt-2 border rounded-lg p-5 shadow-sm bg-white relative">
       <div className="inline-block bg-gray-200 px-4 py-1 text-[15px] font-semibold rounded-md -mt-8 mb-4 shadow-sm absolute">
-        Quick Link
+        Footer
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
@@ -100,7 +72,7 @@ const AddForm: React.FC = () => {
             disabled={isSubmitting}
             className="px-4 py-2 rounded-md bg-primary text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
           >
-            {isSubmitting ? "Adding..." : "Add Quick Link"}
+            {isSubmitting ? "Adding..." : "Add Footer"}
           </button>
 
           <button
@@ -117,4 +89,4 @@ const AddForm: React.FC = () => {
   );
 };
 
-export default AddForm;
+export default AddFooterForm;

@@ -5,6 +5,7 @@ import CategoryLayout from "./category/categoryLayout";
 import CMSPage from "./cms/cmsPage";
 import Dashboard from "./dashboard";
 import DestinationLayout from "./destination/destinationLayout";
+import FooterConfigLayout from "./footer/footerConfigLayout";
 import PackageDurationLayout from "./packageDuration/packageDurationLayout";
 import PackageTypeLayout from "./packageType/packageTypeLayout";
 import QuickLinkLayout from "./quickLinks/quickLinkLayout";
@@ -35,4 +36,5 @@ export {
   VehicleLayout,
   CMSPage,
   QuickLinkLayout,
+  FooterConfigLayout,
 };

@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -22,6 +22,8 @@ import ItineraryManager from "./itineraryManager";
 import { addTourPackageReq } from "../../services/api/tours/toursApi";
 import { convertStringToUrlSlug } from "../../utils/functions/stringToUrlSlug";
 import { fetchSlotsCategoryReq } from "../../services/api/others/slotsCatApi";
+import TipTapEditorInput from "../../components/forms/elements/tipTapEditorInput";
+import { TipTapEditorInputRefType } from "../../types/tipTapEditorTypes";
 
 type TourPackageFormValues = z.infer<typeof tourPackageSchema>;
 
@@ -46,6 +48,7 @@ const AddTourPackageForm: React.FC = () => {
       flightMarginPct: 0,
       hotelMarginPct: 0,
       rating: 0,
+      visaPriceInINR: 0,
       about: "",
       inclusionText: "",
       exclusionText: "",
@@ -75,6 +78,8 @@ const AddTourPackageForm: React.FC = () => {
       metaDescription: "",
     },
   });
+
+  const inclusionExclusionEditorRef = useRef<TipTapEditorInputRefType>(null);
 
   const durationValue = watch("duration");
   const selectedDestination = watch("destination");
@@ -107,7 +112,7 @@ const AddTourPackageForm: React.FC = () => {
   console.log("Computed numberOfDays:", numberOfDays);
 
   const [destinationOptions, setDestinationOptions] = useState<OptionType[]>(
-    []
+    [],
   );
   const [tagsOptions, setTagsOptions] = useState<OptionType[]>([]);
   const [durationOptions, setDurationOptions] = useState<OptionType[]>([]);
@@ -125,6 +130,8 @@ const AddTourPackageForm: React.FC = () => {
 
   const onResetForm = () => {
     reset();
+    inclusionExclusionEditorRef.current?.clear();
+
     const fileInputs = document.querySelectorAll('input[type="file"]');
     fileInputs.forEach((input) => {
       (input as HTMLInputElement).value = "";
@@ -138,7 +145,7 @@ const AddTourPackageForm: React.FC = () => {
         res?.data?.map((d: any) => ({
           label: d.name,
           value: d.id,
-        })) || []
+        })) || [],
       );
     } catch (err) {}
   };
@@ -161,7 +168,7 @@ const AddTourPackageForm: React.FC = () => {
         res?.data?.map((d: any) => ({
           label: d.name,
           value: d.id,
-        })) || []
+        })) || [],
       );
     } catch (err) {}
   };
@@ -173,7 +180,7 @@ const AddTourPackageForm: React.FC = () => {
         res?.data?.map((d: any) => ({
           label: d.name,
           value: d.id,
-        })) || []
+        })) || [],
       );
     } catch (err) {}
   };
@@ -186,7 +193,7 @@ const AddTourPackageForm: React.FC = () => {
           label: `${d.days} Days / ${d.nights} Nights`,
           value: d.id + "",
           info: d.days + "",
-        })) || []
+        })) || [],
       );
     } catch (err) {}
   };
@@ -215,6 +222,7 @@ const AddTourPackageForm: React.FC = () => {
       formData.append("hotelMarginPct", String(data.hotelMarginPct));
       formData.append("flightMarginPct", String(data.flightMarginPct));
       formData.append("rating", String(data.rating));
+      formData.append("visaPriceInINR", String(data.visaPriceInINR));
       formData.append("about", data.about);
       formData.append("isActive", String(data.isActive));
       formData.append("selected", String(data.selected));
@@ -269,6 +277,11 @@ const AddTourPackageForm: React.FC = () => {
       formData.append("hotels3Star", String(data.hotels3Star));
       formData.append("concierge24x7", String(data.concierge24x7));
 
+      formData.append(
+        "inclusionExclusion",
+        inclusionExclusionEditorRef.current?.getHTML() || "",
+      );
+
       // DEBUG
       for (let [k, v] of formData.entries()) {
         console.log("REQ =>", k, v);
@@ -291,19 +304,19 @@ const AddTourPackageForm: React.FC = () => {
         packagesTypesOptions,
         destinationOptions,
         durationOptions,
-        tagsOptions
+        tagsOptions,
       ),
-    [destinationOptions, durationOptions, tagsOptions, packagesTypesOptions]
+    [destinationOptions, durationOptions, tagsOptions, packagesTypesOptions],
   );
 
   const section2Fields: FormFieldConfigType[] = useMemo(
     () => getFormFieldsConfig2(),
-    []
+    [],
   );
 
   const metaFormFields: FormFieldConfigType[] = useMemo(
     () => getMetaFields(),
-    []
+    [],
   );
 
   return (
@@ -350,6 +363,12 @@ const AddTourPackageForm: React.FC = () => {
             control={control}
             errors={errors}
             fields={metaFormFields}
+          />
+        </div>
+        <div className="mt-5">
+          <TipTapEditorInput
+            ref={inclusionExclusionEditorRef}
+            label="Inclusion Exclusion Information"
           />
         </div>
 
