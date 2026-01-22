@@ -7,9 +7,6 @@ const labelValueSchema = z.object({
 
 export const reviewSchema = z.object({
   name: z.string().min(1, "Review name is required"),
-  // tagIds: labelValueSchema.refine((data) => data.label && data.value, {
-  //   message: "Tags is required",
-  // }),
   tagIds: z.array(labelValueSchema),
   rating: z.number().min(0, "Rating is required"),
   location: z.string().min(1, "Location name is required"),

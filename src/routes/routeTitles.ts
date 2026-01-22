@@ -16,6 +16,8 @@ const routeTitles: Record<string, string> = {
   "/admin/cms": "CMS",
   "/admin/users": "Users",
   "/admin/vehicles": "Vehicles",
+  "/admin/quick-links": "Quick Links",
+  "/admin/footer-config": "Footer Config",
 };
 
 export default routeTitles;

@@ -1,7 +1,7 @@
 "use client";
 
 import { memo, useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { FaChevronDown, FaChevronUp, FaTimes } from "react-icons/fa";
 
 import {
@@ -20,6 +20,8 @@ import {
   FileText,
   CarTaxiFront,
   Users,
+  Link,
+  Dock,
 } from "lucide-react";
 
 import RoutesPath from "../routes/routesPath";
@@ -163,10 +165,24 @@ const SideNavbar = ({
       route: RoutesPath.blogs,
       module: "manageBlogs",
     },
+    {
+      name: "Quick Link",
+      icon: <Link size={16} />,
+      show: false,
+      route: RoutesPath.quickLink,
+      module: "",
+    },
+    {
+      name: "Footer Config",
+      icon: <Dock size={16} />,
+      show: false,
+      route: RoutesPath.footer,
+      module: "",
+    },
   ];
 
   const hasModuleAccess = (module?: string) => {
-    if (!module) return true; // menus without module are always visible
+    if (!module) return true;
     return menuAccess?.some((m: any) => m.module === module);
   };
 
@@ -239,7 +255,7 @@ const SideNavbar = ({
                       setExpandedMenus((prev) =>
                         prev.has(menu.name)
                           ? new Set([...prev].filter((m) => m !== menu.name))
-                          : new Set(prev).add(menu.name)
+                          : new Set(prev).add(menu.name),
                       );
                     } else if (menu.route) {
                       navigate(menu.route);
@@ -263,7 +279,7 @@ const SideNavbar = ({
                 {/* -------- SUB MENU -------- */}
                 {expandedMenus.has(menu.name) &&
                   menu.subMenu?.map((sub) => (
-                    <Link
+                    <RouteLink
                       key={sub.route}
                       to={sub.route}
                       onClick={() => toggleSidebar(false)}
@@ -279,7 +295,7 @@ const SideNavbar = ({
                         {sub.icon}
                         {sub.name}
                       </span>
-                    </Link>
+                    </RouteLink>
                   ))}
               </div>
             );

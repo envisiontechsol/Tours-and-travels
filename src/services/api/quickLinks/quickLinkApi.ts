@@ -1,38 +1,31 @@
+import { QuickLinkReqBodyType } from "../../../types/quickLinksTypes";
 import axiosInstance from "../config";
 import { errorHandler } from "../errorHandler";
 
-type ReviewReqBody = {
-  name: string;
-  rating: number;
-  location: string;
-  feedback: string;
-  tagIds: string[];
-};
-
-export const addReviewReq = async (body: ReviewReqBody) => {
+export const addQuickLinkReq = async (body: QuickLinkReqBodyType) => {
   try {
-    const url = `/reviews`;
+    const url = `/quick-links`;
     const res = await axiosInstance.post(url, body);
     const _data = res?.data;
     const _msg = res?.data?.message;
 
     return { error: false, data: _data, message: _msg, errorMsg: "" };
   } catch (err) {
-    const error = errorHandler(err, "addReviewReq");
+    const error = errorHandler(err, "addQuickLinkReq");
     throw { error: true, data: "", message: "", errorMsg: error };
   }
 };
 
-export const fetchReviewsReq = async (
+export const fetchQuickLinksReq = async (
   page: number | string,
   size: number | string,
 ) => {
   try {
-    const url = `/reviews?page=${page}&pageSize=${size}`;
+    const url = `/quick-links?page=${page}&pageSize=${size}`;
     const res = await axiosInstance.get(url);
     const _data = res?.data?.data;
     const _msg = res?.data?.message;
-    const _config = res?.data;
+    const _config = res?.data?.meta;
 
     return {
       error: false,
@@ -42,38 +35,38 @@ export const fetchReviewsReq = async (
       errorMsg: "",
     };
   } catch (err) {
-    const error = errorHandler(err, "fetchReviewsReq");
+    const error = errorHandler(err, "fetchQuickLinksReq");
     throw { error: true, data: "", message: "", errorMsg: error };
   }
 };
 
-export const updateReviewReq = async (
+export const updateQuickLinkReq = async (
   id: string,
-  body: Partial<ReviewReqBody>,
+  body: Partial<QuickLinkReqBodyType>,
 ) => {
   try {
-    const reqBody = body;
-    const url = `/reviews/${id}`;
-    const res = await axiosInstance.patch(url, reqBody);
+    const url = `/quick-links/${id}`;
+    const res = await axiosInstance.patch(url, body);
     const _data = res?.data;
     const _msg = res?.data?.message;
 
     return { error: false, data: _data, message: _msg, errorMsg: "" };
   } catch (err) {
-    const error = errorHandler(err, "updateReviewReq");
+    const error = errorHandler(err, "updateQuickLinkReq");
     throw { error: true, data: "", message: "", errorMsg: error };
   }
 };
-export const deleteReviewReq = async (id: string) => {
+
+export const deleteQuickLinkReq = async (id: string) => {
   try {
-    const url = `/reviews/${id}`;
+    const url = `/quick-links/${id}`;
     const res = await axiosInstance.delete(url);
     const _data = res?.data;
     const _msg = res?.data?.message;
 
     return { error: false, data: _data, message: _msg, errorMsg: "" };
   } catch (err) {
-    const error = errorHandler(err, "deleteReviewReq");
+    const error = errorHandler(err, "deleteQuickLinkReq");
     throw { error: true, data: "", message: "", errorMsg: error };
   }
 };

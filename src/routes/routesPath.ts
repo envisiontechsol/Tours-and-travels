@@ -18,6 +18,8 @@ const RoutesPath = {
   blogs: "blogs",
   users: "users",
   vehicle: "vehicles",
+  quickLink: "quick-links",
+  footer: "footer-config",
 };
 
 export default RoutesPath;

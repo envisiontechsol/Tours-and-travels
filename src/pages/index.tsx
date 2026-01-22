@@ -7,6 +7,7 @@ import Dashboard from "./dashboard";
 import DestinationLayout from "./destination/destinationLayout";
 import PackageDurationLayout from "./packageDuration/packageDurationLayout";
 import PackageTypeLayout from "./packageType/packageTypeLayout";
+import QuickLinkLayout from "./quickLinks/quickLinkLayout";
 import ReviewLayout from "./reviews/reviewLayout";
 import TagsLayout from "./tags/tagsLayout";
 import TopLevelMenuLayout from "./topLevelMenu/topLevelMenuLayout";
@@ -33,4 +34,5 @@ export {
   ReviewLayout,
   VehicleLayout,
   CMSPage,
+  QuickLinkLayout,
 };

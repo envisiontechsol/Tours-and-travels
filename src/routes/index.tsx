@@ -58,6 +58,11 @@ const AppRoutes = () => {
           <Route path={RoutesPath.cms} element={<Page.CMSPage />} />
           <Route path={RoutesPath.reviews} element={<Page.ReviewLayout />} />
           <Route path={RoutesPath.blogs} element={<Page.BlogLayout />} />
+          <Route
+            path={RoutesPath.quickLink}
+            element={<Page.QuickLinkLayout />}
+          />
+          {/* <Route path={RoutesPath.footer} element={<Page.FooterConfigLayout />} /> */}
         </Route>
       </Routes>
     </BrowserRouter>

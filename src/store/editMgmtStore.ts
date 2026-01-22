@@ -16,6 +16,8 @@ import { ReviewResType } from "../types/reviewsTypes";
 import { UserItinerayListResType } from "../types/user-itinerary-types";
 import { UserResWithPermissionType } from "../types/usersTypes";
 import { VehicleResType } from "../types/vechicleTypes";
+import { FooterResType } from "../types/footerTypes";
+import { QuickLinkResType } from "../types/quickLinksTypes";
 
 /* -------------------- STORE INTERFACE -------------------- */
 interface EditMgmtStore {
@@ -33,6 +35,8 @@ interface EditMgmtStore {
   editUserPermission: UserResWithPermissionType | null;
   editUser: UserResWithPermissionType | null;
   editVehicleData: VehicleResType | null;
+  editQuickLinkData: QuickLinkResType | null;
+  editFooterData: FooterResType | null;
 
   /* -------- VIEW DATA -------- */
   viewDestinationData: DestinationResType | null;
@@ -49,6 +53,8 @@ interface EditMgmtStore {
   viewUserPermission: UserResWithPermissionType | null;
   viewUser: UserResWithPermissionType | null;
   viewVehicleData: VehicleResType | null;
+  viewQuickLinkData: QuickLinkResType | null;
+  viewFooterData: FooterResType | null;
 
   /* -------- EDIT SETTERS -------- */
   setDestination: (v: DestinationResType | null) => void;
@@ -64,6 +70,8 @@ interface EditMgmtStore {
   setUserPermission: (v: UserResWithPermissionType | null) => void;
   setUser: (v: UserResWithPermissionType | null) => void;
   setVehicle: (v: VehicleResType | null) => void;
+  setQuickLink: (v: QuickLinkResType | null) => void;
+  setFooter: (v: FooterResType | null) => void;
 
   /* -------- VIEW SETTERS -------- */
   setViewDestination: (v: DestinationResType | null) => void;
@@ -80,6 +88,8 @@ interface EditMgmtStore {
   setViewUserPermission: (v: UserResWithPermissionType | null) => void;
   setViewUser: (v: UserResWithPermissionType | null) => void;
   setViewVehicle: (v: VehicleResType | null) => void;
+  setViewQuickLink: (v: QuickLinkResType | null) => void;
+  setViewFooter: (v: FooterResType | null) => void;
 
   clearAllEdit: () => void;
   clearAllView: () => void;
@@ -101,6 +111,8 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
   editUserPermission: null,
   editUser: null,
   editVehicleData: null,
+  editQuickLinkData: null,
+  editFooterData: null,
   /* -------- VIEW STATE -------- */
   viewDestinationData: null,
   viewActivityData: null,
@@ -116,6 +128,8 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
   viewUserPermission: null,
   viewUser: null,
   viewVehicleData: null,
+  viewQuickLinkData: null,
+  viewFooterData: null,
 
   /* -------- EDIT SETTERS -------- */
   setDestination: (v) => set({ editiDestinationData: v }),
@@ -131,6 +145,8 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
   setUserPermission: (v) => set({ editUserPermission: v }),
   setUser: (v) => set({ editUser: v }),
   setVehicle: (v) => set({ editVehicleData: v }),
+  setQuickLink: (v) => set({ editQuickLinkData: v }),
+  setFooter: (v) => set({ editFooterData: v }),
 
   /* -------- VIEW SETTERS -------- */
   setViewDestination: (v) => set({ viewDestinationData: v }),
@@ -147,6 +163,8 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
   setViewUserPermission: (v) => set({ viewUserPermission: v }),
   setViewUser: (v) => set({ viewUser: v }),
   setViewVehicle: (v) => set({ viewVehicleData: v }),
+  setViewQuickLink: (v) => set({ viewQuickLinkData: v }),
+  setViewFooter: (v) => set({ viewFooterData: v }),
 
   /* -------- CLEAR -------- */
   clearAllEdit: () =>
@@ -164,6 +182,8 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
       editUserPermission: null,
       editUser: null,
       editVehicleData: null,
+      editQuickLinkData: null,
+      editFooterData: null,
     }),
 
   clearAllView: () =>
@@ -182,6 +202,8 @@ export const useEditMgmtStore = create<EditMgmtStore>((set) => ({
       viewUserPermission: null,
       viewUser: null,
       viewVehicleData: null,
+      viewQuickLinkData: null,
+      viewFooterData: null,
     }),
 }));
 
@@ -250,6 +272,16 @@ export const editVehicleAction = (v: VehicleResType) =>
   useEditMgmtStore.getState().setVehicle(v);
 export const closeVehicleEditAction = () =>
   useEditMgmtStore.getState().setVehicle(null);
+
+export const editQuickLinkAction = (v: QuickLinkResType) =>
+  useEditMgmtStore.getState().setQuickLink(v);
+export const closeQuickLinkEditAction = () =>
+  useEditMgmtStore.getState().setQuickLink(null);
+
+export const editFooterAction = (v: FooterResType) =>
+  useEditMgmtStore.getState().setFooter(v);
+export const closeFooterEditAction = () =>
+  useEditMgmtStore.getState().setFooter(null);
 
 /* -------------------- VIEW ACTIONS -------------------- */
 export const viewDestinationAction = (v: DestinationResType) =>
@@ -321,6 +353,16 @@ export const viewVehicleAction = (v: VehicleResType) =>
   useEditMgmtStore.getState().setViewVehicle(v);
 export const closeVehicleViewAction = () =>
   useEditMgmtStore.getState().setViewVehicle(null);
+
+export const viewQuickLinkAction = (v: QuickLinkResType) =>
+  useEditMgmtStore.getState().setViewQuickLink(v);
+export const closeQuickLinkViewAction = () =>
+  useEditMgmtStore.getState().setViewQuickLink(null);
+
+export const viewFooterAction = (v: FooterResType) =>
+  useEditMgmtStore.getState().setViewFooter(v);
+export const closeFooterViewAction = () =>
+  useEditMgmtStore.getState().setViewFooter(null);
 
 /* -------------------- GLOBAL CLOSE -------------------- */
 export const closeAllEditAction = () =>
