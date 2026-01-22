@@ -1,5 +1,3 @@
-// src/forms/config/activityFormFields.ts
-
 import { FormFieldConfigType, OptionType } from "../../types/formsTypes";
 import { TourPackageResType } from "../../types/tourTypes";
 

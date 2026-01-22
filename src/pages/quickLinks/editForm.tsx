@@ -37,7 +37,7 @@ const EditForm: React.FC = () => {
       metaTitle: "",
       metaKeywords: "",
       metaDescription: "",
-      tagIds: [],
+      tourPackageIds: [],
     },
   });
 
@@ -72,7 +72,7 @@ const EditForm: React.FC = () => {
       metaTitle: editData.metaTitle,
       metaKeywords: editData.metaKeywords,
       metaDescription: editData.metaDescription,
-      tagIds: matchedTags.map((i) => ({
+      tourPackageIds: matchedTags.map((i) => ({
         label: i.label,
         value: String(i.value),
       })),
@@ -96,7 +96,7 @@ const EditForm: React.FC = () => {
         metaTitle: data.metaTitle,
         metaKeywords: data.metaKeywords,
         metaDescription: data.metaDescription,
-        tagIds: data.tagIds.map((t) => t.value),
+        tourPackageIds: data.tourPackageIds.map((t) => t.value),
       });
 
       toast.success("Quick link updated successfully!");

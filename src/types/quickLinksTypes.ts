@@ -1,7 +1,7 @@
 export interface QuickLinkReqBodyType {
   name: string;
   url: string;
-  tagIds: string[];
+  tourPackageIds: string[];
   metaTitle: string;
   metaKeywords: string;
   metaDescription: string;

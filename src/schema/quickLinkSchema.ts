@@ -16,5 +16,7 @@ export const quickLinkSchema = z.object({
 
   metaDescription: z.string().min(1, "Meta description is required"),
 
-  tagIds: z.array(labelValueSchema).min(1, "At least one tag is required"),
+  tourPackageIds: z
+    .array(labelValueSchema)
+    .min(1, "At least one tag is required"),
 });

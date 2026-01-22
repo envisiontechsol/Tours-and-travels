@@ -170,14 +170,14 @@ const SideNavbar = ({
       icon: <Link size={16} />,
       show: false,
       route: RoutesPath.quickLink,
-      module: "",
+      module: "manageQuicklinks",
     },
     {
       name: "Footer Config",
       icon: <Dock size={16} />,
       show: false,
       route: RoutesPath.footer,
-      module: "",
+      module: "manageFooter",
     },
   ];
 

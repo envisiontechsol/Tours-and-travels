@@ -20,7 +20,7 @@ export const getFormFieldsConfig = (
     gridCols: "md:col-span-1",
   },
   {
-    name: "tagIds",
+    name: "tourPackageIds",
     label: "Tags",
     type: "select",
     placeholder: "Select Tags",

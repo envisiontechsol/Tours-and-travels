@@ -33,7 +33,7 @@ const AddForm: React.FC = () => {
       metaTitle: "",
       metaKeywords: "",
       metaDescription: "",
-      tagIds: [],
+      tourPackageIds: [],
     },
   });
 
@@ -61,7 +61,7 @@ const AddForm: React.FC = () => {
         metaTitle: data.metaTitle,
         metaKeywords: data.metaKeywords,
         metaDescription: data.metaDescription,
-        tagIds: data.tagIds.map((tag) => tag.value),
+        tourPackageIds: data.tourPackageIds.map((tag) => tag.value),
       });
 
       toast.success("Quick link added successfully!");
