@@ -41,12 +41,12 @@ export const getDestinationFormFields = (
     placeholder: "Enter number",
     gridCols: "md:col-span-1",
   },
-  {
-    name: "travelInsuranceIncluded",
-    label: "Travel Insurance Included",
-    type: "checkbox",
-    gridCols: "md:col-span-1 self-end",
-  },
+  // {
+  //   name: "travelInsuranceIncluded",
+  //   label: "Travel Insurance Included",
+  //   type: "checkbox",
+  //   gridCols: "md:col-span-1 self-end",
+  // },
   {
     name: "insurancePriceInINR",
     label: "Insurance Price (INR)",
