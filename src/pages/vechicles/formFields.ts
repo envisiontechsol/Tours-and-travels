@@ -2,7 +2,7 @@ import { FormFieldConfigType } from "../../types/formsTypes";
 import { VehicleResType } from "../../types/vechicleTypes";
 
 export const getVehicleFormFields = (
-  formData?: VehicleResType | null
+  formData?: VehicleResType | null,
 ): FormFieldConfigType[] => [
   {
     name: "name",
@@ -22,7 +22,7 @@ export const getVehicleFormFields = (
   },
   {
     name: "vehicleImage",
-    label: "Vehicle Image (1024 × 1024)",
+    label: "Vehicle Image",
     type: "file",
     previewUrl: formData?.imageUrl || undefined,
     gridCols: "md:col-span-2",
