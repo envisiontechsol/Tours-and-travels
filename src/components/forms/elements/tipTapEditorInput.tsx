@@ -1,4 +1,5 @@
 import React, { forwardRef, useEffect, useImperativeHandle } from "react";
+import HardBreak from "@tiptap/extension-hard-break";
 
 import Color from "@tiptap/extension-color";
 import FontFamily from "@tiptap/extension-font-family";
@@ -24,7 +25,13 @@ const TipTapEditorInput = forwardRef<TipTapEditorInputRefType, Props>(
   ({ initialContent = "", label, required }, ref) => {
     const editor = useEditor({
       extensions: [
-        StarterKit,
+        StarterKit.configure({
+          hardBreak: false, // disable default
+        }),
+
+        HardBreak.configure({
+          keepMarks: true,
+        }),
         Underline,
         TextStyle,
         Color,
@@ -47,8 +54,13 @@ const TipTapEditorInput = forwardRef<TipTapEditorInputRefType, Props>(
       }
     }, [editor, initialContent]);
 
+    const normalizeHTML = (html: string) => html.replace(/<p><\/p>/g, "<br />");
+
     useImperativeHandle(ref, () => ({
-      getHTML: () => editor?.getHTML() || "",
+      getHTML: () => {
+        if (!editor) return "";
+        return normalizeHTML(editor.getHTML());
+      },
       setContent: (html: string) => editor?.commands.setContent(html),
       clear: () => editor?.commands.clearContent(),
     }));

@@ -87,6 +87,8 @@ const PrivacyPolicyEditor: React.FC = () => {
     load();
   }, [editor]);
 
+  const normalizeHTML = (html: string) => html.replace(/<p><\/p>/g, "<br />");
+
   /* ----------------- Submit ----------------- */
   const onSubmit = async (data: MetaValues) => {
     if (!editor) return;
@@ -94,7 +96,7 @@ const PrivacyPolicyEditor: React.FC = () => {
     setSaving(true);
     try {
       await addPrivacyPolicyReq({
-        content: editor.getHTML(),
+        content: normalizeHTML(editor.getHTML()),
         ...data,
       });
 

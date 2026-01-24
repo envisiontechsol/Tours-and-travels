@@ -87,6 +87,8 @@ const TermsConditionsEditor: React.FC = () => {
     load();
   }, [editor]);
 
+  const normalizeHTML = (html: string) => html.replace(/<p><\/p>/g, "<br />");
+
   /* ---------------- Submit ---------------- */
   const onSubmit = async (data: MetaValues) => {
     if (!editor) return;
@@ -94,7 +96,7 @@ const TermsConditionsEditor: React.FC = () => {
     setSaving(true);
     try {
       await addTermsConditionsReq({
-        content: editor.getHTML(),
+        content: normalizeHTML(editor.getHTML()),
         ...data,
       });
 
