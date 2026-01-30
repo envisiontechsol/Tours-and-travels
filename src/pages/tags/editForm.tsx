@@ -31,16 +31,22 @@ const EditTagForm: React.FC = () => {
     formState: { errors },
   } = useForm<TagValues>({
     resolver: zodResolver(tagSchema),
-    defaultValues: { name: "", toplevel: undefined, orderBy: 0 },
+    defaultValues: {
+      name: "",
+      toplevel: undefined,
+      orderBy: 0,
+      description: "",
+    },
   });
 
   useEffect(() => {
     if (editData?.id) {
       const selectedTopLevelTag = topLevelTagsOpts.find(
-        (c) => c.value === editData?.topLevelId
+        (c) => c.value === editData?.topLevelId,
       );
       reset({
         name: editData?.name,
+        description: editData?.description,
         orderBy: Number(editData?.orderBy || 0),
         toplevel: selectedTopLevelTag
           ? {
@@ -78,6 +84,7 @@ const EditTagForm: React.FC = () => {
         name: data?.name,
         topLevelId: data?.toplevel?.value,
         orderBy: Number(data?.orderBy),
+        description: data?.description,
       });
       toast.success("Tag updated successfully!");
       onCancelOrClose();
@@ -90,7 +97,7 @@ const EditTagForm: React.FC = () => {
 
   const formFields: FormFieldConfigType[] = useMemo(
     () => getFormFieldsConfig(topLevelTagsOpts),
-    [topLevelTagsOpts]
+    [topLevelTagsOpts],
   );
 
   return (

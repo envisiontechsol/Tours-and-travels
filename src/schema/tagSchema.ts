@@ -5,6 +5,7 @@ const labelValueSchema = z.object({
 });
 export const tagSchema = z.object({
   name: z.string().min(1, "Package Type is required"),
+  description: z.string().min(1, "Description is required"),
   toplevel: labelValueSchema.refine((data) => data.label && data.value, {
     message: "Package Type is required",
   }),

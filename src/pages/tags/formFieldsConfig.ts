@@ -3,7 +3,7 @@
 import { FormFieldConfigType, OptionType } from "../../types/formsTypes";
 
 export const getFormFieldsConfig = (
-  topLevelTagOpts: OptionType[]
+  topLevelTagOpts: OptionType[],
 ): FormFieldConfigType[] => [
   {
     name: "toplevel",
@@ -29,5 +29,12 @@ export const getFormFieldsConfig = (
     type: "number",
     placeholder: "Enter number",
     gridCols: "md:col-span-1",
+  },
+  {
+    name: "description",
+    label: "Description",
+    type: "textarea",
+    placeholder: "Enter Description",
+    gridCols: "md:col-span-2",
   },
 ];

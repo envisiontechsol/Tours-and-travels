@@ -18,7 +18,7 @@ import {
   getFormFieldsConfig2,
   getMetaFields,
 } from "./formFeildsConfig";
-import ItineraryManager from "./itineraryManager";
+// import ItineraryManager from "./itineraryManager";
 import {
   addTourPackageReq,
   updateTourPackageReq,
@@ -30,6 +30,7 @@ import {
 import { convertStringToUrlSlug } from "../../utils/functions/stringToUrlSlug";
 import TipTapEditorInput from "../../components/forms/elements/tipTapEditorInput";
 import { TipTapEditorInputRefType } from "../../types/tipTapEditorTypes";
+import ItineraryManager from "./itineraryManager/itineraryManager";
 
 type TourPackageFormValues = z.infer<typeof tourPackageSchema>;
 
@@ -78,15 +79,19 @@ const EditTourPackageForm: React.FC = () => {
       image3Url: undefined,
       hotelRatingText: "",
       activitiesIncluded: false,
-      hotels3Star: false,
+      // hotels3Star: false,
       concierge24x7: false,
       metaTitle: "",
       metaKeywords: "",
       metaDescription: "",
+      visaInformationHtml: "",
+      insurancePriceInINR: 0,
+      visaPriceInINR: 0,
     },
   });
 
   const inclusionExclusionEditorRef = useRef<TipTapEditorInputRefType>(null);
+  const editorRef = useRef<TipTapEditorInputRefType>(null);
 
   const durationValue = watch("duration");
   const selectedDestination = watch("destination");
@@ -193,6 +198,7 @@ const EditTourPackageForm: React.FC = () => {
     return inputArray.map((dayData) => ({
       dayNumber: dayData.day.value,
       activityIds: dayData.cards.map((card: any) => card.id),
+      comment: dayData?.comment,
     }));
   };
 
@@ -254,7 +260,7 @@ const EditTourPackageForm: React.FC = () => {
       if (itineraryData && itineraryData?.length > 0) {
         const itineraryDays = convertToItineraryDays(itineraryData);
         formData.append("itineraryDays", JSON.stringify(itineraryDays));
-        console.log(itineraryDays);
+        console.log(itineraryDays, "itineraryData");
       }
       formData.append("metaTitle", data?.metaTitle || "");
       formData.append("metaKeywords", data?.metaKeywords || "");
@@ -263,14 +269,24 @@ const EditTourPackageForm: React.FC = () => {
       formData.append("hotelRatingText", data?.hotelRatingText || "");
 
       formData.append("activitiesIncluded", String(data.activitiesIncluded));
-      formData.append("hotels3Star", String(data.hotels3Star));
+      // formData.append("hotels3Star", String(data.hotels3Star));
       formData.append("concierge24x7", String(data.concierge24x7));
 
       formData.append(
         "inclusionExclusion",
         inclusionExclusionEditorRef.current?.getHTML() || "",
       );
-      // DEBUG
+
+      formData.append(
+        "insurancePriceInINR",
+        String(data?.insurancePriceInINR) || "",
+      );
+      formData.append("visaPriceInINR", String(data.visaPriceInINR));
+      formData.append(
+        "visaInformationHtml",
+        editorRef.current?.getHTML() || "",
+      );
+
       for (let [k, v] of formData.entries()) {
         console.log("REQ =>", k, v);
       }
@@ -350,11 +366,13 @@ const EditTourPackageForm: React.FC = () => {
 
         hotelRatingText: editData?.hotelRatingText,
         activitiesIncluded: editData?.activitiesIncluded,
-        hotels3Star: editData?.hotels3Star,
+        // hotels3Star: editData?.hotels3Star,
         concierge24x7: editData?.concierge24x7,
         metaTitle: editData?.metaTitle,
         metaKeywords: editData?.metaKeywords,
         metaDescription: editData?.metaDescription,
+        insurancePriceInINR: editData?.insurancePriceInINR,
+        visaPriceInINR: Number(editData?.visaPriceInINR),
       });
     }
   }, [
@@ -410,6 +428,21 @@ const EditTourPackageForm: React.FC = () => {
           />
         </div>
 
+        <div className="mt-5">
+          <TipTapEditorInput
+            ref={inclusionExclusionEditorRef}
+            label="Inclusion Exclusion Information"
+            initialContent={editData?.inclusionExclusion || ""}
+          />
+        </div>
+        <div className="mt-5">
+          <TipTapEditorInput
+            ref={editorRef}
+            label="Visa Information"
+            initialContent={editData?.visaInformationHtml || ""}
+          />
+        </div>
+
         {selectedDestination?.label && (
           <ItineraryManager
             tourId={editData?.id}
@@ -432,13 +465,6 @@ const EditTourPackageForm: React.FC = () => {
             control={control}
             errors={errors}
             fields={metaFormFields}
-          />
-        </div>
-        <div className="mt-5">
-          <TipTapEditorInput
-            ref={inclusionExclusionEditorRef}
-            label="Inclusion Exclusion Information"
-            initialContent={editData?.inclusionExclusion || ""}
           />
         </div>
 

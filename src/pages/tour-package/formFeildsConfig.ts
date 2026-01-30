@@ -91,6 +91,23 @@ export const getFormFieldsConfig = (
     isMulti: true,
   },
 
+  {
+    name: "insurancePriceInINR",
+    label: "Insurance Price (INR)",
+    type: "number",
+    placeholder: "Enter insurance price",
+    required: true,
+    gridCols: "md:col-span-1",
+  },
+  {
+    name: "visaPriceInINR",
+    label: "Visa Price (INR)",
+    type: "number",
+    placeholder: "Enter visa price",
+    required: true,
+    gridCols: "md:col-span-1",
+  },
+
   // ----- IMAGES -----
 ];
 
@@ -157,6 +174,7 @@ export const getFormFieldsConfig2 = (
     name: "hotelRatingText",
     label: "Hotel Rating",
     type: "text",
+    required: true,
   },
 
   {
@@ -175,11 +193,11 @@ export const getFormFieldsConfig2 = (
     label: "Activities Included",
     type: "checkbox",
   },
-  {
-    name: "hotels3Star",
-    label: "Hotels 3 Star",
-    type: "checkbox",
-  },
+  // {
+  //   name: "hotels3Star",
+  //   label: "Hotels 3 Star",
+  //   type: "checkbox",
+  // },
   {
     name: "concierge24x7",
     label: "Concierge (24x7)",
@@ -191,6 +209,7 @@ export const getFormFieldsConfig2 = (
     type: "textarea",
     rows: 4,
     gridCols: "md:col-span-2",
+    required: true,
   },
 ];
 

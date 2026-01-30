@@ -13,6 +13,7 @@ import {
 } from "../../store/editMgmtStore";
 import { FormFieldConfigType } from "../../types/formsTypes";
 import { getFormFieldsConfig } from "./formFieldsConfig";
+import { footerTypes } from "./contants";
 
 type FooterFormValues = z.infer<typeof footerSchema>;
 
@@ -31,16 +32,19 @@ const EditFooterForm: React.FC = () => {
     defaultValues: {
       name: "",
       value: "",
+      type: { label: "GENERAL", value: "GENERAL" },
     },
   });
 
-  /** 🔹 Prefill form when edit data is available */
   useEffect(() => {
     if (!editData) return;
-
+    const selectedType = footerTypes.find(
+      (c) => c.value?.toLowerCase() === editData?.type?.toLowerCase(),
+    );
     reset({
       name: editData.name,
       value: editData.value,
+      type: selectedType,
     });
   }, [editData, reset]);
 
@@ -58,6 +62,7 @@ const EditFooterForm: React.FC = () => {
       await updateFooterReq(editData.id, {
         name: data.name,
         value: data.value,
+        type: data.type.value,
       });
 
       toast.success("Footer updated successfully!");
@@ -71,8 +76,8 @@ const EditFooterForm: React.FC = () => {
   };
 
   const formFields: FormFieldConfigType[] = useMemo(
-    () => getFormFieldsConfig(),
-    [],
+    () => getFormFieldsConfig({ footerOptions: footerTypes }),
+    [footerTypes],
   );
 
   if (!editData) return null;

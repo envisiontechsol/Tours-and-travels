@@ -15,9 +15,6 @@ export interface DestinationResType {
   metaKeywords: string;
   metaDescription: string;
   travelInsuranceIncluded: boolean;
-  visaInformationHtml: string;
-  insurancePriceInINR: number;
-  visaPriceInINR: number;
 }
 
 export interface DestinationReqBodyType {

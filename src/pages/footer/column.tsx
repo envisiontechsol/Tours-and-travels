@@ -25,6 +25,10 @@ export const footerColumns: ColumnDef<FooterResType>[] = [
     accessorKey: "value",
   },
   {
+    header: "Type",
+    accessorKey: "type",
+  },
+  {
     header: "Action",
     cell: ({ row }) => (
       <ActionButtons<FooterResType>

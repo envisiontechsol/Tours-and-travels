@@ -47,22 +47,6 @@ export const getDestinationFormFields = (
   //   type: "checkbox",
   //   gridCols: "md:col-span-1 self-end",
   // },
-  {
-    name: "insurancePriceInINR",
-    label: "Insurance Price (INR)",
-    type: "number",
-    placeholder: "Enter insurance price",
-    required: true,
-    gridCols: "md:col-span-1",
-  },
-  {
-    name: "visaPriceInINR",
-    label: "Visa Price (INR)",
-    type: "number",
-    placeholder: "Enter visa price",
-    required: true,
-    gridCols: "md:col-span-1",
-  },
 
   // {
   //   name: "visaInformationHtml",

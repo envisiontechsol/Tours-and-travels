@@ -25,7 +25,12 @@ const AddTagForm: React.FC = () => {
     formState: { errors },
   } = useForm<TagValues>({
     resolver: zodResolver(tagSchema),
-    defaultValues: { name: "", toplevel: undefined, orderBy: 0 },
+    defaultValues: {
+      name: "",
+      toplevel: undefined,
+      orderBy: 0,
+      description: "",
+    },
   });
 
   const getTopLevelTagsList = async () => {
@@ -50,6 +55,7 @@ const AddTagForm: React.FC = () => {
         name: data?.name,
         topLevelId: data?.toplevel?.value,
         orderBy: data?.orderBy,
+        description: data?.description,
       });
       toast.success("Tag added successfully!");
       reset();
@@ -62,7 +68,7 @@ const AddTagForm: React.FC = () => {
 
   const formFields: FormFieldConfigType[] = useMemo(
     () => getFormFieldsConfig(topLevelTagsOpts),
-    [topLevelTagsOpts]
+    [topLevelTagsOpts],
   );
 
   return (

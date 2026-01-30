@@ -23,6 +23,7 @@ export interface PackageDurationReqBodyType {
 export interface TagResType {
   id: string;
   name: string;
+  description: string;
   orderBy: string;
   createdAt: string;
   updatedAt: string;

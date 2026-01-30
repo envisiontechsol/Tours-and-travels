@@ -18,12 +18,13 @@ import {
   getFormFieldsConfig2,
   getMetaFields,
 } from "./formFeildsConfig";
-import ItineraryManager from "./itineraryManager";
+// import ItineraryManager from "./itineraryManager";
 import { addTourPackageReq } from "../../services/api/tours/toursApi";
 import { convertStringToUrlSlug } from "../../utils/functions/stringToUrlSlug";
 import { fetchSlotsCategoryReq } from "../../services/api/others/slotsCatApi";
 import TipTapEditorInput from "../../components/forms/elements/tipTapEditorInput";
 import { TipTapEditorInputRefType } from "../../types/tipTapEditorTypes";
+import ItineraryManager from "./itineraryManager/itineraryManager";
 
 type TourPackageFormValues = z.infer<typeof tourPackageSchema>;
 
@@ -70,15 +71,19 @@ const AddTourPackageForm: React.FC = () => {
       image3Url: undefined,
       hotelRatingText: "",
       activitiesIncluded: false,
-      hotels3Star: false,
+      // hotels3Star: false,
       concierge24x7: false,
       metaTitle: "",
       metaKeywords: "",
       metaDescription: "",
+      visaInformationHtml: "",
+      insurancePriceInINR: 0,
+      visaPriceInINR: 0,
     },
   });
 
   const inclusionExclusionEditorRef = useRef<TipTapEditorInputRefType>(null);
+  const editorRef = useRef<TipTapEditorInputRefType>(null);
 
   const durationValue = watch("duration");
   const selectedDestination = watch("destination");
@@ -90,6 +95,7 @@ const AddTourPackageForm: React.FC = () => {
 
     setValue("url", convertStringToUrlSlug(nameValue));
   }, [nameValue]);
+
   const numberOfDays = useMemo(() => {
     if (!durationValue) return 2;
 
@@ -130,6 +136,7 @@ const AddTourPackageForm: React.FC = () => {
   const onResetForm = () => {
     reset();
     inclusionExclusionEditorRef.current?.clear();
+    editorRef.current?.clear();
 
     const fileInputs = document.querySelectorAll('input[type="file"]');
     fileInputs.forEach((input) => {
@@ -272,12 +279,22 @@ const AddTourPackageForm: React.FC = () => {
       formData.append("hotelRatingText", data?.hotelRatingText || "");
 
       formData.append("activitiesIncluded", String(data.activitiesIncluded));
-      formData.append("hotels3Star", String(data.hotels3Star));
+      // formData.append("hotels3Star", String(data.hotels3Star));
       formData.append("concierge24x7", String(data.concierge24x7));
 
       formData.append(
         "inclusionExclusion",
         inclusionExclusionEditorRef.current?.getHTML() || "",
+      );
+
+      formData.append(
+        "insurancePriceInINR",
+        String(data?.insurancePriceInINR) || "",
+      );
+      formData.append("visaPriceInINR", String(data.visaPriceInINR));
+      formData.append(
+        "visaInformationHtml",
+        editorRef.current?.getHTML() || "",
       );
 
       // DEBUG
@@ -340,6 +357,17 @@ const AddTourPackageForm: React.FC = () => {
           />
         </div>
 
+        <div className="mt-5">
+          <TipTapEditorInput
+            ref={inclusionExclusionEditorRef}
+            label="Inclusion Exclusion Information"
+          />
+        </div>
+
+        <div className="mt-5">
+          <TipTapEditorInput ref={editorRef} label="Visa Information" />
+        </div>
+
         {selectedDestination?.label && (
           <ItineraryManager
             numberOfDays={numberOfDays}
@@ -361,12 +389,6 @@ const AddTourPackageForm: React.FC = () => {
             control={control}
             errors={errors}
             fields={metaFormFields}
-          />
-        </div>
-        <div className="mt-5">
-          <TipTapEditorInput
-            ref={inclusionExclusionEditorRef}
-            label="Inclusion Exclusion Information"
           />
         </div>
 

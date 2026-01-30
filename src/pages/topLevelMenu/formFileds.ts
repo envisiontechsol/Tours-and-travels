@@ -17,4 +17,10 @@ export const getFormFields = (): FormFieldConfigType[] => [
     placeholder: "Enter number",
     gridCols: "md:col-span-1",
   },
+  {
+    name: "isActive",
+    label: "Active",
+    type: "checkbox",
+    gridCols: "md:col-span-1 self-end",
+  },
 ];

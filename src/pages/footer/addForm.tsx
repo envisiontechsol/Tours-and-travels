@@ -9,6 +9,7 @@ import { footerSchema } from "../../schema/footerSchema";
 import { addFooterReq } from "../../services/api/footer/footerApi";
 import { FormFieldConfigType } from "../../types/formsTypes";
 import { getFormFieldsConfig } from "./formFieldsConfig";
+import { footerTypes } from "./contants";
 
 type FooterFormValues = z.infer<typeof footerSchema>;
 
@@ -25,6 +26,7 @@ const AddFooterForm: React.FC = () => {
     defaultValues: {
       name: "",
       value: "",
+      type: { label: "GENERAL", value: "GENERAL" },
     },
   });
 
@@ -34,6 +36,7 @@ const AddFooterForm: React.FC = () => {
       await addFooterReq({
         name: data.name,
         value: data.value,
+        type: data.type.value,
       });
 
       toast.success("Footer added successfully!");
@@ -46,10 +49,9 @@ const AddFooterForm: React.FC = () => {
   };
 
   const formFields: FormFieldConfigType[] = useMemo(
-    () => getFormFieldsConfig(),
-    [],
+    () => getFormFieldsConfig({ footerOptions: footerTypes }),
+    [footerTypes],
   );
-
   return (
     <div className="mt-2 border rounded-lg p-5 shadow-sm bg-white relative">
       <div className="inline-block bg-gray-200 px-4 py-1 text-[15px] font-semibold rounded-md -mt-8 mb-4 shadow-sm absolute">

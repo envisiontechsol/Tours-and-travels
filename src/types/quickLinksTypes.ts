@@ -17,8 +17,11 @@ export interface QuickLinkResType {
   createdAt: string;
   updatedAt: string;
   createdBy: string;
-  tags: {
+  tourPackages: {
     id: string;
     name: string;
+    slug: string;
+    code: string;
+    isActive: boolean;
   }[];
 }

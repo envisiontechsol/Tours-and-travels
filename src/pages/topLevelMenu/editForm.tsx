@@ -35,6 +35,7 @@ const EditForm: React.FC = () => {
       reset({
         name: editData?.name,
         orderBy: editData?.orderBy,
+        isActive: editData?.isActive,
       });
     }
   }, [editData]);
@@ -50,6 +51,7 @@ const EditForm: React.FC = () => {
         slug: data?.name?.toLowerCase(),
         route: editData?.route || "/package",
         orderBy: data?.orderBy,
+        isActive: !!data?.isActive,
       };
       await updateTopLevelMenuReq(editData?.id || "", reqBody);
       toast.success("Menu updated successfully!");

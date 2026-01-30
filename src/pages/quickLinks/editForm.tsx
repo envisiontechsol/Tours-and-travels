@@ -15,6 +15,7 @@ import {
 import { FormFieldConfigType, OptionType } from "../../types/formsTypes";
 import { TourPackageResType } from "../../types/tourTypes";
 import { getFormFieldsConfig } from "./formFieldsConfig";
+import { convertStringToUrlSlug } from "../../utils/functions/stringToUrlSlug";
 
 type QuickLinkFormValues = z.infer<typeof quickLinkSchema>;
 
@@ -28,6 +29,8 @@ const EditForm: React.FC = () => {
     control,
     handleSubmit,
     reset,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<QuickLinkFormValues>({
     resolver: zodResolver(quickLinkSchema),
@@ -41,7 +44,14 @@ const EditForm: React.FC = () => {
     },
   });
 
-  /** 🔹 Fetch tags */
+  const nameValue = watch("name");
+
+  useEffect(() => {
+    if (typeof nameValue !== "string") return;
+
+    setValue("url", convertStringToUrlSlug(nameValue));
+  }, [nameValue]);
+
   const getTagsList = async () => {
     try {
       const res = await fetchTourPackagesReq(1, 100);
@@ -61,7 +71,7 @@ const EditForm: React.FC = () => {
     if (!editData || !tagsOpts.length) return;
 
     const matchedTags = tagsOpts.filter((opt) =>
-      editData?.tags?.some(
+      editData?.tourPackages?.some(
         (t: { id: string }) => String(t.id) === String(opt.value),
       ),
     );

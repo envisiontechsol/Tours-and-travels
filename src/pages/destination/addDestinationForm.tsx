@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useMemo, useRef } from "react";
+import React, { useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -15,16 +15,12 @@ import {
   getDestinationFormFields,
   getMetaFields,
 } from "./destinationFormFields";
-import { TipTapEditorInputRefType } from "../../types/tipTapEditorTypes";
-import TipTapEditorInput from "../../components/forms/elements/tipTapEditorInput";
 
 type DestinationFormValues = z.infer<typeof destinationSchema>;
 
 const AddDestinationForm: React.FC = () => {
   const { user } = useAuthStore();
   console.log(user, "user");
-
-  const editorRef = useRef<TipTapEditorInputRefType>(null);
 
   const {
     control,
@@ -43,15 +39,11 @@ const AddDestinationForm: React.FC = () => {
       metaKeywords: "",
       metaDescription: "",
       travelInsuranceIncluded: false,
-      visaInformationHtml: "",
-      insurancePriceInINR: 0,
-      visaPriceInINR: 0,
     },
   });
 
   const onResetForm = () => {
     reset();
-    editorRef.current?.clear();
 
     const fileInputs = document.querySelectorAll('input[type="file"]');
     fileInputs.forEach((input) => {
@@ -74,15 +66,6 @@ const AddDestinationForm: React.FC = () => {
       formData.append(
         "travelInsuranceIncluded",
         (!!data.travelInsuranceIncluded).toString(),
-      );
-      formData.append(
-        "insurancePriceInINR",
-        String(data?.insurancePriceInINR) || "",
-      );
-      formData.append("visaPriceInINR", String(data.visaPriceInINR));
-      formData.append(
-        "visaInformationHtml",
-        editorRef.current?.getHTML() || "",
       );
 
       formData.append("metaTitle", data?.metaTitle || "");
@@ -128,10 +111,6 @@ const AddDestinationForm: React.FC = () => {
             errors={errors}
             fields={formFields}
           />
-        </div>
-
-        <div className="mt-5">
-          <TipTapEditorInput ref={editorRef} label="Visa Information" />
         </div>
 
         {/* About Textarea */}

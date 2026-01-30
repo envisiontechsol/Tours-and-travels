@@ -4,7 +4,7 @@ import { errorHandler } from "../errorHandler";
 export const fetchTagsReq = async (
   page: number | string = 1,
   size: number | string = 50,
-  topLevelId?: string
+  topLevelId?: string,
 ) => {
   try {
     const url = !!topLevelId
@@ -29,12 +29,14 @@ export const fetchTagsReq = async (
 };
 export const addTagReq = async (body: {
   name: string;
+  description: string;
   topLevelId: string;
   orderBy: number;
 }) => {
   try {
     const reqBody = {
       name: body?.name,
+      description: body?.description,
       topLevelId: body?.topLevelId,
       orderBy: Number(body?.orderBy),
     };
@@ -51,11 +53,17 @@ export const addTagReq = async (body: {
 };
 export const upadteTagReq = async (
   id: string,
-  body: { name: string; topLevelId: string; orderBy: number }
+  body: {
+    name: string;
+    description: string;
+    topLevelId: string;
+    orderBy: number;
+  },
 ) => {
   try {
     const reqBody = {
       name: body?.name,
+      description: body?.description,
       topLevelId: body?.topLevelId,
       orderBy: Number(body?.orderBy),
     };

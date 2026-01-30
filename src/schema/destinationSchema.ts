@@ -15,9 +15,6 @@ export const destinationSchema = z
     metaKeywords: z.string().min(2),
     metaDescription: z.string().min(2),
     travelInsuranceIncluded: z.boolean().optional(),
-    visaInformationHtml: z.string().optional(),
-    insurancePriceInINR: z.number().min(1),
-    visaPriceInINR: z.number().min(0, "Price cannot be negative"),
   })
   .refine(imageSizeRefine("bannerImage", 1920, 800), {
     message: "Banner image must be exactly 1920 × 800 pixels",

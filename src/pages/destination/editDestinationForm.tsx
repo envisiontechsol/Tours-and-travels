@@ -34,8 +34,6 @@ const EditDestinationForm = () => {
   const user = useAuthStore((s) => s.user);
   console.log(user, "user");
 
-  const editorRef = useRef<TipTapEditorInputRefType>(null);
-
   const {
     control,
     handleSubmit,
@@ -74,15 +72,6 @@ const EditDestinationForm = () => {
         "travelInsuranceIncluded",
         (!!data.travelInsuranceIncluded).toString(),
       );
-      formData.append(
-        "insurancePriceInINR",
-        String(data?.insurancePriceInINR) || "",
-      );
-      formData.append("visaPriceInINR", String(data.visaPriceInINR));
-      formData.append(
-        "visaInformationHtml",
-        editorRef.current?.getHTML() || "",
-      );
 
       formData.append("metaTitle", data?.metaTitle || "");
       formData.append("metaKeywords", data?.metaKeywords || "");
@@ -115,8 +104,6 @@ const EditDestinationForm = () => {
         metaKeywords: editData?.metaKeywords,
         metaDescription: editData?.metaDescription,
         travelInsuranceIncluded: editData?.travelInsuranceIncluded,
-        insurancePriceInINR: editData?.insurancePriceInINR,
-        visaPriceInINR: editData?.visaPriceInINR,
       });
     }
   }, [editData]);
@@ -144,14 +131,6 @@ const EditDestinationForm = () => {
             control={control}
             errors={errors}
             fields={formFields}
-          />
-        </div>
-
-        <div className="mt-5">
-          <TipTapEditorInput
-            ref={editorRef}
-            label="Visa Information"
-            initialContent={editData?.visaInformationHtml || ""}
           />
         </div>
 

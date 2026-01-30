@@ -57,6 +57,8 @@ export interface TourPackageResType {
   metaKeywords: string;
   metaDescription: string;
   inclusionExclusion: string;
+  visaInformationHtml: string;
+  insurancePriceInINR: number;
 }
 
 export interface DurationType {

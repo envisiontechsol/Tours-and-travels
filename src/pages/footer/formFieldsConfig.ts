@@ -1,6 +1,11 @@
-import { FormFieldConfigType } from "../../types/formsTypes";
+import { FormFieldConfigType, OptionType } from "../../types/formsTypes";
+import { footerTypes } from "./contants";
 
-export const getFormFieldsConfig = (): FormFieldConfigType[] => [
+export const getFormFieldsConfig = ({
+  footerOptions,
+}: {
+  footerOptions: OptionType[];
+}): FormFieldConfigType[] => [
   {
     name: "name",
     label: "Name",
@@ -16,5 +21,14 @@ export const getFormFieldsConfig = (): FormFieldConfigType[] => [
     placeholder: "Enter Footer Value",
     required: true,
     gridCols: "md:col-span-1",
+  },
+  {
+    name: "type",
+    label: "Type",
+    type: "select",
+    placeholder: "Select type",
+    required: true,
+    gridCols: "md:col-span-1",
+    options: footerOptions,
   },
 ];

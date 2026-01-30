@@ -13,6 +13,7 @@ import { TagResType } from "../../types/packageType";
 import { getFormFieldsConfig } from "./formFieldsConfig";
 import { fetchTourPackagesReq } from "../../services/api/tours/toursApi";
 import { TourPackageResType } from "../../types/tourTypes";
+import { convertStringToUrlSlug } from "../../utils/functions/stringToUrlSlug";
 
 type QuickLinkFormValues = z.infer<typeof quickLinkSchema>;
 
@@ -24,6 +25,8 @@ const AddForm: React.FC = () => {
     control,
     handleSubmit,
     reset,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<QuickLinkFormValues>({
     resolver: zodResolver(quickLinkSchema),
@@ -36,6 +39,14 @@ const AddForm: React.FC = () => {
       tourPackageIds: [],
     },
   });
+
+  const _name = watch("name");
+
+  useEffect(() => {
+    if (typeof _name !== "string") return;
+
+    setValue("url", convertStringToUrlSlug(_name));
+  }, [_name]);
 
   const getTagsList = async () => {
     try {

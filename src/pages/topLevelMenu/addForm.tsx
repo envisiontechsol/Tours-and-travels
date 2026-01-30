@@ -22,7 +22,7 @@ const AddTLMenuForm: React.FC = () => {
     formState: { errors, isSubmitting },
   } = useForm<TopLevelMenuValues>({
     resolver: zodResolver(topLevelMenuSchema),
-    defaultValues: { name: "", orderBy: 0 },
+    defaultValues: { name: "", orderBy: 0, isActive: false },
   });
 
   const onSubmit = async (data: TopLevelMenuValues) => {
