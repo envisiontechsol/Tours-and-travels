@@ -30,7 +30,7 @@ export const getBlogFormFields = (
   },
   {
     name: "featuredImage",
-    label: "Featured Image ",
+    label: "Featured Image (1920 x 800)",
     type: "file",
     previewUrl: formData?.featuredImageUrl || undefined,
     gridCols: "md:col-span-1",
